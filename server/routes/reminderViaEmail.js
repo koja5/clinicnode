@@ -139,7 +139,7 @@ function reminderViaEmail() {
                       thanksForUsing: to.mailThanksForUsing
                         ? to.mailThanksForUsing
                         : language.thanksForUsing,
-                      websiteLink: language?.websiteLink,
+                      websiteLink: language.websiteLink,
                       ifYouHaveQuestion: to.mailIfYouHaveQuestion
                         ? to.mailIfYouHaveQuestion
                         : language.ifYouHaveQuestion,

@@ -117,24 +117,24 @@ router.post("/send", function (req, res) {
   var mailOptions = {
     from: '"ClinicNode" support@app-production.eu',
     to: req.body.email,
-    subject: req.body.language?.subjectConfirmMail,
+    subject: req.body.language.subjectConfirmMail,
     html: compiledTemplate.render({
       firstName: req.body.shortname,
       verificationLink: verificationLinkButton,
-      initialGreeting: req.body.language?.initialGreeting,
-      finalGreeting: req.body.language?.finalGreeting,
-      signature: req.body.language?.signature,
-      thanksForUsing: req.body.language?.thanksForUsing,
-      websiteLink: req.body.language?.websiteLink,
-      ifYouHaveQuestion: req.body.language?.ifYouHaveQuestion,
-      emailAddress: req.body.language?.emailAddress,
-      notReply: req.body.language?.notReply,
-      copyRight: req.body.language?.copyRight,
+      initialGreeting: req.body.language.initialGreeting,
+      finalGreeting: req.body.language.finalGreeting,
+      signature: req.body.language.signature,
+      thanksForUsing: req.body.language.thanksForUsing,
+      websiteLink: req.body.language.websiteLink,
+      ifYouHaveQuestion: req.body.language.ifYouHaveQuestion,
+      emailAddress: req.body.language.emailAddress,
+      notReply: req.body.language.notReply,
+      copyRight: req.body.language.copyRight,
       introductoryMessageForConfirmMail:
-        req.body.language?.introductoryMessageForConfirmMail,
-      confirmMailButtonText: req.body.language?.confirmMailButtonText,
-      unsubscribeMessage: req.body.language?.unsubscribeMessage,
-      unsubscribeHere: req.body.language?.unsubscribeHere,
+        req.body.language.introductoryMessageForConfirmMail,
+      confirmMailButtonText: req.body.language.confirmMailButtonText,
+      unsubscribeMessage: req.body.language.unsubscribeMessage,
+      unsubscribeHere: req.body.language.unsubscribeHere,
       unsubscribeLink: req.body.unsubscribeLink,
     }),
   };
@@ -186,35 +186,35 @@ router.post("/sendCustomerVerificationMail", function (req, res) {
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
-            : req.body.language?.subjectConfirmMail,
+            : req.body.language.subjectConfirmMail,
           html: compiledTemplate.render({
             firstName: req.body.firstname + " " + req.body.lastname,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : req.body.language?.finalGreeting,
+              : req.body.language.finalGreeting,
             signature: mail.mailSignature
               ? mail.mailSignature
-              : req.body.language?.signature,
+              : req.body.language.signature,
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
-            websiteLink: req.body.language?.websiteLink,
+              : req.body.language.thanksForUsing,
+            websiteLink: req.body.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
-            emailAddress: req.body.language?.emailAddress,
+              : req.body.language.ifYouHaveQuestion,
+            emailAddress: req.body.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : req.body.language?.notReply,
+              : req.body.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : req.body.language?.copyRight,
+              : req.body.language.copyRight,
             introductoryMessageForConfirmMail: mail.mailMessage
               ? mail.mailMessage
-              : req.body.language?.introductoryMessageForConfirmMail,
+              : req.body.language.introductoryMessageForConfirmMail,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&
@@ -321,39 +321,39 @@ router.post("/forgotmail", function (req, res) {
         var mailOptions = {
           from: '"ClinicNode" support@app-production.eu',
           to: req.body.email,
-          subject: mail.mailSubject ? mail.mailSubject : req.body.language?.subjectForgotMail,
+          subject: mail.mailSubject ? mail.mailSubject : req.body.language.subjectForgotMail,
           html: compiledTemplate.render({
             firstName: req.body.firstname,
             verificationLink: verificationLinkButton,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : req.body.language?.finalGreeting,
+              : req.body.language.finalGreeting,
             signature: mail.mailSignature
               ? mail.mailSignature
-              : req.body.language?.signature,
+              : req.body.language.signature,
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
-            websiteLink: req.body.language?.websiteLink,
+              : req.body.language.thanksForUsing,
+            websiteLink: req.body.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
-            emailAddress: req.body.language?.emailAddress,
+              : req.body.language.ifYouHaveQuestion,
+            emailAddress: req.body.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : req.body.language?.notReply,
+              : req.body.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : req.body.language?.copyRight,
+              : req.body.language.copyRight,
             introductoryMessageForForgotMail: mail.mailMessage
               ? mail.mailMessage
-              : req.body.language?.introductoryMessageForForgotMail,
+              : req.body.language.introductoryMessageForForgotMail,
             forgotMailButtonText: mail.mailForgotButtonText
               ? mail.mailForgotButtonText
-              : req.body.language?.forgotMailButtonText,
+              : req.body.language.forgotMailButtonText,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&
@@ -441,7 +441,7 @@ router.post("/sendMailToMultiple", function (req, res) {
           html: compiledTemplate.render({
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             finalGreeting: mail.mailFinalGreeting ? mail.mailFinalGreeting : "",
             signature:
               signatureAvailable && mail.mailSignature
@@ -452,11 +452,11 @@ router.post("/sendMailToMultiple", function (req, res) {
               : mail.mailMessage,
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
+              : req.body.language.thanksForUsing,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
-            emailAddress: req.body.language?.emailAddress,
+              : req.body.language.ifYouHaveQuestion,
+            emailAddress: req.body.language.emailAddress,
             notReply: mail.mailNotReply ? mail.mailNotReply : "",
             copyRight: mail.mailCopyRight ? mail.mailCopyRight : "",
             signatureTelephone:
@@ -585,7 +585,7 @@ router.post("/sendConfirmArrivalAgain", function (req, res) {
                 from: '"ClinicNode" support@app-production.eu',
                 subject: mail.mailSubject
                   ? mail.mailSubject
-                  : req.body.language?.subjectConfirmArrival,
+                  : req.body.language.subjectConfirmArrival,
                 html: compiledTemplate.render({
                   firstName: to.shortname,
                   verificationLink: verificationLinkButton,
@@ -599,40 +599,40 @@ router.post("/sendConfirmArrivalAgain", function (req, res) {
                   day: day,
                   initialGreeting: mail.mailInitialGreeting
                     ? mail.mailInitialGreeting
-                    : req.body.language?.initialGreeting,
+                    : req.body.language.initialGreeting,
                   finalGreeting: mail.mailFinalGreeting
                     ? mail.mailFinalGreeting
-                    : req.body.language?.finalGreeting,
+                    : req.body.language.finalGreeting,
                   signature:
                     signatureAvailable && mail.mailSignature
                       ? mail.mailSignature
                       : "",
                   thanksForUsing: mail.mailThanksForUsing
                     ? mail.mailThanksForUsing
-                    : req.body.language?.thanksForUsing,
-                  websiteLink: req.body.language?.websiteLink,
+                    : req.body.language.thanksForUsing,
+                  websiteLink: req.body.language.websiteLink,
                   ifYouHaveQuestion: mail.mailIfYouHaveQuestion
                     ? mail.mailIfYouHaveQuestion
-                    : req.body.language?.ifYouHaveQuestion,
-                  emailAddress: req.body.language?.emailAddress,
+                    : req.body.language.ifYouHaveQuestion,
+                  emailAddress: req.body.language.emailAddress,
                   notReply: mail.mailNotReply
                     ? mail.mailNotReply
-                    : req.body.language?.notReply,
+                    : req.body.language.notReply,
                   copyRight: mail.mailCopyRight
                     ? mail.mailCopyRight
-                    : req.body.language?.copyRight,
+                    : req.body.language.copyRight,
                   introductoryMessageForConfirmArrival:
-                    req.body.language?.introductoryMessageForConfirmArrival,
+                    req.body.language.introductoryMessageForConfirmArrival,
                   dateMessage: mail.mailDate ? mail.mailDate + " " : "",
                   timeMessage: mail.mailTime ? mail.mailTime + " " : "",
                   storeLocation: mail.mailClinic ? mail.mailClinic + " " : "",
-                  therapyMessage: req.body.language?.therapyMessage,
-                  doctorMessage: req.body.language?.doctorMessage,
+                  therapyMessage: req.body.language.therapyMessage,
+                  doctorMessage: req.body.language.doctorMessage,
                   finalMessageForConfirmArrival: mail.mailMessage
                     ? mail.mailMessage
-                    : req.body.language?.finalMessageForConfirmArrival,
+                    : req.body.language.finalMessageForConfirmArrival,
                   confirmArrivalButtonText:
-                    req.body.language?.confirmArrivalButtonText,
+                    req.body.language.confirmArrivalButtonText,
                   signatureAddress:
                     signatureAvailable &&
                     mail.signatureAddress &&
@@ -717,39 +717,39 @@ router.post("/sendPatientFormRegistration", function (req, res) {
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
-            : req.body.language?.subjectFormRegistration,
+            : req.body.language.subjectFormRegistration,
           html: patientRegistrationForm.render({
             link: req.body.link,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : req.body.language?.finalGreeting,
+              : req.body.language.finalGreeting,
             signature: !signatureAvailable
               ? mail.mailSignature
                 ? mail.mailSignature
-                : req.body.language?.signature
+                : req.body.language.signature
               : "",
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
-            websiteLink: req.body.language?.websiteLink,
+              : req.body.language.thanksForUsing,
+            websiteLink: req.body.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
-            emailAddress: req.body.language?.emailAddress,
+              : req.body.language.ifYouHaveQuestion,
+            emailAddress: req.body.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : req.body.language?.notReply,
+              : req.body.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : req.body.language?.copyRight,
+              : req.body.language.copyRight,
             introductoryMessageForPatientRegistrationForm: mail.mailMessage
               ? mail.mailMessage
               : req.body.language
-                  ?.introductoryMessageForPatientRegistrationForm,
-            openForm: req.body.language?.openForm,
+                  .introductoryMessageForPatientRegistrationForm,
+            openForm: req.body.language.openForm,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&
@@ -826,7 +826,7 @@ router.post("/sendInfoToPatientForCreatedAccount", function (req, res) {
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
-            : req.body.language?.subjectCreatedPatientForm,
+            : req.body.language.subjectCreatedPatientForm,
           html: infoForCreatedAccount.render({
             firstName: req.body.firstname,
             email: req.body.email,
@@ -834,35 +834,35 @@ router.post("/sendInfoToPatientForCreatedAccount", function (req, res) {
             loginLink: loginLink,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : req.body.language?.finalGreeting,
+              : req.body.language.finalGreeting,
             signature: !signatureAvailable
               ? mail.mailSignature
                 ? mail.mailSignature
-                : req.body.language?.signature
+                : req.body.language.signature
               : "",
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
-            websiteLink: req.body.language?.websiteLink,
+              : req.body.language.thanksForUsing,
+            websiteLink: req.body.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
-            emailAddress: req.body.language?.emailAddress,
+              : req.body.language.ifYouHaveQuestion,
+            emailAddress: req.body.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : req.body.language?.notReply,
+              : req.body.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : req.body.language?.copyRight,
+              : req.body.language.copyRight,
             introductoryMessageForCreatedPatientAccount: mail.mailMessage
               ? mail.mailMessage
-              : req.body.language?.introductoryMessageForCreatedPatientAccount,
-            linkForLogin: req.body.language?.linkForLogin,
-            emailForLogin: req.body.language?.emailForLogin,
-            passwordForLogin: req.body.language?.passwordForLogin,
+              : req.body.language.introductoryMessageForCreatedPatientAccount,
+            linkForLogin: req.body.language.linkForLogin,
+            emailForLogin: req.body.language.emailForLogin,
+            passwordForLogin: req.body.language.passwordForLogin,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&
@@ -966,7 +966,7 @@ router.post("/sendInfoForApproveReservation", function (req, res) {
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
-            : req.body.language?.subjectApproveReservation,
+            : req.body.language.subjectApproveReservation,
           html: infoForApproveReservation.render({
             firstName: req.body.firstname,
             email: req.body.email,
@@ -974,13 +974,13 @@ router.post("/sendInfoForApproveReservation", function (req, res) {
             loginLink: loginLink,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             dateMessage: mail.mailDate
               ? mail.mailDate
-              : req.body.language?.dateMessage,
+              : req.body.language.dateMessage,
             timeMessage: mail.mailTime
               ? mail.mailTime
-              : req.body.language?.timeMessage,
+              : req.body.language.timeMessage,
             month: month,
             day: day,
             date: date,
@@ -988,27 +988,27 @@ router.post("/sendInfoForApproveReservation", function (req, res) {
             end: end,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : req.body.language?.finalGreeting,
+              : req.body.language.finalGreeting,
             signature: mail.mailSignature
               ? mail.mailSignature
-              : req.body.language?.signature,
+              : req.body.language.signature,
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
-            websiteLink: req.body.language?.websiteLink,
+              : req.body.language.thanksForUsing,
+            websiteLink: req.body.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
-            emailAddress: req.body.language?.emailAddress,
+              : req.body.language.ifYouHaveQuestion,
+            emailAddress: req.body.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : req.body.language?.notReply,
+              : req.body.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : req.body.language?.copyRight,
+              : req.body.language.copyRight,
             introductoryMessageForApproveReservation: mail.mailMessage
               ? mail.mailMessage
-              : req.body.language?.introductoryMessageForApproveReservation,
+              : req.body.language.introductoryMessageForApproveReservation,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&
@@ -1108,7 +1108,7 @@ router.post("/sendInfoForDenyReservation", function (req, res) {
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
-            : req.body.language?.subjectDenyReservation,
+            : req.body.language.subjectDenyReservation,
           html: infoForDenyReservation.render({
             firstName: req.body.firstname,
             email: req.body.email,
@@ -1116,13 +1116,13 @@ router.post("/sendInfoForDenyReservation", function (req, res) {
             loginLink: loginLink,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             dateMessage: mail.mailDate
               ? mail.mailDate
-              : req.body.language?.dateMessage,
+              : req.body.language.dateMessage,
             timeMessage: mail.mailTime
               ? mail.mailTime
-              : req.body.language?.timeMessage,
+              : req.body.language.timeMessage,
             month: month,
             day: day,
             date: date,
@@ -1130,27 +1130,27 @@ router.post("/sendInfoForDenyReservation", function (req, res) {
             end: end,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : req.body.language?.finalGreeting,
+              : req.body.language.finalGreeting,
             signature: mail.mailSignature
               ? mail.mailSignature
-              : req.body.language?.signature,
+              : req.body.language.signature,
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
-            websiteLink: req.body.language?.websiteLink,
+              : req.body.language.thanksForUsing,
+            websiteLink: req.body.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
-            emailAddress: req.body.language?.emailAddress,
+              : req.body.language.ifYouHaveQuestion,
+            emailAddress: req.body.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : req.body.language?.notReply,
+              : req.body.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : req.body.language?.copyRight,
+              : req.body.language.copyRight,
             introductoryMessageForDenyReservation: mail.mailMessage
               ? mail.mailMessage
-              : req.body.language?.introductoryMessageForDenyReservation,
+              : req.body.language.introductoryMessageForDenyReservation,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&
@@ -1201,8 +1201,8 @@ router.post("/sendEmailToPatient", function (req, res) {
   var mailOptions = {
     from: '"ClinicNode" support@app-production.eu',
     to: req.body.email,
-    subject: req.body?.subject,
-    text: req.body?.content,
+    subject: req.body.subject,
+    text: req.body.content,
   };
   smtpTransport.sendMail(mailOptions, function (error, response) {
     if (error) {
@@ -1275,38 +1275,38 @@ router.post("/sendReminderViaEmailManual", function (req, res) {
           html: compiledTemplate.render({
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : req.body.language?.initialGreeting,
+              : req.body.language.initialGreeting,
             introductoryMessageForReminderReservation: mail.mailMessage
               ? mail.mailMessage
-              : req.body.language?.introductoryMessageForReminderReservation,
+              : req.body.language.introductoryMessageForReminderReservation,
             dateMessage: mail.mailDate ? mail.mailDate + " " : "",
             timeMessage: mail.mailTime ? mail.mailTime + " " : "",
             storeLocation: mail.mailClinic ? mail.mailClinic + " " : "",
             therapyMessage: mail.mailTherapy
               ? mail.mailTherapy
-              : req.body.language?.therapyMessage,
+              : req.body.language.therapyMessage,
             doctorMessage: mail.mailDoctor
               ? mail.mailDoctor
-              : req.body.language?.doctorMessage,
+              : req.body.language.doctorMessage,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : req.body.language?.finalGreeting,
+              : req.body.language.finalGreeting,
             signature:
               signatureAvailable && mail.mailSignature
                 ? mail.mailSignature
                 : "",
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : req.body.language?.thanksForUsing,
+              : req.body.language.thanksForUsing,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : req.body.language?.ifYouHaveQuestion,
+              : req.body.language.ifYouHaveQuestion,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : req.body.language?.notReply,
+              : req.body.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : req.body.language?.copyRight,
+              : req.body.language.copyRight,
             firstName: req.body.shortname,
             date: mail.mailDate ? date : "",
             start: mail.mailTime ? start + " - " : "",
@@ -1524,29 +1524,29 @@ router.post("/sendMassiveEMail", function (req, res) {
                 message: req.body.message,
                 initialGreeting: mail.mailInitialGreeting
                   ? mail.mailInitialGreeting
-                  : req.body.language?.initialGreeting,
+                  : req.body.language.initialGreeting,
                 finalGreeting: mail.mailFinalGreeting
                   ? mail.mailFinalGreeting
-                  : req.body.language?.finalGreeting,
+                  : req.body.language.finalGreeting,
                 signature: !signatureAvailable
                   ? mail.mailSignature
-                  : req.body.language?.signature,
+                  : req.body.language.signature,
                 thanksForUsing: mail.mailThanksForUsing
                   ? mail.mailThanksForUsing
-                  : req.body.language?.thanksForUsing,
-                websiteLink: req.body.language?.websiteLink,
+                  : req.body.language.thanksForUsing,
+                websiteLink: req.body.language.websiteLink,
                 ifYouHaveQuestion: mail.mailIfYouHaveQuestion
                   ? mail.mailIfYouHaveQuestion
-                  : req.body.language?.ifYouHaveQuestion,
+                  : req.body.language.ifYouHaveQuestion,
                 notReply: mail.mailNotReply
                   ? mail.mailNotReply
-                  : req.body.language?.notReply,
+                  : req.body.language.notReply,
                 copyRight: mail.mailCopyRight
                   ? mail.mailCopyRight
-                  : req.body.language?.copyRight,
+                  : req.body.language.copyRight,
                 introductoryMessageForDenyReservation: mail.mailMessage
                   ? mail.mailMessage
-                  : req.body.language?.introductoryMessageForDenyReservation,
+                  : req.body.language.introductoryMessageForDenyReservation,
                 signature: mail.mailSignature ? mail.mailSignature : "",
                 signatureCompanyName:
                   signatureAvailable && mail.signatureCompanyName
@@ -1577,8 +1577,8 @@ router.post("/sendMassiveEMail", function (req, res) {
                     ? mail.signatureEmail
                     : "",
 
-                unsubscribeMessage: req.body.language?.unsubscribeMessage,
-                unsubscribeHere: req.body.language?.unsubscribeHere,
+                unsubscribeMessage: req.body.language.unsubscribeMessage,
+                unsubscribeHere: req.body.language.unsubscribeHere,
                 unsubscribeLink: process.env.unsubscribeEmail + "/" + to.email,
               }),
             };
@@ -2209,7 +2209,7 @@ router.sendVaucherToMail = (data) => {
           to: user.email,
           subject: mail.mailSubject
             ? mail.mailSubject
-            : data.language?.subjectCreatedVaucher,
+            : data.language.subjectCreatedVaucher,
           html: infoForCreatedAccount.render({
             firstName: data.user_name,
             amount: data.amount,
@@ -2224,42 +2224,42 @@ router.sendVaucherToMail = (data) => {
             loginLink: loginLink,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : data.language?.initialGreeting,
+              : data.language.initialGreeting,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : data.language?.finalGreeting,
+              : data.language.finalGreeting,
             signature: !signatureAvailable
               ? mail.mailSignature
                 ? mail.mailSignature
-                : data.language?.signature
+                : data.language.signature
               : "",
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : data.language?.thanksForUsing,
-            websiteLink: data.language?.websiteLink,
+              : data.language.thanksForUsing,
+            websiteLink: data.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : data.language?.ifYouHaveQuestion,
-            emailAddress: data.language?.emailAddress,
+              : data.language.ifYouHaveQuestion,
+            emailAddress: data.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : data.language?.notReply,
+              : data.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : data.language?.copyRight,
+              : data.language.copyRight,
             introductoryMessageForCreatedVaucher: mail.mailMessage
               ? mail.mailMessage
-              : data.language?.introductoryMessageForCreatedVaucher,
-            linkForLogin: data.language?.linkForLogin,
-            emailForLogin: data.language?.emailForLogin,
-            vaucherAmount: data.language?.amount,
-            date_redeemedTitle: data.language?.date_redeemed,
-            commentTitle: data.language?.comment,
-            // customerTitle: data.language?.customer,
-            customerBuysTitle: data.language?.customerBuys,
-            // customer_consumerTitle: data.language?.customer_consumer,
-            customerConsumerTitle: data.language?.customerConsumer,
-            passwordForLogin: data.language?.passwordForLogin,
+              : data.language.introductoryMessageForCreatedVaucher,
+            linkForLogin: data.language.linkForLogin,
+            emailForLogin: data.language.emailForLogin,
+            vaucherAmount: data.language.amount,
+            date_redeemedTitle: data.language.date_redeemed,
+            commentTitle: data.language.comment,
+            // customerTitle: data.language.customer,
+            customerBuysTitle: data.language.customerBuys,
+            // customer_consumerTitle: data.language.customer_consumer,
+            customerConsumerTitle: data.language.customerConsumer,
+            passwordForLogin: data.language.passwordForLogin,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&
@@ -2331,7 +2331,7 @@ router.sendMailAdminInfo = (data) => {
           to: data.email,
           subject: mail.mailSubject
             ? mail.mailSubject
-            : data.language?.subjectCreatedPatientForm,
+            : data.language.subjectCreatedPatientForm,
           html: infoForCreatedAccount.render({
             firstName: data.firstname,
             email: data.email,
@@ -2339,35 +2339,35 @@ router.sendMailAdminInfo = (data) => {
             loginLink: loginLink,
             initialGreeting: mail.mailInitialGreeting
               ? mail.mailInitialGreeting
-              : data.language?.initialGreeting,
+              : data.language.initialGreeting,
             finalGreeting: mail.mailFinalGreeting
               ? mail.mailFinalGreeting
-              : data.language?.finalGreeting,
+              : data.language.finalGreeting,
             signature: !signatureAvailable
               ? mail.mailSignature
                 ? mail.mailSignature
-                : data.language?.signature
+                : data.language.signature
               : "",
             thanksForUsing: mail.mailThanksForUsing
               ? mail.mailThanksForUsing
-              : data.language?.thanksForUsing,
-            websiteLink: data.language?.websiteLink,
+              : data.language.thanksForUsing,
+            websiteLink: data.language.websiteLink,
             ifYouHaveQuestion: mail.mailIfYouHaveQuestion
               ? mail.mailIfYouHaveQuestion
-              : data.language?.ifYouHaveQuestion,
-            emailAddress: data.language?.emailAddress,
+              : data.language.ifYouHaveQuestion,
+            emailAddress: data.language.emailAddress,
             notReply: mail.mailNotReply
               ? mail.mailNotReply
-              : data.language?.notReply,
+              : data.language.notReply,
             copyRight: mail.mailCopyRight
               ? mail.mailCopyRight
-              : data.language?.copyRight,
+              : data.language.copyRight,
             introductoryMessageForCreatedPatientAccount: mail.mailMessage
               ? mail.mailMessage
-              : data.language?.introductoryMessageForCreatedPatientAccount,
-            linkForLogin: data.language?.linkForLogin,
-            emailForLogin: data.language?.emailForLogin,
-            passwordForLogin: data.language?.passwordForLogin,
+              : data.language.introductoryMessageForCreatedPatientAccount,
+            linkForLogin: data.language.linkForLogin,
+            emailForLogin: data.language.emailForLogin,
+            passwordForLogin: data.language.passwordForLogin,
             signatureAddress:
               signatureAvailable &&
               mail.signatureAddress &&

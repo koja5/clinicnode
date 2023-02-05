@@ -128,9 +128,9 @@ function reminderViaSMS() {
                             signature += " \n" + sms.smsSignatureWebsite;
                           }
 
-                          if (language?.smsSignaturePoweredBy) {
+                          if (language.smsSignaturePoweredBy) {
                             signature +=
-                              language?.smsSignaturePoweredBy + " \n";
+                              language.smsSignaturePoweredBy + " \n";
                           }
 
                           var convertToDateStart = new Date(to.start);

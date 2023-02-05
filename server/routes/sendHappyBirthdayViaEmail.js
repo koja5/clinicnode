@@ -62,32 +62,32 @@ function sendHappyBirthdayViaEmail() {
                     to: to.email,
                     subject: to.mailSubject
                       ? to.mailSubject
-                      : language?.mailSubject,
+                      : language.mailSubject,
                     html: mailRender.render({
                       firstName: to.shortname,
                       message: to.message,
                       initialGreeting: to.mailInitialGreeting
                         ? to.mailInitialGreeting
-                        : language?.initialGreeting,
+                        : language.initialGreeting,
                       finalGreeting: to.mailFinalGreeting
                         ? to.mailFinalGreeting
-                        : language?.finalGreeting,
+                        : language.finalGreeting,
                       signature: !signatureAvailable
                         ? signatureAvailable
-                        : language?.signature,
+                        : language.signature,
                       thanksForUsing: to.mailThanksForUsing
                         ? to.mailThanksForUsing
-                        : language?.thanksForUsing,
-                      websiteLink: language?.websiteLink,
+                        : language.thanksForUsing,
+                      websiteLink: language.websiteLink,
                       ifYouHaveQuestion: to.mailIfYouHaveQuestion
                         ? to.mailIfYouHaveQuestion
-                        : language?.ifYouHaveQuestion,
+                        : language.ifYouHaveQuestion,
                       notReply: to.mailNotReply
                         ? to.mailNotReply
-                        : language?.notReply,
+                        : language.notReply,
                       copyRight: to.mailCopyRight
                         ? to.mailCopyRight
-                        : language?.copyRight,
+                        : language.copyRight,
                       message: to.mailMessage ? to.mailMessage : "",
                       signature: to.mailSignature ? to.mailSignature : "",
                       signatureCompanyName:
