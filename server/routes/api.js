@@ -224,7 +224,7 @@ router.post("/createTask", function (req, res) {
       therapy_id: req.body.therapy_id,
       superadmin: req.body.superadmin,
       confirm: req.body.confirm,
-      online: req.body?.online,
+      online: req.body.online,
     };
     if (req.body.storeId !== undefined) {
       podaci["storeId"] = req.body.storeId;
@@ -276,7 +276,7 @@ router.post("/updateTask", function (req, res) {
       therapy_id: req.body.therapy_id,
       superadmin: req.body.superadmin,
       confirm: req.body.confirm,
-      online: req.body?.online,
+      online: req.body.online,
     };
     if (req.body.storeId !== undefined) {
       data["storeId"] = req.body.storeId;
@@ -5373,9 +5373,9 @@ router.post("/sendSMS", function (req, res) {
                       signature += " \n" + sms.smsSignatureWebsite;
                     }
 
-                    if (language?.smsSignaturePoweredBy) {
+                    if (language.smsSignaturePoweredBy) {
                       signature +=
-                        " \n" + language?.smsSignaturePoweredBy + " \n";
+                        " \n" + language.smsSignaturePoweredBy + " \n";
                     }
 
                     if (sms.smsDate) {
@@ -5391,14 +5391,14 @@ router.post("/sendSMS", function (req, res) {
                     var message =
                       (sms.smsSubject
                         ? sms.smsSubject
-                        : language?.initialGreetingSMSReminder) +
+                        : language.initialGreetingSMSReminder) +
                       " " +
                       req.body.shortname +
                       ", \n" +
                       "\n" +
                       (sms.smsMessage
                         ? sms.smsMessage
-                        : language?.introductoryMessageForSMSReminderReservation) +
+                        : language.introductoryMessageForSMSReminderReservation) +
                       " \n" +
                       "\n" +
                       dateMessage +
@@ -5634,9 +5634,9 @@ router.post("/sendCustomSMS", function (req, res) {
 //                           signature += to.smsSignaturePoweredBy + " \n";
 //                         }
 //                       }
-//                       if (language?.smsSignaturePoweredByMassive) {
+//                       if (language.smsSignaturePoweredByMassive) {
 //                         signature +=
-//                           language?.smsSignaturePoweredByMassive + " \n";
+//                           language.smsSignaturePoweredByMassive + " \n";
 //                       }
 //                       var content =
 //                         "To: " +
@@ -6026,8 +6026,8 @@ function splitSenderToPartArray(rows, codes, req, language) {
           }
         }
 
-        if (language?.smsSignaturePoweredBy) {
-          signature += " \n" + language?.smsSignaturePoweredBy + " \n";
+        if (language.smsSignaturePoweredBy) {
+          signature += " \n" + language.smsSignaturePoweredBy + " \n";
         }
 
         var content =
