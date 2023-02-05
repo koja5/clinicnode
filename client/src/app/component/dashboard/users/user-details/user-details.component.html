@@ -1,0 +1,802 @@
+<div *ngIf="loading" style="height: 90vh">
+  <div class="spinner loading"></div>
+</div>
+
+<div *ngIf="!loading">
+  <button kendoButton [primary]="true" style="margin: 1vh" (click)="backToGrid()">
+    <i class="fa fa-arrow-left"></i> &nbsp; {{ language.backToGrid }}
+  </button>
+
+  <div style="text-align: end; padding-right:10px; padding-top: 7px">
+    <button kendoButton [icon]="'edit'" (click)="editOptions()" [primary]="true">
+      {{ language.edit }}
+    </button>
+    <div class="dropdown-grid position-relative" style="top:1px">
+      <button class="btn-grid" style="border-left: 1px solid #2a3582">
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content-grid">
+        <a (click)="open('dialog')"><span class="k-icon k-i-delete"></span> {{ language.delete }}</a>
+        <a (click)="printUser()"><span class="k-icon k-i-print"></span> {{ language.print }}</a>
+        <a (click)="sendRecoveryLink()">{{ language.sendPasswordRecovery }}</a>
+      </div>
+    </div>
+  </div>
+
+  <!--[routerLink]="['../../', {outlets: {'dashboard': ['users']}}]"-->
+  <div class="row" *ngIf="data !== undefined">
+    <div class="col-md-12">
+      <!-- BEGIN PROFILE SIDEBAR -->
+      <div class="profile-sidebar">
+        <div class="card card-topline-aqua card-container">
+          <div class="card-body no-padding height-9">
+            <div class="row">
+              <div class="profile-userpic">
+                <img alt="example image" style="width: 190px" [src]="imagePath" class="rounded-circle" />
+                <button *ngIf="currentUser?.type == 0 || currentUser?.type == 1" kendoButton [icon]="'edit'"
+                  class="edit-button-icon" (click)="updateImage()"></button>
+              </div>
+              <div style="text-align: center">
+                <h2 class="font-semibold mgbt-xs-5" style="text-align: center">
+                  {{ data.firstname }} {{ data.lastname }}
+                </h2>
+                <h4 *ngIf="data.type === userTypeEnum.owner">
+                  {{ language.owner }}
+                </h4>
+                <h4 *ngIf="data.type === userTypeEnum.admin">
+                  {{ language.admin }}
+                </h4>
+                <h4 *ngIf="data.type === userTypeEnum.doctor">
+                  {{ language.doctor }}
+                </h4>
+                <h4 *ngIf="data.type === userTypeEnum.nurse">
+                  {{ language.nurse }}
+                </h4>
+                <h4 *ngIf="data.type === userTypeEnum.administrator">
+                  {{ language.administrator }}
+                </h4>
+              </div>
+              <div class="mgtp-20" style="text-align: center">
+                <span *ngIf="data.active" class="label label-success">{{
+                  language.active
+                  }}</span>
+                <span *ngIf="!data.active" class="label label-danger">{{
+                  language.inactive
+                  }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- BEGIN PROFILE CONTENT -->
+      <div class="profile-content">
+        <div class="row">
+          <div class="card card-container">
+            <div class="card-topline-aqua">
+              <header></header>
+            </div>
+            <div>
+              <div class="tabs widget" style="margin-bottom: 30px">
+                <div class="col-md-5 col-sm-12 status-widget">
+                  <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <h5 class="card-title text-uppercase text-muted mb-0">
+                            {{ language.totalTherapy }}
+                          </h5>
+                          <span class="h2 font-weight-bold mb-0">{{
+                            totalSum
+                            }}</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                            <i class="fa fa-pie-chart"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <p class="mt-3 mb-0 text-sm">
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                        <span class="text-nowrap">Since last month</span>
+                      </p> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 col-sm-12 status-widget">
+                  <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <h5 class="card-title text-uppercase text-muted mb-0">
+                            {{ language.averagePerMonth }}
+                          </h5>
+                          <span class="h2 font-weight-bold mb-0">{{
+                            statisticMonthAverage
+                            }}</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                            <i class="fa fa-line-chart"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <p class="mt-3 mb-0 text-sm">
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                        <span class="text-nowrap">Since last month</span>
+                      </p> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 col-sm-12 status-widget">
+                  <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <h5 class="card-title text-uppercase text-muted mb-0">
+                            {{ language.therapyForLastMonth }}
+                          </h5>
+                          <span class="h2 font-weight-bold mb-0">{{
+                            statisticMonthLast
+                            }}</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <p class="mt-3 mb-0 text-sm">
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                        <span class="text-nowrap">Since last month</span>
+                      </p> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 col-sm-12 status-widget">
+                  <div class="card card-stats">
+                    <!-- Card body -->
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <h5 class="card-title text-uppercase text-muted mb-0">
+                            {{ language.therapyForLastWeek }}
+                          </h5>
+                          <span class="h2 font-weight-bold mb-0">{{
+                            statisticLastWeek
+                            }}</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                            <i class="fa fa-area-chart"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <p class="mt-3 mb-0 text-sm">
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                        <span class="text-nowrap">Since last month</span>
+                      </p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END PROFILE CONTENT -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="profile-content">
+        <div class="row">
+          <div class="card">
+            <div class="card-topline-aqua">
+              <header></header>
+            </div>
+            <div class="white-box">
+              <div class="tabs widget">
+                <ul class="nav nav-tabs widget">
+                  <li [ngClass]="currentTab === 'profile' ? 'active' : ''">
+                    <a (click)="changeTab('profile')">{{ language.profile }}</a>
+                  </li>
+                  <li [ngClass]="currentTab === 'workTime' ? 'active' : ''">
+                    <a (click)="changeTab('workTime')">{{
+                      language.workTime
+                      }}</a>
+                  </li>
+                  <li [ngClass]="currentTab === 'permissions' ? 'active' : ''">
+                    <a (click)="changeTab('permissions')">
+                      {{ language.permissions }}
+                    </a>
+                  </li>
+                </ul>
+                <br />
+                <!-- Tab panes -->
+                <div class="tab-content" *ngIf="currentTab === 'profile'">
+                  <div class="tab-pane active fontawesome-demo" id="tab1">
+                    <div id="biography">
+                      <div class="row" *ngIf="data === undefined">
+                        <div class="lds-ellipsis">
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="data !== undefined">
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.firstname }}">
+                              <input kendoTextBox *ngIf="!data || !data.firstname"
+                                [(ngModel)]="language['noInformation']" name="firstname" class="noPadding"
+                                readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.firstname" [(ngModel)]="data.firstname"
+                                name="firstname" class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.lastname }}">
+                              <input kendoTextBox *ngIf="!data || !data.lastname"
+                                [(ngModel)]="language['noInformation']" name="lastname" class="noPadding"
+                                readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.lastname" [(ngModel)]="data.lastname"
+                                name="lastname" class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.gender }}">
+                              <input kendoTextBox *ngIf="!data || !data.gender" [(ngModel)]="language['noInformation']"
+                                name="gender" class="noPadding" readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.gender" [(ngModel)]="data.gender" name="gender"
+                                class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.shortname }}">
+                              <input kendoTextBox *ngIf="!data || !data.shortname"
+                                [(ngModel)]="language['noInformation']" name="shortname" class="noPadding"
+                                readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.shortname" [(ngModel)]="data.shortname"
+                                name="shortname" class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.email }}">
+                              <input kendoTextBox *ngIf="!data || !data.email" [(ngModel)]="language['noInformation']"
+                                name="email" class="noPadding" readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.email" [(ngModel)]="data.email" name="email"
+                                class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.street }}">
+                              <input kendoTextBox *ngIf="!data || !data.street" [(ngModel)]="language['noInformation']"
+                                name="street" class="noPadding" readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.street" [(ngModel)]="data.street" name="street"
+                                class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.streetnumber }}">
+                              <input kendoTextBox *ngIf="!data || !data.streetnumber"
+                                [(ngModel)]="language['noInformation']" name="streetnumber" class="noPadding"
+                                readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.streetnumber" [(ngModel)]="data.streetnumber"
+                                name="streetnumber" class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.zipCode }}">
+                              <input kendoTextBox *ngIf="!data || !data.zipcode" [(ngModel)]="language['noInformation']"
+                                name="zipcode" class="noPadding" readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.zipcode" [(ngModel)]="data.zipcode" name="zipcode"
+                                class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.city }}">
+                              <input kendoTextBox *ngIf="!data || !data.city" [(ngModel)]="language['noInformation']"
+                                name="city" class="noPadding" readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.city" [(ngModel)]="data.city" name="city"
+                                class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.mobile }}">
+                              <input kendoTextBox *ngIf="!data || !data.mobile" [(ngModel)]="language['noInformation']"
+                                name="mobile" class="noPadding" readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.mobile" [(ngModel)]="data.mobile" name="mobile"
+                                class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.telephone }}">
+                              <input kendoTextBox *ngIf="!data || !data.telephone"
+                                [(ngModel)]="language['noInformation']" name="telephone" class="noPadding"
+                                readonly="true" />
+                              <input kendoTextBox *ngIf="data && data.telephone" [(ngModel)]="data.telephone"
+                                name="telephone" class="noPadding" readonly="true" />
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                        <div class="col-md-3 col-xs-6 b-r">
+                          <br />
+                          <p class="text-muted">
+                            <kendo-textbox-container floatingLabel="{{ language.birthday }}">
+                              <input kendoTextBox *ngIf="!data || !data.birthday || !checkIsValidDate(data.birthday)"
+                                [ngModel]="language['noInformation']" name="birthday" class="noPadding"
+                                readonly="true" />
+                              <kendo-datepicker *ngIf="data && data.birthday && checkIsValidDate(data.birthday)"
+                                format="dd.MM.yyyy" [ngModel]="data.birthday" name="birthday" class="noPadding"
+                                readonly="true">
+                              </kendo-datepicker>
+                            </kendo-textbox-container>
+                          </p>
+                        </div>
+                      </div>
+                      <hr />
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="currentTab === 'workTime'">
+                  <div id="profile-tab" class="tab-pane">
+                    <p *ngIf="noSetWorkTime" class="noSetWorkTime">
+                      *{{ language.noSetTimeForUserNote }}
+                    </p>
+                    <div class="k-form-field col-sm-12 row" style="padding: 0vh">
+                      <div class="col-sm-8 col-xs-10">
+                        <label>{{ language.currentWorkTime }}</label><br/>
+                        <select [(ngModel)]="index" class="col-lg-2 col-sm-5 col-xs-5"(change)="onOptionSelected($event.target.value)">
+                          <option *ngFor="let workTime of allWorkTime;
+                           index as indexOfelement;" [value]="indexOfelement">{{indexOfelement + 1}}</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-8 col-xs-10 wrkTimeDiv">
+                        <label>{{ language.validFromDate }}</label><br/>
+                        <kendo-datepicker [format]="'dd.MM.yyyy'" class="noPadding" name="validDate"
+                          placeholder="Valid date" [(ngModel)]="validDate" validDate.value="" readonly="true">
+                        </kendo-datepicker>
+                      </div>
+                      <div class="col-sm-8 col-xs-10 wrkTimeDiv">
+                        <span>{{ language.color }}</span>
+                        <div>
+                          <kendo-colorpalette [palette]="palette" [value]="selectedColor" [(ngModel)]="selectedColor"
+                            [tileSize]="30" [readonly]="true">
+                          </kendo-colorpalette>
+                        </div>
+                      </div>
+                    </div>
+                    <form name="loginForm" class="loginForm" (ngSubmit)="
+                        updateSetIndicator === 1
+                          ? setWorkTimeForUser(workTime)
+                          : updateWorkTimeForUser(workTime)
+                      ">
+                      <div class="row"></div>
+                      <div class="form-group dayInWeekDiv col-xs-12 b-r" *ngFor="let item of workTime; let i = index">
+                          <label for="example-number-input" class="col-sm col-sx-1 col-form-label">{{item.day}}</label>
+                          <div class="row col-sm-12 col-xs-12">
+                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                              id="example-number-input" value="{{ item.start }}" [(ngModel)]="workTime[i].start"
+                              name="{{ item.day }}start" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
+                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                            value="{{item.startMin}}" [(ngModel)]="workTime[i].startMin" name="{{item.day}}startMin"><span
+                            class="col-sm-1 h">min</span> -->
+                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                              id="example-number-input" value="{{ item.end }}" [(ngModel)]="workTime[i].end"
+                              name="{{ item.day }}end" readonly="true" />
+                            <span class="col-sm-1 col-xs-1 h">h</span>
+                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                            value="{{item.endMin}}" [(ngModel)]="workTime[i].endMin" name="{{item.day}}endMin"> <span
+                            class="col-sm-1 h">min</span> -->
+
+                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox  type="number" min="0" max="24"
+                              id="example-number-input" value="{{ item.start2 }}" [(ngModel)]="workTime[i].start2"
+                              name="{{ item.day }}start2" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
+                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                            value="{{item.start2Min}}" [(ngModel)]="workTime[i].start2Min" name="{{item.day}}start2Min"><span
+                            class="col-sm-1 h">min</span> -->
+                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox  type="number" min="0" max="24"
+                              id="example-number-input" value="{{ item.end2 }}" [(ngModel)]="workTime[i].end2"
+                              name="{{ item.day }}end2" readonly="true" />
+                            <span  class="col-sm-1 col-xs-1 h">h</span>
+                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                            value="{{item.end2Min}}" [(ngModel)]="workTime[i].end2Min" name="{{item.day}}end2Min"> <span
+                            class="col-sm-1 h">min</span> -->
+
+                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                              id="example-number-input" value="{{ item.start3 }}" [(ngModel)]="workTime[i].start3"
+                              name="{{ item.day }}start3" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
+                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                            value="{{item.start3Min}}" [(ngModel)]="workTime[i].start3Min" name="{{item.day}}start3Min"><span
+                            class="col-sm-1 h">min</span> -->
+                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                              id="example-number-input" value="{{ item.end3 }}" [(ngModel)]="workTime[i].end3"
+                              name="{{ item.day }}end3" readonly="true" />
+                            <span class="col-sm-1 col-xs-1 h">h</span>
+                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                            value="{{item.end3Min}}" [(ngModel)]="workTime[i].end3Min" name="{{item.day}}end3Min"> <span
+                            class="col-sm-1 h">min</span> -->
+                          </div>
+                     
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="tab-content" *ngIf="currentTab === 'permissions'">
+                  <div id="profile-tab" class="tab-pane active">
+                    <label class="k-form-field" style="text-align: center; padding-top: 30px">
+                      <span class="pr-4">{{
+                        language.allowedOnlineReservationForUser
+                        }}</span>
+                      <kendo-switch [(ngModel)]="data.allowed_online" name="allowed_online" readonly="true">
+                      </kendo-switch>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END PROFILE CONTENT -->
+        </div>
+      </div>
+    </div>
+
+    <kendo-dialog title="{{ language.pleaseConfirm }}" *ngIf="dialogOpened" (close)="close('dialog')" [minWidth]="250"
+      [width]="450">
+      <div class="modal-body text-center">
+        <img src="../../../../../assets/images/sent.png" alt="" width="50" height="46" />
+        <h3>{{ language.deleteDialogTitleAreYouSure }}</h3>
+      </div>
+      <kendo-dialog-actions>
+        <button kendoButton (click)="action('no')">{{ language.no }}</button>
+        <button kendoButton (click)="action('yes')" primary="true">
+          {{ language.yes }}
+        </button>
+      </kendo-dialog-actions>
+    </kendo-dialog>
+
+    <kendo-dialog title="{{ language.pleaseConfirm }}" *ngIf="modalDeletedWorkTimeConfirm"
+      (close)="modalDeletedWorkTimeConfirm = false; user.open()" [minWidth]="250" [width]="450">
+      <div class="modal-body text-center">
+        <img src="../../../../../assets/images/sent.png" alt="" width="50" height="46" />
+        <h3>{{ language.deleteDialogTitleAreYouSure }}</h3>
+      </div>
+      <kendo-dialog-actions>
+        <button kendoButton (click)="modalDeletedWorkTimeConfirm = false; user.open()">
+          {{ language.no }}
+        </button>
+        <button kendoButton (click)="deleteWorkTime('yes')" primary="true">
+          {{ language.yes }}
+        </button>
+      </kendo-dialog-actions>
+    </kendo-dialog>
+
+    <modal #user modalClass="modal-lg" (keydown.esc)="confirmClose()">
+      <modal-header>
+        <h4>{{ getTranslate(currentTab) }}</h4>
+        <button type="button" class="custom-close close" data-dismiss="modal" (click)="confirmClose()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </modal-header>
+      <modal-content>
+        <app-dynamic-confirm-dialog [showDialog]="showDialog" [title]="language?.changesWontBeSavedTitle"
+          [question]="language?.changesWontBeSaved" (sendEmitter)="receiveConfirm($event)">
+        </app-dynamic-confirm-dialog>
+        <div class="tabs widget">
+          <ul class="nav nav-tabs widget">
+            <li [ngClass]="currentTab === 'profile' ? 'active' : ''">
+              <a (click)="changeTab('profile')">{{ language.profile }}</a>
+            </li>
+            <li [ngClass]="currentTab === 'workTime' ? 'active' : ''">
+              <a (click)="changeTab('workTime')">{{ language.workTime }}</a>language
+            </li>
+            <li [ngClass]="currentTab === 'permissions' ? 'active' : ''">
+              <a (click)="changeTab('permissions')">{{
+                language.permissions
+                }}</a>
+            </li>
+          </ul>
+          <div class="tab-content" *ngIf="currentTab === 'profile'">
+            <div id="profile-tab" class="tab-pane active">
+              <form name="loginForm" class="loginForm" (ngSubmit)="updateUser(user)" (change)="isDirty()">
+                <div class="form-group">
+                  <div class="email col-md-4 col-xs-12">
+                    <p>{{ language.username }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="shortname"
+                      placeholder="{{ language.username }}" [(ngModel)]="data.shortname" shortname.value="" />
+                  </div>
+                  <div class="email col-md-4 col-xs-12">
+                    <p>{{ language.aliasName }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="alias_name"
+                      placeholder="{{ language.aliasName }}" [(ngModel)]="data.alias_name" alias_name.value="" />
+                  </div>
+                  <div class="email col-md-4 col-xs-12">
+                    <p>{{ language.password }}</p>
+                    <input kendoTextBox type="password" class="col-xs-12 password" name="password"
+                      placeholder="{{ language.password }}" [(ngModel)]="data.password" password.value="" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.firstname }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="firstname"
+                      placeholder="{{ language.firstname }}" [(ngModel)]="data.firstname" firstname.value="" />
+                  </div>
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.lastname }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="lastname"
+                      placeholder="{{ language.lastname }}" [(ngModel)]="data.lastname" lastname.value="" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.street }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="street" placeholder="{{ language.street }}"
+                      [(ngModel)]="data.street" street.value="" />
+                  </div>
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.zipCode }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="zipcode"
+                      placeholder="{{ language.zipCode }}" [(ngModel)]="data.zipcode" zipcode.value="" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.place }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="place" placeholder="{{ language.place }}"
+                      [(ngModel)]="data.place" place.value="" />
+                  </div>
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.telephone }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="telephone"
+                      placeholder="{{ language.telephone }}" [(ngModel)]="data.telephone" telephone.value="" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.mobile }}</p>
+                    <input kendoTextBox type="text" class="col-xs-12" name="mobile" placeholder="{{ language.mobile }}"
+                      [(ngModel)]="data.mobile" mobile.value="" />
+                  </div>
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.email }}</p>
+                    <input kendoTextBox type="email" class="col-xs-12" name="email" placeholder="{{ language.email }}"
+                      [(ngModel)]="data.email" email.value="" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.birthday }}</p>
+                    <kendo-datepicker format="dd.MM.yyyy" class="col-xs-12 noPadding" name="birthday"
+                      [placeholder]="language.birthday"
+                      [value]="data && checkIsValidDate(data.birthday) ? data.birthday : null"
+                      (valueChange)="checkIsValidDate($event) && (data.birthday=$event)">
+                    </kendo-datepicker>
+                  </div>
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.sincecompany }}</p>
+                    <kendo-datepicker format="dd.MM.yyyy" class="col-xs-12 noPadding" name="sincecompany"
+                      [placeholder]="language.sincecompany"
+                      [value]="data && checkIsValidDate(data.incompanysince) ? data.incompanysince : null"
+                      (valueChange)="checkIsValidDate($event) && (data.incompanysince=$event)"></kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.gender }}</p>
+                    <div class="gender__container">
+                      <input type="radio" id="male" name="gender" value="male" class="gender__radio"
+                        [(ngModel)]="data.gender" />
+                      <label for="male"> {{ language.male }} </label><br />
+                      <input type="radio" id="female" name="gender" value="female" class="gender__radio"
+                        [(ngModel)]="data.gender" />
+                      <label for="female">{{ language.female }}</label><br />
+                    </div>
+                  </div>
+                  <div class="email col-md-6 col-xs-12">
+                    <p>{{ language.userType }}</p>
+                    <kendo-combobox [data]="userType" (selectionChange)="selectionUserType($event)"
+                      class="col-xs-12 noPadding" [(ngModel)]="selectedValue" name="type">
+                    </kendo-combobox>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="email store_location col-md-12">
+                    <p>{{ language.storeLocation }}</p>
+                    <kendo-combobox [data]="storeLocation" [textField]="'storename'" [valueField]="'id'"
+                      (selectionChange)="selectionChangeStore($event)" [(ngModel)]="data.storeId"
+                      [valuePrimitive]="true" name="storename" class="col-xs-12 noPadding">
+                    </kendo-combobox>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="k-form-field col-md-12 label__active">
+                    {{ language.active }} &nbsp;
+                    <kendo-switch [(ngModel)]="data.active" name="active"></kendo-switch>
+                  </label>
+                </div>
+
+                <div class="form-group" style="text-align: center">
+                  <button kendoButton [primary]="true" type="submit" class="updateButton">
+                    {{ language.updateUser }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div *ngIf="currentTab === 'workTime'">
+            <div id="profile-tab" class="tab-pane active">
+              <p *ngIf="noSetWorkTime" class="noSetWorkTime">
+                *{{ language.noSetTimeForUserNote }}
+              </p>
+              <div class="k-form-field row">
+                <div class="col-sm-8 col-xs-10" style="padding-top: 2%;">
+                  <label>{{ language.currentWorkTime }}</label><br/>
+                  <select [(ngModel)]="index" class="col-lg-3 col-sm-5 col-xs-5"(change)="onOptionSelected($event.target.value)">
+                    <option *ngFor="let workTime of allWorkTime;
+                     index as indexOfelement;" [value]="indexOfelement">{{indexOfelement + 1}}</option>
+                  </select>
+                </div>
+                <div class="col-sm-6 col-xs-5" style="padding-top: 2%;">
+                  <span>{{ language.color }}</span>
+                  <div>
+                    <kendo-colorpalette [palette]="palette" [value]="selectedColor" [tileSize]="30"
+                      (valueChange)="changeColorPalette($event)">
+                    </kendo-colorpalette>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row "style="padding-top: 2%;">
+                <label class="col-md-2 col-xs-8 col-sm-5 col-form-label" > {{ language.validFromDate}} </label>
+                <kendo-datepicker [format]="'dd.MM.yyyy'" class="col-md-5 col-xs-6" name="validDate"
+                  placeholder="Valid date" [(ngModel)]="validDate" validDate.value=""></kendo-datepicker>
+                <div class="col-sm-3 col-xs-6">
+                  <button class="col-md-2 col-xs-2 btn-save" kendoButton [icon]="'k-icon k-i-save'"
+                    (click)="newValidDate()">
+                    {{ language.createTime }}
+                  </button>
+                  <button class="col-md-1 col-xs-2 btn-delete" kendoButton [icon]="'k-icon k-i-delete'"
+                    (click)="modalDeletedWorkTimeConfirm = true; user.close()"></button>
+                </div>
+              </div>
+              <form name="loginForm" class="loginForm" (ngSubmit)="
+                  updateSetIndicator === 1
+                    ? setWorkTimeForUser(workTime)
+                    : updateWorkTimeForUser(workTime)
+                " (change)="isDirty()">
+                <div class="form-group row" *ngFor="let item of workTime; let i = index">
+                  <label for="example-number-input" class="col-sm-2 col-form-label">{{ item.day }}</label>
+                  <div class="row col-sm-12 col-xs-12" style="padding-left: 3vh;">
+                    <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
+                      id="example-number-input" value="{{ item.start }}" [(ngModel)]="workTime[i].start"
+                      name="{{ item.day }}start" /><span class="col-sm-1 col-xs-1 h">h</span>
+                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                    value="{{item.startMin}}" [(ngModel)]="workTime[i].startMin" name="{{item.day}}startMin"><span
+                    class="col-sm-1 h">min</span> -->
+                    <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
+                      id="example-number-input" value="{{ item.end }}" [(ngModel)]="workTime[i].end"
+                      name="{{ item.day }}end" />
+                    <span class="col-sm-1 col-xs-1 h">h</span>
+                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                    value="{{item.endMin}}" [(ngModel)]="workTime[i].endMin" name="{{item.day}}endMin"> <span
+                    class="col-sm-1 h">min</span> -->
+
+                    <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
+                      id="example-number-input" value="{{ item.start2 }}" [(ngModel)]="workTime[i].start2"
+                      name="{{ item.day }}start2" /><span class="col-sm-1 col-xs-1 h">h</span>
+                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                    value="{{item.start2Min}}" [(ngModel)]="workTime[i].start2Min" name="{{item.day}}start2Min"><span
+                    class="col-sm-1 h">min</span> -->
+                    <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
+                      id="example-number-input" value="{{ item.end2 }}" [(ngModel)]="workTime[i].end2"
+                      name="{{ item.day }}end2" />
+                    <span class="col-sm-1 col-xs-1 h">h</span>
+                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                    value="{{item.end2Min}}" [(ngModel)]="workTime[i].end2Min" name="{{item.day}}end2Min"> <span
+                    class="col-sm-1 h">min</span> -->
+
+                    <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
+                      id="example-number-input" value="{{ item.start3 }}" [(ngModel)]="workTime[i].start3"
+                      name="{{ item.day }}start3" /><span class="col-sm-1 col-xs-1 h">h</span>
+                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                    value="{{item.start3Min}}" [(ngModel)]="workTime[i].start3Min" name="{{item.day}}start3Min"><span
+                    class="col-sm-1 h">min</span> -->
+                    <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
+                      id="example-number-input" value="{{ item.end3 }}" [(ngModel)]="workTime[i].end3"
+                      name="{{ item.day }}end3" />
+                    <span class="col-sm-1 col-xs-1 h">h</span>
+                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
+                    value="{{item.end3Min}}" [(ngModel)]="workTime[i].end3Min" name="{{item.day}}end3Min"> <span
+                    class="col-sm-1 h">min</span> -->
+                  </div>
+                </div>
+                <div class="form-group" style="text-align: center">
+                  <button *ngIf="updateSetIndicator === 1" kendoButton [primary]="true" type="submit"
+                    class="updateButton">
+                    {{ language.setWorkTime }}
+                  </button>
+                  <button *ngIf="updateSetIndicator === 0" kendoButton [primary]="true" type="submit"
+                    class="updateButton">
+                    {{ language.updateWorkTime }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="tab-content" *ngIf="currentTab === 'permissions'">
+            <div id="profile-tab" class="tab-pane active">
+              <label class="k-form-field" style="text-align: center; padding-top: 30px">
+                <span class="pr-4">{{
+                  language.allowedOnlineReservationForUser
+                  }}</span>
+                <kendo-switch [(ngModel)]="data.allowed_online" (click)="isDirty()" name="allowed_online">
+                </kendo-switch>
+              </label>
+            </div>
+            <div class="mt-4 center">
+              <button class="k-button k-primary" (click)="updateUser(user)">
+                {{ language.updateUser }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </modal-content>
+      <modal-footer class="modal-footer-none"> </modal-footer>
+    </modal>
+  </div>
+  <!--Update profile image modal-->
+  <modal #chooseImage modalClass="modal-lg">
+    <modal-header>
+      <h4>{{ language.chooseImage }}</h4>
+    </modal-header>
+    <modal-content>
+      <form name="updateImageForm" (ngSubmit)="submitPhoto()">
+        <input id="file-upload" type="file" name="updateImageInput" class="choose-image-input"
+          (input)="fileChoosen($event)" />
+        <label for="file-upload" class="custom-file-upload">
+          {{ language.chooseFile }}
+        </label>
+        <span *ngIf="!isFileChoosen" class="choose-image-label">{{ language.chooseImage }}</span>
+        <span *ngIf="isFileChoosen" class="choose-image-label">{{ fileName }}</span>
+        <div><span>{{ language.maximumImageSize }}</span></div>
+        <button class="update-image-submit-btn" type="submit">
+          {{ language.submitImage }}
+        </button>
+      </form>
+    </modal-content>
+  </modal>
+</div>

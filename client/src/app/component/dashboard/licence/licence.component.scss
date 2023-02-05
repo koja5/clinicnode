@@ -1,0 +1,123 @@
+.button-licence {
+  text-align: center;
+  margin: auto;
+  width: 350px;
+  margin-top: 50px;
+}
+
+.payment-input,
+.InputElement {
+  border: 1px solid lightgray !important;
+  border-radius: 5px !important;
+  padding: 5px !important;
+  margin-bottom: 5px;
+}
+
+.div-flex {
+  width: 100%;
+  display: flex;
+}
+
+.sum-div {
+  // float: right;
+  width: 100%;
+  text-align: right;
+}
+
+.sum-price {
+  border-top: 1px solid lightgray;
+  padding: 9px;
+  margin: 0px;
+}
+
+.exit {
+  text-align: right;
+  margin-right: 16px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+  position: absolute;
+  right: 9000px;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] + .label-text:after,
+.checkbox input[type="checkbox"] + .label-text:before {
+  font-size: 11px;
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  padding: 2px;
+  margin-left: 0;
+  position: absolute;
+  top: 5px;
+  left: 0;
+}
+
+.checkbox input[type="checkbox"] + .label-text:before {
+  content: "";
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.checkbox input[type="checkbox"] + .label-text:after {
+  background-color: #4f77ff;
+  color: #fff;
+  border-radius: 2px;
+  border-color: #4f77ff;
+  line-height: 1.4;
+}
+
+.checkbox input[type="checkbox"]:focus + .label-text:before {
+  outline: dotted thin;
+  outline: -webkit-focus-ring-color auto 5px;
+  outline-offset: -2px;
+}
+
+.checkbox input[type="checkbox"]:checked + .label-text:after {
+  font-family: FontAwesome;
+  content: "\f00c";
+}
+
+.label-text {
+  margin-left: 20px;
+}
+
+.licence-expired-title {
+  color: red;
+  text-align: center;
+}
+
+.paid-licence {
+  height: 36px;
+  padding: 5px;
+}
+
+.paid-licence:hover {
+  background: rgb(204, 204, 204);
+}
+
+.paid-licence span {
+  cursor: pointer;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+

@@ -1,0 +1,31 @@
+<div class="form-group" [ngClass]="config.width">
+  <label for="{{ config.name }}">
+    {{ language[config.label] ? language[config.label] : config.label }}{{ config.required ? "(" + language.required + ")" : "" }}
+  </label>
+  <div
+    *ngIf="data"
+    class="e-float-input e-control-wrapper"
+    [formGroup]="group"
+    [ngClass]="{
+      'e-error':
+        config.field.invalid && (config.field.dirty || config.field.touched)
+    }"
+    style="margin-top: 0px !important"
+  >
+    <ejs-dropdownlist
+      [required]="config.required"
+      [id]="config.name"
+      [dataSource]="data"
+      [fields]="config.field"
+      [placeholder]="config.placeholder ? config.placeholder : ''"
+      [allowFiltering]="config.fieldConfig.filter"
+      [ignoreAccent]="config.fieldConfig.ignoreAccent"
+      [filterBarPlaceholder]="config.fieldConfig.filterPlaceholder"
+      [showClearButton]="true"
+      (filtering)="onFiltering($event)"
+      [formControlName]="config.name"
+    ></ejs-dropdownlist>
+
+  </div>
+  <mat-error *ngIf="checkIfInputValid(config.name)">{{ language?.thisFieldIsRequired }}</mat-error>
+</div>

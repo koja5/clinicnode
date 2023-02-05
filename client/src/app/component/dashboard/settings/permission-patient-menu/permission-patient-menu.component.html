@@ -1,0 +1,28 @@
+<div *ngIf="loading" style="height: 80vh">
+  <div class="spinner loading"></div>
+</div>
+<div *ngIf="!loading" class="settings-container">
+  <h3 class="center">{{ language?.permissionPatientMenuTitle }}</h3>
+  <app-dynamic-forms
+    *ngIf="configField"
+    [config]="configField"
+    (submit)="submitEmitter($event)"
+    (emitValue)="getValue($event)"
+    #form="dynamicForm"
+  >
+  </app-dynamic-forms>
+  <app-dynamic-confirm-dialog
+    [showDialog]="showDialog"
+    [title]="language?.permissionPatientMenuConfirmDialogTitle"
+    [question]="language?.permissionPatientMenuConfirmDialogQuestion"
+    (sendEmitter)="receiveConfirm($event)"
+  ></app-dynamic-confirm-dialog>
+
+  <app-dynamic-confirm-dialog
+    [showDialog]="showDialogExit"
+    [title]="language?.changesWontBeSavedTitle"
+    [question]="language?.changesWontBeSaved"
+    (sendEmitter)="receiveConfirmExit($event)"
+  >
+  </app-dynamic-confirm-dialog>
+</div>

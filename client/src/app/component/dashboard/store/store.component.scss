@@ -1,0 +1,45 @@
+.user-options {
+  padding: 3px 15px;
+}
+
+.user-options button {
+  background: cornflowerblue;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .col-md-6 {
+    width: 48%;
+  }
+
+  .col-md-4 {
+    width: 31%;
+  }
+}
+
+.content-page .content {
+  padding-bottom: 0px !important;
+}
+
+.spinner.loading {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 55%;
+}
+
+p {
+  margin: 0px !important;
+}
+
+.custom-close {
+  position: absolute;
+  right: 20px;
+  top: 24px;
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 24px;
+}

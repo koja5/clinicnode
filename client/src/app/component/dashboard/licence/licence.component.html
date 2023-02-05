@@ -1,0 +1,188 @@
+<div class="exit" *ngIf="checkUrl === '/licence'"><span class="fa fa-times-circle" title="{{language.logout}}"
+    (click)="logout()"></span></div>
+<div class="container" *ngIf="licence">
+  <h3 class="text-center">{{language.yourLicence}}</h3>
+  <div class="col-xs-12 text-right">
+    <button class="btn btn-warning" (click)="showPaidLicense()">{{language.archiveOfPaidLicenses}}</button>
+  </div>
+  <h5 *ngIf="diffDate <= 0" class="licence-expired-title">{{language.yourLicenceExpired}}</h5>
+  <hr>
+  <p>{{language.yourLicence}}: <b>{{licence.name}} ({{licence.price}} €)</b></p>
+  <p>{{language.licenceExpiration}}: <b *ngIf="licence.expiration_date"
+      [ngStyle]="diffDate > 0 ? {'color': 'green'} : {'color': 'red'}">{{licence.expiration_date | date :'dd.MM.yyyy' }}
+      ({{diffDate + 1}} {{language.daysLeft}})</b>
+  </p>
+
+  <div class="button-licence">
+    <div class="row">
+      <div [ngClass]="licence.name === 'demo' ? 'col-md-12' : 'col-md-6'">
+        <button class="btn btn-primary" (click)="openPaymentForm(); getLicences()">{{language.upgradeLicence}}</button>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="licence.name !== 'demo'" class="btn btn-success"
+          (click)="openPaymentForm()">{{language.renewLicence}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-6">
+  <h3 class="text-center">{{language.aboutSMS}}</h3>
+  <hr>
+
+  <p *ngIf="sms">{{language.availableSMS}}: <b
+      [ngStyle]="(sms && sms.count > 0) ? {'color': 'green'} : {'color': 'red'}">{{sms.count}}</b></p>
+
+  <div class="button-licence">
+    <div class="row">
+      <div>
+        <button class="btn btn-success" (click)="openPaymentSMSForm()">{{language.buySms}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal #paymentSMSForm modalClass="modal-md top-margin" [closeOnOutsideClick]="false">
+  <modal-header>
+    <h3 *ngIf="language !== undefined">{{ language?.lastPaymentStep }}</h3>
+  </modal-header>
+  <modal-content>
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-xs-12 text-center">
+        <div class="form-group">
+          <div>
+            <input [(ngModel)]="data.firstname" class="col-md-12 col-xs-12 payment-input"
+              [placeholder]="language.firstname">
+            <input [(ngModel)]="data.lastname" class="col-md-12 col-xs-12 payment-input"
+              [placeholder]="language.lastname">
+            <input type="email" [(ngModel)]="data.email" class="col-md-12 col-xs-12 payment-input"
+              [placeholder]="language.email">
+            <input [(ngModel)]="data.phone" class="col-md-12 col-xs-12 payment-input" [placeholder]="language.phone">
+            <input type="number" [(ngModel)]="paySms" class="col-md-12 col-xs-12 payment-input"
+              [placeholder]="language.sms" min="1">
+          </div>
+          <div class="div-flex"></div>
+          <div id="card-element" class="field mt-3"></div>
+          <div class="sum-div" *ngIf="paySms">
+            <h4>{{paySms}} {{language.sms}} x {{language.smsPrice}} €</h4>
+            <h3 class="sum-price">{{getSumForSMS()}} €</h3>
+          </div>
+          <div class="form-group">
+            <label class="checkbox text-left">
+              <input type="checkbox" [(ngModel)]="agreeValue" name="agreeValue" /><span class="label-text">{{
+                language.clickAgreeLicenceText }}
+                <a routerLink="/terms" target="_blank" class="signup-term-link">{{ language.termOfUseLicence }}</a>
+                {{ language.andPrivacyPolicy }}
+                <a routerLink="/privacy-policy" target="_blank" class="signup-term-link">{{
+                  language.privacyPolicyLicence }}</a> {{language.andLicence}} <a routerLink="/right-of-withdrawal"
+                  target="_blank" class="signup-term-link">{{language.rightOfWithdrawal}}</a>
+                {{language.rightOfWithdrawalPost}}</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-xs-12 text-right" *ngIf="card">
+          <button [disabled]="!paySms || !agreeValue || checkRequiredSMSFields()" (click)="submitSMSPayment()"
+            class="btn btn-primary mt-4 d-block w-100">
+            {{ language.buySms }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </modal-content>
+</modal>
+
+<modal #paymentForm modalClass="modal-md top-margin" [closeOnOutsideClick]="false">
+  <modal-header>
+    <h3 *ngIf="language !== undefined">{{ language?.lastPaymentStep }}</h3>
+  </modal-header>
+  <modal-content>
+    <div class="row">
+      <div class="col-md-12 col-xs-12 text-center">
+        <h4 class="m-4">{{language.cardDetails}}</h4>
+        <div class="form-group">
+
+          <div>
+            <input [(ngModel)]="data.firstname" class="col-md-12 col-xs-12 payment-input"
+              [placeholder]="language.firstname">
+            <input [(ngModel)]="data.lastname" class="col-md-12 col-xs-12 payment-input"
+              [placeholder]="language.lastname">
+            <input type="email" [(ngModel)]="data.email" class="col-md-12 col-xs-12 payment-input"
+              [placeholder]="language.email">
+            <input [(ngModel)]="data.phone" class="col-md-12 col-xs-12 payment-input" [placeholder]="language.phone">
+            <select *ngIf="updateLicence&&allLicences" name="licence" class="col-md-12 col-xs-12 payment-input"
+              (change)="changeLicence($event.target.selectedIndex)">
+              <option *ngFor="let item of allLicences" [ngValue]="item"
+                [selected]="item.name === licence.name ? true : false">{{language[item.name] ? language[item.name] :
+                item.name}}</option>
+            </select>
+            <select class="col-md-12 col-xs-12 payment-input" [(ngModel)]="data.expired">
+              <option disabled selected value="undefined">{{language.selectNumberOfMonth}}</option>
+              <option *ngFor="let item of [].constructor(12); let i = index" value="{{i + 1}}">{{i + 1}}
+                {{language.month}}</option>
+            </select>
+          </div>
+          <div class="div-flex"></div>
+          <div id="card-element" class="field mt-3"></div>
+          <div class="sum-div" *ngIf="data.expired">
+            <h4>{{data.expired}} Month x {{licence.price}} €</h4>
+            <h3 class="sum-price">{{getSum()}} €</h3>
+          </div>
+          <div class="form-group">
+            <label class="checkbox text-left">
+              <input type="checkbox" [(ngModel)]="agreeValue" name="agreeValue" /><span class="label-text">{{
+                language.clickAgreeLicenceText }}
+                <a routerLink="/terms" target="_blank" class="signup-term-link">{{ language.termOfUseLicence }}</a>
+                {{ language.andPrivacyPolicy }}
+                <a routerLink="/privacy-policy" target="_blank" class="signup-term-link">{{
+                  language.privacyPolicyLicence }}</a> {{language.andLicence}} <a routerLink="/right-of-withdrawal"
+                  target="_blank" class="signup-term-link">{{language.rightOfWithdrawal}}</a>
+                {{language.rightOfWithdrawalPost}}</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-xs-12 text-right" *ngIf="card">
+          <button
+            [disabled]="card['_implementation']['_empty'] || card['_implementation']['_invalid'] || checkRequiredFields() || !agreeValue"
+            (click)="submitPayment()" class="btn btn-primary mt-4 d-block w-100">
+            {{ language.requestSectionFormSendRequestButton }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </modal-content>
+</modal>
+
+<modal #paidLicense modalClass="modal-lg top-margin loggerModal adminModal">
+  <modal-content>
+    <table>
+      <tr>
+        <td>{{language.licencePaymentDate}}</td>
+        <td>{{language.licenceName}}</td>
+        <td>{{language.licencePrice}}</td>
+        <td>{{language.licenseMonth}}</td>
+        <td>{{language.licenseNetoPrice}}</td>
+        <td>{{language.licenseFee}}</td>
+        <td>{{language.licenseBrutoPrice}}</td>
+        <td>{{language.licenceExpiredDate}}</td>
+        <td>{{language.licencePreview}}</td>
+      </tr>
+      <tr *ngFor="let item of licences" class="paid-licence">
+        <td>{{item.date_paid | date: 'dd.MM.yyyy'}}</td>
+        <td>{{language[item.name] ? language[item.name] : item.name}}</td>
+        <td>{{item.price}} €</td>
+        <td>{{item.numberOfMonth}}</td>
+        <td>{{calculateNetoPrice(item.price, item.numberOfMonth)}}</td>
+        <td>{{language.feeValue}}</td>
+        <td>{{calculateBrutoPrice(item.price, item.numberOfMonth)}}</td>
+        <td>{{item.expiration_date | date :'dd.MM.yyyy'}}</td>
+        <td><span class="fa fa-search" (click)="showItemLicence(item)"></span></td>
+      </tr>
+    </table>
+  </modal-content>
+</modal>
+
+<modal #previewLicence modalClass="modal-lg top-margin loggerModal adminModal" (onClose)="itemLicence = null">
+  <modal-content>
+    <app-paid-licence *ngIf="itemLicence" [license]="itemLicence"></app-paid-licence>
+  </modal-content>
+</modal>

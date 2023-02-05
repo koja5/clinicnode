@@ -1,0 +1,21 @@
+.vaucher-options {
+    padding: 3px 15px;
+}
+
+.custom-close {
+    position: absolute;
+    right: 20px;
+    top: 24px;
+}
+
+.button-pdf {
+    border: 2px solid #2399D5;
+    color: #2399D5;
+    border-radius: 5px;
+    background-color: unset;
+
+    &:hover {
+        background-color: #2399D5;
+        color: white;
+    }
+}
