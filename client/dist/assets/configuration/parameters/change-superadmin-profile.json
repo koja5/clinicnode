@@ -1,0 +1,115 @@
+[
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "firstname",
+    "label": "firstname",
+    "field": "firstname",
+    "required": true
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "lastname",
+    "label": "lastname",
+    "field": "lastname",
+    "required": true
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "shortname",
+    "label": "storename",
+    "field": "shortname"
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "vatcode",
+    "label": "vatcode",
+    "field": "vatcode"
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "street",
+    "label": "street",
+    "field": "street",
+    "required": true
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "zipcode",
+    "label": "zipCode",
+    "field": "zipcode"
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "place",
+    "label": "place",
+    "field": "place",
+    "required": true
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "email",
+    "label": "email",
+    "field": "email"
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "telephone",
+    "label": "telephone",
+    "field": "telephone"
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "mobile",
+    "label": "mobile",
+    "field": "mobile"
+  },
+  {
+    "type": "datepicker",
+    "width": "col-md-4",
+    "format": "dd.MM.yyyy",
+    "name": "birthday",
+    "label": "birthday",
+    "field": "birthday"
+  },
+  {
+    "type": "datepicker",
+    "width": "col-md-4",
+    "name": "incompanysince",
+    "label": "incompanysince",
+    "field": "incompanysince"
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "invoicePrefix",
+    "label": "invoicePrefix",
+    "field": "invoicePrefix"
+  },
+  {
+    "type": "textbox",
+    "width": "col-md-4",
+    "name": "invoiceID",
+    "label": "invoiceID",
+    "field": "invoiceID",
+    "required": true
+  },
+  {
+    "type": "button",
+    "width": "col-md-12",
+    "class": "e-control e-btn e-lib e-primary e-flat",
+    "name": "submit",
+    "label": "save",
+    "field": "submit",
+    "positionClass": "text-align: end"
+  }
+]
