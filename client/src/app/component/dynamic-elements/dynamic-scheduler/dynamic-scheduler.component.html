@@ -1216,7 +1216,7 @@
       <h4>{{ language.customerInformationDialog }}</h4>
     </modal-header>
     <modal-content>
-      <app-base-date *ngIf="customerUser" [data]="customerUser">
+      <app-base-date *ngIf="baseDate&&customerUser" [data]="customerUser">
       </app-base-date>
     </modal-content>
     <modal-footer class="modal-footer-none"> </modal-footer>
