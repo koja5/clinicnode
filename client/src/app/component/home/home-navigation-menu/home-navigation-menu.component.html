@@ -9,13 +9,13 @@
         <img src="./assets/images/brand-logo.png" alt="logo" class="img-fluid logo-color" />
       </a>
 
-      <a class="navbar-toggler position-absolute right-0 border-0" role="button" (click)="canvasNavigationMobile()">
+      <a class="navbar-toggler position-absolute right-0 border-0 mr-2" role="button" (click)="canvasNavigationMobile()">
         <span class="fa fa-bars"></span>
       </a>
 
       <div class="collapse navbar-collapse justify-content-left">
         <ul class="nav col-12 col-md-auto justify-content-center main-menu">
-          <li class="nav-item dropdown">
+          <li>
             <a class="nav-link" routerLink="/">
               {{ language.navigationMenuHome }}
             </a>
@@ -78,7 +78,7 @@
         </div>
         <div class="offcanvas-body">
           <ul class="nav col-12 col-md-auto justify-content-center main-menu">
-            <li class="nav-item dropdown">
+            <li>
               <a class="nav-link" routerLink="/">
                 {{ language.navigationMenuHome }}
               </a>
