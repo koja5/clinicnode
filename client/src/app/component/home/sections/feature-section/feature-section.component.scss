@@ -1,5 +1,10 @@
 .row {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 576px) {
+  .feature-icon {
+    margin: auto;
   }
-  
+}

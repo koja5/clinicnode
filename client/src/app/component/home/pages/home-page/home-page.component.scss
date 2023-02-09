@@ -2482,6 +2482,12 @@ li.setup-process-item:not(:last-child):before {
   font-size: 22px;
 }
 
+@media (max-width: 576px) {
+  .icon-box {
+    width: 100%;
+  }
+}
+
 .bg-success {
   background-color: #5cc9a7 !important;
 }
