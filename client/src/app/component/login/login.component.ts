@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit {
             language["language"]
           );
         });
-        this.helpService.setLocalStorage("countryCode", "US");
+        this.helpService.setLocalStorage("countryCode", "AT");
       }
     );
   }

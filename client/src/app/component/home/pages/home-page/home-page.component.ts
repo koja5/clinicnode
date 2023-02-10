@@ -51,7 +51,7 @@ export class HomePageComponent implements OnInit {
           this.setLanguageByLocation(data.countryCode, this.chooseLang);
         },
         (error: any) => {
-          this.getLanguageByCode("english", "EN");
+          this.getLanguageByCode("germany", "AT");
         }
       );
     }
