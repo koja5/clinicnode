@@ -1563,6 +1563,7 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
   public lastMinute: any;
   public lastMinuteHoursValue: any = [];
   public lastMinuteOfferSubmitted = false;
+  public baseDate = false;
 
   private static secretKey = "YourSecretKeyForEncryption&Descryption";
 
@@ -2534,10 +2535,12 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
 
   baseDataForUser() {
     this.customerUserModal2.open();
+    this.baseDate = true;
   }
 
   closebaseDataForUser() {
     this.customerUserModal2.close();
+    this.baseDate = false;
   }
 
   sendLastMinuteOffer() {
