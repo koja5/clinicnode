@@ -13,7 +13,7 @@ module.exports = class CustomTransport extends Transport {
     try {
       // fs.writeFileSync(this.filename, [], 'utf8');
       fs.writeFile(
-        __dirname + "\\..\\..\\" + this.filename,
+        __dirname + "\\..\\..\\..\\client\\src\\assets\\" + this.filename,
         "",
         "utf8",
         function (err) {
@@ -28,11 +28,11 @@ module.exports = class CustomTransport extends Transport {
 
   setup() {
     // This checks if the file exists
-    if (fs.existsSync(__dirname + "\\..\\..\\" + this.filename)) {
+    if (fs.existsSync(__dirname + "\\..\\..\\..\\client\\src\\assets\\" + this.filename)) {
       // The content of the file is checked to know if it is necessary to adapt the array
       try {
         const data = fs.readFile(
-          __dirname + "\\..\\..\\" + this.filename,
+          __dirname + "\\..\\..\\..\\client\\src\\assets\\" + this.filename,
           "utf8", function(err) {
               if(err) return err;
               return true;
@@ -54,9 +54,10 @@ module.exports = class CustomTransport extends Transport {
   }
 
   readLog() {
+    console.log(__dirname + "\\..\\..\\..\\client\\src\\assets\\");
     let data = null;
     try {
-      data = fs.readFileSync(__dirname + "\\..\\..\\" + this.filename, "utf8", function(err) {
+      data = fs.readFileSync(__dirname + "\\..\\..\\..\\client\\src\\assets\\" + this.filename, "utf8", function(err) {
           if(err) return err;
           return true;
       });
@@ -78,7 +79,7 @@ module.exports = class CustomTransport extends Transport {
     const json = JSON.stringify(arr);
     try {
       // Writing the array again
-      fs.writeFileSync(__dirname + "\\..\\..\\" + this.filename, json, "utf8", function(err) {
+      fs.writeFileSync(__dirname + "\\..\\..\\..\\client\\src\\assets\\" + this.filename, json, "utf8", function(err) {
           if(err) return err;
           return true;
       });
