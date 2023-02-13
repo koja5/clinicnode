@@ -65,7 +65,14 @@ export class CustomersComponent implements OnInit {
   public imagePath: any = "defaultUser";
   public loading = true;
   // public uploadSaveUrl = 'http://localhost:3000/api/uploadImage'; // should represent an actual API endpoint
-  public uploadSaveUrl = "http://116.203.85.82:8080/uploadImage";
+  // public uploadSaveUrl = "http://116.203.85.82:8080/uploadImage";
+  public uploadSaveUrl =
+    window.location.protocol +
+    "//" +
+    window.location.hostname +
+    ":" +
+    window.location.port +
+    "/uploadImage";
   public uploadRemoveUrl = "removeUrl"; // should represent an actual API endpoint
   // private spread: GC.Spread.Sheets.Workbook;
   // private excelIO;
@@ -172,7 +179,7 @@ export class CustomersComponent implements OnInit {
     this.service.getCustomers(localStorage.getItem("superadmin"), (val) => {
       if (val !== null) {
         this.currentLoadData = val;
-        if(this.currentLoadData.length < this.state.skip) {
+        if (this.currentLoadData.length < this.state.skip) {
           this.state.skip = 0;
         }
         this._allData = <ExcelExportData>{

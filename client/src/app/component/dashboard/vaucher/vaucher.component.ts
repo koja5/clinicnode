@@ -65,7 +65,14 @@ export class VaucherComponent implements OnInit {
   public imagePath = "defaultUser";
   public loading = true;
   // public uploadSaveUrl = 'http://localhost:3000/api/uploadImage'; // should represent an actual API endpoint
-  public uploadSaveUrl = "http://116.203.85.82:8080/uploadImage";
+  // public uploadSaveUrl = "http://116.203.85.82:8080/uploadImage";
+  public uploadSaveUrl =
+    window.location.protocol +
+    "//" +
+    window.location.hostname +
+    ":" +
+    window.location.port +
+    "/uploadImage";
   public uploadRemoveUrl = "removeUrl"; // should represent an actual API endpoint
   // private spread: GC.Spread.Sheets.Workbook;
   // private excelIO;
@@ -189,7 +196,7 @@ export class VaucherComponent implements OnInit {
 
   getUser(userId: number) {
     this.accountService.getCustomerWithId(userId).subscribe((res) => {
-      if(res[0]) {
+      if (res[0]) {
         this.vaucherUser = res[0];
       }
     });

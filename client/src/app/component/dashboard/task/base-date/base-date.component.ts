@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter,
+} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CustomersService } from "../../../../service/customers.service";
 import { MessageService } from "../../../../service/message.service";
@@ -14,11 +21,7 @@ import { BaseTwoModel } from "src/app/models/base-two-model";
 import { PhysicalModel } from "src/app/models/physical-model";
 import { TaskService } from "src/app/service/task.service";
 import { ToastrService } from "ngx-toastr";
-import {
-  SortDescriptor,
-  process,
-  State,
-} from "@progress/kendo-data-query";
+import { SortDescriptor, process, State } from "@progress/kendo-data-query";
 import { MailService } from "src/app/service/mail.service";
 import { PackLanguageService } from "src/app/service/pack-language.service";
 import { LoginService } from "src/app/service/login.service";
@@ -49,7 +52,7 @@ export class BaseDateComponent implements OnInit {
   @ViewChild("chooseImage") chooseImage: Modal;
 
   isFileChoosen: boolean = false;
-  fileName: string = '';
+  fileName: string = "";
   updateImageInput: any;
   currentUser: any;
   public maleImg = "../../../../../assets/images/users/male-patient.png";
@@ -63,7 +66,14 @@ export class BaseDateComponent implements OnInit {
   public documentsData: any;
   public language: any;
   //public url = "http://localhost:3000/upload";
-  public url = "http://116.203.85.82:" + location.port + "/upload";
+  // public url = "http://116.203.85.82:" + location.port + "/upload";
+  public url =
+    window.location.protocol +
+    "//" +
+    window.location.hostname +
+    ":" +
+    window.location.port +
+    "/upload";
   public complaintValue: any;
   public complaintData = new ComplaintTherapyModel();
   public gridComplaint: any;
@@ -295,7 +305,7 @@ export class BaseDateComponent implements OnInit {
       this.gridComplaintData = data;
       this._allComplaintData = <ExcelExportData>{
         data: process(this.gridComplaintData, this.stateComplaint).data,
-      }
+      };
       this["loadingGridComplaint"] = false;
       this.loading = false;
     });
@@ -456,8 +466,7 @@ export class BaseDateComponent implements OnInit {
             .replace("{content}", this.data.shortname),
           timer: 3000,
           type: "success",
-          onClose: () => {
-          },
+          onClose: () => {},
         });
       }
     });
@@ -1036,10 +1045,10 @@ export class BaseDateComponent implements OnInit {
       .subscribe((data) => {
         this.doctorsList = data;
         this.doctorsListTmp = this.doctorsList.slice();
-        this.doctorsListTmp.forEach(doctor => {
-          const firstName = doctor.firstname ? doctor.firstname : '';
-          const lastName = doctor.lastname ? doctor.lastname : '';
-          doctor.fullname = firstName + ' ' + lastName;
+        this.doctorsListTmp.forEach((doctor) => {
+          const firstName = doctor.firstname ? doctor.firstname : "";
+          const lastName = doctor.lastname ? doctor.lastname : "";
+          doctor.fullname = firstName + " " + lastName;
         });
       });
 
@@ -1329,7 +1338,10 @@ export class BaseDateComponent implements OnInit {
   }
 
   filterDoctor(event) {
-    this.doctorsListTmp = this.doctorsList.filter((doctor) => doctor.fullname.toLowerCase().indexOf(event.toLowerCase()) !== -1);
+    this.doctorsListTmp = this.doctorsList.filter(
+      (doctor) =>
+        doctor.fullname.toLowerCase().indexOf(event.toLowerCase()) !== -1
+    );
   }
 
   printCustomer() {
@@ -1397,11 +1409,13 @@ export class BaseDateComponent implements OnInit {
   }
 
   fileChoosen(event: any) {
-    this.fileName = event.target.value.substring(event.target.value.indexOf('h') + 2);
+    this.fileName = event.target.value.substring(
+      event.target.value.indexOf("h") + 2
+    );
     if (event.target.value) {
       this.isFileChoosen = true;
       this.updateImageInput = <File>event.target.files[0];
-    }else {
+    } else {
       this.isFileChoosen = false;
     }
   }
@@ -1418,9 +1432,9 @@ export class BaseDateComponent implements OnInit {
 
   public allPages: boolean;
 
-  @ViewChild('complaintGrid') complaintGrid;
-  @ViewChild('therapyGrid') therapyGrid;
-  @ViewChild('documentsGrid') documentsGrid;
+  @ViewChild("complaintGrid") complaintGrid;
+  @ViewChild("therapyGrid") therapyGrid;
+  @ViewChild("documentsGrid") documentsGrid;
 
   exportComplaintPDF(): void {
     this.complaintGrid.saveAsPDF();
@@ -1433,5 +1447,4 @@ export class BaseDateComponent implements OnInit {
   exportDocumentsPDF(value: boolean): void {
     this.documentsGrid.saveAsPDF();
   }
-
 }

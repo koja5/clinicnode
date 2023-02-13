@@ -6,7 +6,7 @@ import { callbackify } from "util";
   providedIn: "root",
 })
 export class CustomersService {
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {}
 
   createCustomer(data, callback) {
     console.log("Pozivam funkciju signup!");
@@ -54,7 +54,14 @@ export class CustomersService {
 
   uploadImage(data, callback) {
     // const uploadSaveUrl = 'http://localhost:3000/api/uploadImage';
-    const uploadSaveUrl = "http://116.203.85.82:8080/uploadImage";
+    // const uploadSaveUrl = "http://116.203.85.82:8080/uploadImage";
+    const uploadSaveUrl =
+      window.location.protocol +
+      "//" +
+      window.location.hostname +
+      ":" +
+      window.location.port +
+      "/uploadImage";
     return this.http
       .post(uploadSaveUrl, data)
       .map((res) => res)
@@ -209,10 +216,14 @@ export class CustomersService {
   }
 
   unsubscribeUserFromMassiveEmail(data) {
-    return this.http.post("/api/updateMassiveEmailForUser", data).map((res) => res);
+    return this.http
+      .post("/api/updateMassiveEmailForUser", data)
+      .map((res) => res);
   }
 
   unsubscribeUserFromMassiveSMS(data) {
-    return this.http.post("/api/updateMassiveSMSForUser", data).map((res) => res);
+    return this.http
+      .post("/api/updateMassiveSMSForUser", data)
+      .map((res) => res);
   }
 }
