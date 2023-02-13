@@ -74,34 +74,34 @@ var connection = mysql.createPool({
 // });
 
 //local purpose
-var smtpTransport = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  tls: {
-    rejectUnauthorized: false,
-  },
-  debug: true,
-  ssl: true,
-  auth: {
-    user: "clinicnode2022@gmail.com", // real email address
-    pass: "vfuvxgwdfrvestvd", // app password for clinicnode2022@gmail.com email
-  },
-});
-
-// production
 // var smtpTransport = nodemailer.createTransport({
-//   host: "116.203.85.82",
-//   port: 25,
-//   secure: false,
+//   host: "smtp.gmail.com",
+//   port: 465,
+//   secure: true,
 //   tls: {
 //     rejectUnauthorized: false,
 //   },
+//   debug: true,
+//   ssl: true,
 //   auth: {
-//     user: "info@clinicnode.com",
-//     pass: "])3!~0YFU)S]",
+//     user: "clinicnode2022@gmail.com", // real email address
+//     pass: "vfuvxgwdfrvestvd", // app password for clinicnode2022@gmail.com email
 //   },
 // });
+
+// production
+var smtpTransport = nodemailer.createTransport({
+  host: process.env.smtp_host,
+  port: process.env.smtp_port,
+  secure: process.env.smtp_secure,
+  tls: {
+    rejectUnauthorized: process.env.smtp_rejectUnauthorized,
+  },
+  auth: {
+    user: process.env.smtp_user,
+    pass: process.env.smtp_pass,
+  },
+});
 
 //slanje maila pri registraciji
 
