@@ -207,11 +207,11 @@ io.on("connection", (socket) => {
 
 var rule = new schedule.RecurrenceRule();
 rule.minute = 5;
-var j = schedule.scheduleJob("58 09 * * *", function () {
+var j = schedule.scheduleJob("00 09 * * *", function () {
   eventConfirm();
 });
 
-var j = schedule.scheduleJob("35 02 15 * * *", function () {
+var j = schedule.scheduleJob("00 10 * * *", function () {
   reminderViaEmail();
 });
 
@@ -219,7 +219,7 @@ var j = schedule.scheduleJob("00 12 * * *", function () {
   reminderViaSMS();
 });
 
-var j = schedule.scheduleJob("39 23 11 * * *", function () {
+var j = schedule.scheduleJob("00 13 * * *", function () {
   sendHappyBirthdayViaSMS();
 });
 
@@ -227,9 +227,10 @@ var j = schedule.scheduleJob("35 10 * * *", function () {
   sendHappyBirthdayViaEmail();
 });
 
-var j = schedule.scheduleJob("28 23 * * *", function () {
+var j = schedule.scheduleJob("00 02 * * *", function () {
   checkLicenceExpired();
 });
+
 
 /**
  * Listen on provided port, on all network interfaces.
