@@ -49,13 +49,6 @@ const logToConsole = winston.createLogger({
   ],
 });
 
-// var connection = mysql.createPool({
-//   host: "116.203.85.82",
-//   user: "appprodu_appproduction",
-//   password: "CJr4eUqWg33tT97mxPFx",
-//   database: "appprodu_management",
-// });
-
 var connection = mysql.createPool({
   host: process.env.host,
   user: process.env.user,
@@ -63,33 +56,6 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
-// var smtpTransport = nodemailer.createTransport({
-//   host: "116.203.85.82",
-//   secure: false,
-//   port: 587,
-//   auth: {
-//     user: "info@clinicnode.com",
-//     pass: "Iva#$2019#$",
-//   },
-// });
-
-//local purpose
-// var smtpTransport = nodemailer.createTransport({
-//   host: "smtp.gmail.com",
-//   port: 465,
-//   secure: true,
-//   tls: {
-//     rejectUnauthorized: false,
-//   },
-//   debug: true,
-//   ssl: true,
-//   auth: {
-//     user: "clinicnode2022@gmail.com", // real email address
-//     pass: "vfuvxgwdfrvestvd", // app password for clinicnode2022@gmail.com email
-//   },
-// });
-
-// production
 var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
@@ -104,7 +70,6 @@ var smtpTransport = nodemailer.createTransport({
 });
 
 //slanje maila pri registraciji
-
 router.post("/send", function (req, res) {
   var confirmTemplate = fs.readFileSync(
     "./routes/templates/confirmMail.hjs",

@@ -5,46 +5,20 @@ var router = express.Router();
 var hogan = require("hogan.js");
 var fs = require("fs");
 
-/*var smtpTransport = nodemailer.createTransport({
+var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
   secure: process.env.smtp_secure,
   tls: {
     rejectUnauthorized: process.env.smtp_rejectUnauthorized,
   },
+  debug: true,
+  ssl: true,
   auth: {
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
   },
-});*/
-
-var smtpTransport = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  tls: {
-    rejectUnauthorized: false,
-  },
-  debug: true,
-  ssl: true,
-  auth: {
-    user: "clinicnode2022@gmail.com", // real email address
-    pass: "vfuvxgwdfrvestvd", // app password for clinicnode2022@gmail.com email
-  },
 });
-
-// var smtpTransport = nodemailer.createTransport({
-//   host: "116.203.85.82",
-//   port: 25,
-//   secure: false,
-//   tls: {
-//     rejectUnauthorized: false,
-//   },
-//   auth: {
-//     user: "support@app-production.eu",
-//     pass: "])3!~0YFU)S]",
-//   },
-// });
 
 router.post("/sendMail", function (req, res) {
   var confirmTemplate = fs.readFileSync(
