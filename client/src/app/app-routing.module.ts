@@ -71,7 +71,7 @@ const routes: Routes = [
   },
   {
     path: "licence",
-    component: LicenceComponent
+    component: LicenceComponent,
   },
   {
     path: "**",
@@ -84,7 +84,6 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: "enabled", // Add options right here
-      useHash: true
     }),
   ],
   exports: [RouterModule],

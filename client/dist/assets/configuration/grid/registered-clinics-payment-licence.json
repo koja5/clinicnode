@@ -56,7 +56,7 @@
             "field": "date_paid",
             "format": {
                 "type": "date",
-                "format": "dd/MM/yyyy"
+                "format": "dd.MM.yyyy"
             }
         },
         {
@@ -78,7 +78,7 @@
             "field": "price"
         },
         {
-            "title": "numberOfMonth",
+            "title": "licenseMonth",
             "width": 150,
             "filterable": true,
             "filter": "text",
@@ -96,7 +96,7 @@
             "field": "expiration_date",
             "format": {
                 "type": "date",
-                "format": "dd/MM/yyyy"
+                "format": "dd.MM.yyyy"
             }
         }
     ],
