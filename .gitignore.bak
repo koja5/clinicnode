@@ -4,12 +4,16 @@
 ### Angular ###
 ## Angular ##
 # compiled output
-dist/
 tmp/
 app/**/*.js
 app/**/*.js.map
 
 # dependencies
+dist/assets/info.log
+dist/assets/error.log
+dist/assets/warn.log
+client/.env
+server/.env
 node_modules/
 bower_components/
 
