@@ -47,6 +47,19 @@
     ],
     "columns": [
         {
+            "title": "licencePaymentDate",
+            "width": 150,
+            "filterable": true,
+            "filter": "text",
+            "type": "date",
+            "class": "text-align-right",
+            "field": "date_paid",
+            "format": {
+                "type": "date",
+                "format": "dd.MM.yyyy"
+            }
+        },
+        {
             "title": "licenceName",
             "width": 150,
             "filterable": true,
@@ -65,17 +78,13 @@
             "field": "price"
         },
         {
-            "title": "licencePaymentDate",
+            "title": "licenseMonth",
             "width": 150,
             "filterable": true,
             "filter": "text",
-            "type": "date",
+            "type": "textbox",
             "class": "text-align-right",
-            "field": "date_paid",
-            "format": {
-                "type": "date",
-                "format": "dd/MM/yyyy"
-            }
+            "field": "numberOfMonth"
         },
         {
             "title": "licenceExpiredDate",
@@ -87,7 +96,7 @@
             "field": "expiration_date",
             "format": {
                 "type": "date",
-                "format": "dd/MM/yyyy"
+                "format": "dd.MM.yyyy"
             }
         }
     ],

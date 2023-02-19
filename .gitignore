@@ -9,6 +9,9 @@ app/**/*.js
 app/**/*.js.map
 
 # dependencies
+client/dist/assets/info.log
+client/dist/assets/error.log
+client/dist/assets/warn.log
 client/.env
 server/.env
 node_modules/

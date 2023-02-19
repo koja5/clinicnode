@@ -1351,15 +1351,16 @@ export class BaseDateComponent implements OnInit {
   editDocuments(item) {
     this.document_edit.closeOnEscape = false;
     this.document_edit.closeOnOutsideClick = false;
-    this.document_edit.hideCloseButton = true;
-    this.document_edit.open();
     this.documentItem = item;
     if (
       this.documentItem.date !== null &&
       this.documentItem.date !== undefined
     ) {
       this.documentItem.date = new Date(this.documentItem.date);
+    } else {
+      this.documentItem.date = new Date();
     }
+    this.document_edit.open();
   }
 
   updateDocument() {
