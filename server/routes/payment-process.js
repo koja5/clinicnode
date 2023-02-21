@@ -32,6 +32,7 @@ router.post("/create-payment", (req, res, next) => {
         next(err);
       }
       var options = {
+        rejectUnauthorized: false,
         url: process.env.link_api + "updateLicence",
         method: "POST",
         body: req.body,
@@ -62,6 +63,7 @@ router.post("/buy-sms", (req, res, next) => {
         next(err);
       }
       var options = {
+        rejectUnauthorized: false,
         url: process.env.link_api + "updateSmsCountForSuperadmin",
         method: "POST",
         body: req.body,

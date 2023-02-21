@@ -40,7 +40,7 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
-var smtpTransport = nodemailer.createTransport({
+/*var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
   secure: process.env.smtp_secure,
@@ -51,6 +51,19 @@ var smtpTransport = nodemailer.createTransport({
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
   },
+});*/
+
+var smtpTransport = nodemailer.createTransport({
+  host: "116.203.109.78",
+  port: 25,
+  secure: false,
+  tls: {
+    rejectUnauthorized: false,
+  },
+  auth: {
+    user: "info@clinicnode.com",
+    pass: "!91y^ODGp7w#",
+  },
 });
 
 function reminderViaSMS() {
@@ -60,7 +73,10 @@ function reminderViaSMS() {
       return;
     }
     request(
-      link + "/getTranslationByCountryCode/AT",
+      {
+        rejectUnauthorized: false,
+        url: link + "/getTranslationByCountryCode/AT",
+      },
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
           conn.query(
@@ -71,7 +87,10 @@ function reminderViaSMS() {
               }
               if (rows.length > 0) {
                 request(
-                  link + "/getAvailableAreaCode",
+                  {
+                    rejectUnauthorized: false,
+                    url: link + "/getAvailableAreaCode",
+                  },
                   function (error, response, codes) {
                     rows.forEach(function (to, i, array) {
                       if (to.sms !== null && to.sms === 1) {
@@ -129,8 +148,7 @@ function reminderViaSMS() {
                           }
 
                           if (language.smsSignaturePoweredBy) {
-                            signature +=
-                              language.smsSignaturePoweredBy + " \n";
+                            signature += language.smsSignaturePoweredBy + " \n";
                           }
 
                           var convertToDateStart = new Date(to.start);

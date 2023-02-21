@@ -40,7 +40,7 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
-var smtpTransport = nodemailer.createTransport({
+/*var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
   secure: process.env.smtp_secure,
@@ -50,6 +50,19 @@ var smtpTransport = nodemailer.createTransport({
   auth: {
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
+  },
+});*/
+
+var smtpTransport = nodemailer.createTransport({
+  host: "116.203.109.78",
+  port: 25,
+  secure: false,
+  tls: {
+    rejectUnauthorized: false,
+  },
+  auth: {
+    user: "info@clinicnode.com",
+    pass: "!91y^ODGp7w#",
   },
 });
 
@@ -111,7 +124,10 @@ function confirm() {
       return;
     }
     request(
-      link + "/getTranslationByCountryCode/AT",
+      {
+        rejectUnauthorized: false,
+        url: link + "/getTranslationByCountryCode/AT",
+      },
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
           conn.query(
@@ -168,8 +184,7 @@ function confirm() {
                     firstName: to.shortname,
                     finalMessageForConfirmArrival:
                       language.finalMessageForConfirmArrival,
-                    confirmArrivalButtonText:
-                      language.confirmArrivalButtonText,
+                    confirmArrivalButtonText: language.confirmArrivalButtonText,
                     verificationLink: verificationLinkButton,
                     date: date,
                     start: start,
@@ -185,9 +200,15 @@ function confirm() {
                 smtpTransport.sendMail(mailOptions, function (error, response) {
                   console.log(response);
                   if (error) {
-                    logger.log("error", `Error to sent CONFIRM ARRIVAL request to EMAIL: ${to.email}. Error: ${error}`);
+                    logger.log(
+                      "error",
+                      `Error to sent CONFIRM ARRIVAL request to EMAIL: ${to.email}. Error: ${error}`
+                    );
                   } else {
-                    logger.log("info", `Sent CONFIRM ARRIVAL request to EMAIL: ${to.email}`);
+                    logger.log(
+                      "info",
+                      `Sent CONFIRM ARRIVAL request to EMAIL: ${to.email}`
+                    );
                   }
                 });
               });

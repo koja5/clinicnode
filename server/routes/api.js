@@ -40,16 +40,13 @@ function readImageFile(file) {
 
 function deleteImage(currentImage) {
   if (currentImage) {
-    fs.unlink(
-      "routes/uploads/user-profile-images/" + currentImage,
-      (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        //file removed
+    fs.unlink("routes/uploads/user-profile-images/" + currentImage, (err) => {
+      if (err) {
+        console.error(err);
+        return;
       }
-    );
+      //file removed
+    });
   }
 }
 
@@ -518,6 +515,7 @@ router.post("/login", (req, res, next) => {
                               };
 
                               var options = {
+                                rejectUnauthorized: false,
                                 url: link + "confirmUserViaMacAddress",
                                 method: "POST",
                                 body: body,
@@ -2090,7 +2088,7 @@ router.post("/postojikorisnik", (req, res, next) => {
                 exist: true,
                 notVerified: false,
                 superadmin: rows[0].superadmin,
-                firstname: rows[0].firstname
+                firstname: rows[0].firstname,
               });
             } else if (rows.length >= 1) {
               conn.release();
@@ -2114,7 +2112,7 @@ router.post("/postojikorisnik", (req, res, next) => {
                       exist: true,
                       notVerified: false,
                       superadmin: rows[0].id,
-                      firstname: rows[0].firstname
+                      firstname: rows[0].firstname,
                     });
                   } else if (rows.length >= 1) {
                     conn.release();
@@ -2138,7 +2136,7 @@ router.post("/postojikorisnik", (req, res, next) => {
                             exist: true,
                             notVerified: false,
                             superadmin: rows[0].storeId,
-                            firstname: rows[0].firstname
+                            firstname: rows[0].firstname,
                           });
                         } else if (rows.length >= 1) {
                           res.send({
@@ -5283,154 +5281,160 @@ router.post("/sendSMS", function (req, res) {
   } else if (req.body.mobile) {
     phoneNumber = req.body.mobile;
   }
-  request(link + "getAvailableAreaCode", function (error, response, codes) {
-    var phoneNumber = null;
-    if (req.body.mobile) {
-      phoneNumber = req.body.mobile;
-    }
-    if (checkAvailableCode(phoneNumber, JSON.parse(codes))) {
-      if (!req.body.countryCode) {
-        req.body.countryCode = "US";
+  request(
+    { rejectUnauthorized: false, url: link + "getAvailableAreaCode" },
+    function (error, response, codes) {
+      var phoneNumber = null;
+      if (req.body.mobile) {
+        phoneNumber = req.body.mobile;
       }
-      request(
-        link + "/getTranslationByCountryCode/" + req.body.countryCode,
-        function (error, response, body) {
-          var convertToDateStart = new Date(req.body.start);
-          var convertToDateEnd = new Date(req.body.end);
-          var startHours = convertToDateStart.getHours();
-          var startMinutes = convertToDateStart.getMinutes();
-          var endHours = convertToDateEnd.getHours();
-          var endMinutes = convertToDateEnd.getMinutes();
-          var date =
-            convertToDateStart.getDate() +
-            "." +
-            (convertToDateStart.getMonth() + 1) +
-            "." +
-            convertToDateStart.getFullYear();
-          var day = convertToDateStart.getDate();
-          var month = monthNames[convertToDateStart.getMonth()];
-          var start =
-            (startHours < 10 ? "0" + startHours : startHours) +
-            ":" +
-            (startMinutes < 10 ? "0" + startMinutes : startMinutes);
-          var end =
-            (endHours < 10 ? "0" + endHours : endHours) +
-            ":" +
-            (endMinutes < 10 ? "0" + endMinutes : endMinutes);
-
-          var language = JSON.parse(body)["config"];
-          connection.getConnection(function (err, conn) {
-            if (err) {
-              res.json(err);
-            } else {
-              conn.query(
-                "select distinct c.telephone, c.mobile, c.shortname, s.storename, s.street, s.zipcode, s.place, s.telephone as storeTelephone, s.mobile as storeMobile, s.email, sr.*, e.allowSendInformation from customers c join sms_reminder_message sr on c.storeId = sr.superadmin join store s on c.storeId = s.superadmin join tasks t on s.id = t.storeId join event_category e on t.colorTask = e.id where c.id = ? and s.id = ? and t.id = ? and e.allowSendInformation = 1 and c.active = 1",
-                [req.body.id, req.body.storeId, req.body.taskId],
-                function (err, smsMessage, fields) {
-                  var sms = {};
-                  var signature = "";
-                  var dateMessage = "";
-                  var time = "";
-                  var clinic = "";
-                  if (smsMessage.length > 0) {
-                    sms = smsMessage[0];
-                    if (sms.signatureAvailable) {
-                      if (
-                        (sms.street || sms.zipcode || sms.place) &&
-                        sms.smsSignatureAddress
-                      ) {
-                        signature +=
-                          sms.smsSignatureAddress +
-                          "\n" +
-                          sms.street +
-                          " \n" +
-                          sms.zipcode +
-                          " " +
-                          sms.place +
-                          "\n";
-                      }
-                      if (sms.telephone && sms.smsSignatureTelephone) {
-                        signature +=
-                          sms.smsSignatureTelephone +
-                          " " +
-                          sms.storeTelephone +
-                          " \n";
-                      }
-                      if (sms.mobile && sms.smsSignatureMobile) {
-                        signature +=
-                          sms.smsSignatureMobile +
-                          " " +
-                          sms.storeMobile +
-                          " \n";
-                      }
-                      if (sms.email && sms.smsSignatureEmail) {
-                        signature +=
-                          sms.smsSignatureEmail + " " + sms.email + " \n";
-                      }
-                    }
-
-                    if (sms.smsSignatureWebsite) {
-                      signature += " \n" + sms.smsSignatureWebsite;
-                    }
-
-                    if (language.smsSignaturePoweredBy) {
-                      signature +=
-                        " \n" + language.smsSignaturePoweredBy + " \n";
-                    }
-
-                    if (sms.smsDate) {
-                      dateMessage = sms.smsDate + " " + date + " \n";
-                    }
-                    if (sms.smsTime) {
-                      time = sms.smsTime + " " + start + "-" + end + " \n";
-                    }
-                    if (sms.smsClinic) {
-                      clinic =
-                        sms.smsClinic + " " + req.body.storename + " \n\n";
-                    }
-                    var message =
-                      (sms.smsSubject
-                        ? sms.smsSubject
-                        : language.initialGreetingSMSReminder) +
-                      " " +
-                      req.body.shortname +
-                      ", \n" +
-                      "\n" +
-                      (sms.smsMessage
-                        ? sms.smsMessage
-                        : language.introductoryMessageForSMSReminderReservation) +
-                      " \n" +
-                      "\n" +
-                      dateMessage +
-                      time +
-                      clinic +
-                      signature;
-                    updateAvailableSMSCount(1, req.body.superadmin);
-                    console.log(message);
-                    sendSmsFromMail(phoneNumber, message);
-                    res.send(true);
-                  } else if (smsMessage.length === 0) {
-                    res.send({
-                      info: false,
-                      message: "need_configure",
-                    });
-                  } else {
-                    res.json(false);
-                  }
-                }
-              );
-            }
-          });
+      if (checkAvailableCode(phoneNumber, JSON.parse(codes))) {
+        if (!req.body.countryCode) {
+          req.body.countryCode = "US";
         }
-      );
-    } else {
-      res.json(false);
-      logger.log(
-        "warn",
-        `Number ${req.body.number} is not start with available area code!`
-      );
+        request(
+          {
+            rejectUnauthorized: false,
+            url: link + "/getTranslationByCountryCode/" + req.body.countryCode,
+          },
+          function (error, response, body) {
+            var convertToDateStart = new Date(req.body.start);
+            var convertToDateEnd = new Date(req.body.end);
+            var startHours = convertToDateStart.getHours();
+            var startMinutes = convertToDateStart.getMinutes();
+            var endHours = convertToDateEnd.getHours();
+            var endMinutes = convertToDateEnd.getMinutes();
+            var date =
+              convertToDateStart.getDate() +
+              "." +
+              (convertToDateStart.getMonth() + 1) +
+              "." +
+              convertToDateStart.getFullYear();
+            var day = convertToDateStart.getDate();
+            var month = monthNames[convertToDateStart.getMonth()];
+            var start =
+              (startHours < 10 ? "0" + startHours : startHours) +
+              ":" +
+              (startMinutes < 10 ? "0" + startMinutes : startMinutes);
+            var end =
+              (endHours < 10 ? "0" + endHours : endHours) +
+              ":" +
+              (endMinutes < 10 ? "0" + endMinutes : endMinutes);
+
+            var language = JSON.parse(body)["config"];
+            connection.getConnection(function (err, conn) {
+              if (err) {
+                res.json(err);
+              } else {
+                conn.query(
+                  "select distinct c.telephone, c.mobile, c.shortname, s.storename, s.street, s.zipcode, s.place, s.telephone as storeTelephone, s.mobile as storeMobile, s.email, sr.*, e.allowSendInformation from customers c join sms_reminder_message sr on c.storeId = sr.superadmin join store s on c.storeId = s.superadmin join tasks t on s.id = t.storeId join event_category e on t.colorTask = e.id where c.id = ? and s.id = ? and t.id = ? and e.allowSendInformation = 1 and c.active = 1",
+                  [req.body.id, req.body.storeId, req.body.taskId],
+                  function (err, smsMessage, fields) {
+                    var sms = {};
+                    var signature = "";
+                    var dateMessage = "";
+                    var time = "";
+                    var clinic = "";
+                    if (smsMessage.length > 0) {
+                      sms = smsMessage[0];
+                      if (sms.signatureAvailable) {
+                        if (
+                          (sms.street || sms.zipcode || sms.place) &&
+                          sms.smsSignatureAddress
+                        ) {
+                          signature +=
+                            sms.smsSignatureAddress +
+                            "\n" +
+                            sms.street +
+                            " \n" +
+                            sms.zipcode +
+                            " " +
+                            sms.place +
+                            "\n";
+                        }
+                        if (sms.telephone && sms.smsSignatureTelephone) {
+                          signature +=
+                            sms.smsSignatureTelephone +
+                            " " +
+                            sms.storeTelephone +
+                            " \n";
+                        }
+                        if (sms.mobile && sms.smsSignatureMobile) {
+                          signature +=
+                            sms.smsSignatureMobile +
+                            " " +
+                            sms.storeMobile +
+                            " \n";
+                        }
+                        if (sms.email && sms.smsSignatureEmail) {
+                          signature +=
+                            sms.smsSignatureEmail + " " + sms.email + " \n";
+                        }
+                      }
+
+                      if (sms.smsSignatureWebsite) {
+                        signature += " \n" + sms.smsSignatureWebsite;
+                      }
+
+                      if (language.smsSignaturePoweredBy) {
+                        signature +=
+                          " \n" + language.smsSignaturePoweredBy + " \n";
+                      }
+
+                      if (sms.smsDate) {
+                        dateMessage = sms.smsDate + " " + date + " \n";
+                      }
+                      if (sms.smsTime) {
+                        time = sms.smsTime + " " + start + "-" + end + " \n";
+                      }
+                      if (sms.smsClinic) {
+                        clinic =
+                          sms.smsClinic + " " + req.body.storename + " \n\n";
+                      }
+                      var message =
+                        (sms.smsSubject
+                          ? sms.smsSubject
+                          : language.initialGreetingSMSReminder) +
+                        " " +
+                        req.body.shortname +
+                        ", \n" +
+                        "\n" +
+                        (sms.smsMessage
+                          ? sms.smsMessage
+                          : language.introductoryMessageForSMSReminderReservation) +
+                        " \n" +
+                        "\n" +
+                        dateMessage +
+                        time +
+                        clinic +
+                        signature;
+                      updateAvailableSMSCount(1, req.body.superadmin);
+                      console.log(message);
+                      sendSmsFromMail(phoneNumber, message);
+                      res.send(true);
+                    } else if (smsMessage.length === 0) {
+                      res.send({
+                        info: false,
+                        message: "need_configure",
+                      });
+                    } else {
+                      res.json(false);
+                    }
+                  }
+                );
+              }
+            });
+          }
+        );
+      } else {
+        res.json(false);
+        logger.log(
+          "warn",
+          `Number ${req.body.number} is not start with available area code!`
+        );
+      }
     }
-  });
+  );
 });
 
 router.get("/checkAvailableSMSCount/:superadmin", (req, res, next) => {
@@ -5539,22 +5543,25 @@ function checkSMSCount(superadmin, needCount) {
 //custom send SMS
 router.post("/sendCustomSMS", function (req, res) {
   var phoneNumber = req.body.number;
-  request(link + "/getAvailableAreaCode", function (error, response, codes) {
-    if (checkAvailableCode(phoneNumber, JSON.parse(codes))) {
-      var message = req.body.message;
-      var content = "To: " + phoneNumber + "\r\n\r\n" + message;
-      var fileName = "server/sms/" + phoneNumber + ".txt";
-      sendSmsFromMail(phoneNumber, message);
-      updateAvailableSMSCount(1, req.body.superadmin);
-      res.send(true);
-    } else {
-      res.json(false);
-      logger.log(
-        "warn",
-        `Number ${req.body.number} is not start with available area code or clinic ${req.body.superadmin} doesn't have SMS!`
-      );
+  request(
+    { rejectUnauthorized: false, url: link + "/getAvailableAreaCode" },
+    function (error, response, codes) {
+      if (checkAvailableCode(phoneNumber, JSON.parse(codes))) {
+        var message = req.body.message;
+        var content = "To: " + phoneNumber + "\r\n\r\n" + message;
+        var fileName = "server/sms/" + phoneNumber + ".txt";
+        sendSmsFromMail(phoneNumber, message);
+        updateAvailableSMSCount(1, req.body.superadmin);
+        res.send(true);
+      } else {
+        res.json(false);
+        logger.log(
+          "warn",
+          `Number ${req.body.number} is not start with available area code or clinic ${req.body.superadmin} doesn't have SMS!`
+        );
+      }
     }
-  });
+  );
 });
 
 //send massive SMS
@@ -5686,11 +5693,14 @@ router.post("/sendVaucherSms", function (req, res) {
   var phoneNumber = req.body.mobile;
   if (req.body.message != "") {
     request(
-      link + "/getTranslationByCountryCode/" + req.body.countryCode,
+      {
+        rejectUnauthorized: false,
+        url: link + "/getTranslationByCountryCode/" + req.body.countryCode,
+      },
       function (error, language, body) {
         var language = JSON.parse(body)["config"];
         request(
-          link + "/getAvailableAreaCode",
+          { rejectUnauthorized: false, url: link + "/getAvailableAreaCode" },
           function (error, response, codes) {
             connection.getConnection(function (err, conn) {
               if (err) {
@@ -5839,11 +5849,14 @@ router.post("/sendMassiveSMS", function (req, res) {
       req.body.countryCode = "AT";
     }
     request(
-      link + "/getTranslationByCountryCode/" + req.body.countryCode,
+      {
+        rejectUnauthorized: false,
+        url: link + "/getTranslationByCountryCode/" + req.body.countryCode,
+      },
       function (error, language, body) {
         var language = JSON.parse(body)["config"];
         request(
-          link + "/getAvailableAreaCode",
+          { rejectUnauthorized: false, url: link + "/getAvailableAreaCode" },
           function (error, response, codes) {
             connection.getConnection(function (err, conn) {
               if (err) {
@@ -9994,6 +10007,7 @@ router.post("/sendRequestForDemoAccount", function (req, res, next) {
   body.request_for_demo_account.fields["email"] = req.body.email;
 
   var options = {
+    rejectUnauthorized: false,
     url: process.env.link_api + "mail-server/sendMail",
     method: "POST",
     body: body.request_for_demo_account,
@@ -10023,6 +10037,7 @@ router.post("/sendReqestForDemoAccountFull", function (req, res, next) {
   body.request_for_demo_account_full.fields["notes"] = req.body.notes;
 
   var options = {
+    rejectUnauthorized: false,
     url: process.env.link_api + "mail-server/sendMail",
     method: "POST",
     body: body.request_for_demo_account_full,
@@ -10051,6 +10066,7 @@ router.post("/sendFromContactForm", function (req, res, next) {
   body.send_from_contact_form.fields["message"] = req.body.message;
 
   var options = {
+    rejectUnauthorized: false,
     url: process.env.link_api + "mail-server/sendMail",
     method: "POST",
     body: body.send_from_contact_form,

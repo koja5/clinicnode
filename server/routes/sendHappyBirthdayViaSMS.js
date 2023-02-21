@@ -16,7 +16,7 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
-var smtpTransport = nodemailer.createTransport({
+/*var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
   secure: process.env.smtp_secure,
@@ -27,6 +27,19 @@ var smtpTransport = nodemailer.createTransport({
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
   },
+});*/
+
+var smtpTransport = nodemailer.createTransport({
+  host: "116.203.109.78",
+  port: 25,
+  secure: false,
+  tls: {
+    rejectUnauthorized: false,
+  },
+  auth: {
+    user: "info@clinicnode.com",
+    pass: "!91y^ODGp7w#",
+  },
 });
 
 function sendHappyBirthdayViaSMS() {
@@ -36,7 +49,10 @@ function sendHappyBirthdayViaSMS() {
       return;
     }
     request(
-      link + "/getTranslationByCountryCode/AT",
+      {
+        rejectUnauthorized: false,
+        url: link + "/getTranslationByCountryCode/AT",
+      },
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
           conn.query(
@@ -48,7 +64,10 @@ function sendHappyBirthdayViaSMS() {
               }
 
               request(
-                link + "/getAvailableAreaCode",
+                {
+                  rejectUnauthorized: false,
+                  url: link + "/getAvailableAreaCode",
+                },
                 function (error, response, codes) {
                   rows.forEach(function (to, i, array) {
                     if (to.congratulationBirthday === 1) {
