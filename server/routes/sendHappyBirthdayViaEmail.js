@@ -62,7 +62,6 @@ function sendHappyBirthdayViaEmail() {
             function (err, rows) {
               if (err) {
                 logger.log("error", err);
-                res.json(false);
               }
               var language = JSON.parse(body)["config"];
               rows.forEach(function (to, i, array) {
@@ -152,7 +151,6 @@ function sendHappyBirthdayViaEmail() {
                 }
               });
               conn.release();
-              res.json(true);
             }
           );
         }
