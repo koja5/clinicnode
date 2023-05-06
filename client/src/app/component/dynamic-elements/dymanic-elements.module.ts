@@ -158,7 +158,6 @@ import { MatFormFieldModule, MatInputModule } from "@angular/material";
     TextareaComponent,
     DatepickerComponent,
     ButtonComponent,
-    DropdownComponent,
   ],
 })
 export class DymanicElementsModule {}

@@ -143,7 +143,7 @@ function reminderViaSMS() {
                             }
                           }
 
-                          if (sms.smsSignatureWebsite) {
+                          if (to.smsSignatureWebsite) {
                             signature += " \n" + sms.smsSignatureWebsite;
                           }
 

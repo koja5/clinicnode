@@ -208,41 +208,26 @@ io.on("connection", (socket) => {
 var eventRule = new schedule.RecurrenceRule();
 eventRule.hour = 9;
 eventRule.minute = 00;
-var j = schedule.scheduleJob(eventRule, function () {
+var j = schedule.scheduleJob("00 09 * * *", function () {
   eventConfirm();
 });
 
-var reminderViaEmailRule = new schedule.RecurrenceRule();
-reminderViaEmailRule.hour = 10;
-reminderViaEmailRule.minute = 00;
 var j = schedule.scheduleJob("00 10 * * *", function () {
   reminderViaEmail();
 });
 
-var reminderViaSMSRule = new schedule.RecurrenceRule();
-reminderViaSMSRule.hour = 12;
-reminderViaSMSRule.minute = 00;
 var j = schedule.scheduleJob("00 12 * * *", function () {
   reminderViaSMS();
 });
 
-var sendHappyBirthdayViaSMSRule = new schedule.RecurrenceRule();
-sendHappyBirthdayViaSMSRule.hour = 13;
-sendHappyBirthdayViaSMSRule.minute = 00;
 var j = schedule.scheduleJob("00 13 * * *", function () {
   sendHappyBirthdayViaSMS();
 });
 
-var sendHappyBirthdayViaEmailRule = new schedule.RecurrenceRule();
-sendHappyBirthdayViaEmailRule.hour = 10;
-sendHappyBirthdayViaEmailRule.minute = 35;
 var j = schedule.scheduleJob("35 10 * * *", function () {
   sendHappyBirthdayViaEmail();
 });
 
-var checkLicenceExpiredRule = new schedule.RecurrenceRule();
-checkLicenceExpiredRule.hour = 02;
-checkLicenceExpiredRule.minute = 00;
 var j = schedule.scheduleJob("00 02 * * *", function () {
   checkLicenceExpired();
 });
