@@ -144,7 +144,7 @@ function reminderViaSMS() {
                           }
 
                           if (to.smsSignatureWebsite) {
-                            signature += " \n" + sms.smsSignatureWebsite;
+                            signature += " \n" + to.smsSignatureWebsite;
                           }
 
                           if (language.smsSignaturePoweredBy) {
