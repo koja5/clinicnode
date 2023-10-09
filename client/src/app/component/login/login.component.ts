@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
   public userAccessId: number;
   public userAccessDevice: string;
   public agreeValue = false;
+  public domain!: string;
 
   public data = {
     id: "",
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.domain = this.helpService.checkDomain();
     this.initialization();
     // ovde treba da se napravi da se ocita lokacija korisnika i na osnovu toga povuce odgovarajuci jezik
     // kada se korisnik loguje, povlaci se ona konfiguracija koju je on sacuvao...

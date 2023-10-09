@@ -19,6 +19,7 @@ export class RegistrationPatientComponent implements OnInit {
   public language: any;
   public codeStatus = CodeStatus;
   public agreeValue = false;
+  public domain!: string;
 
   constructor(
     private service: CustomersService,
@@ -30,6 +31,7 @@ export class RegistrationPatientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.domain = this.helpService.checkDomain();
     this.id = this.route.snapshot.params.clinic;
     this.data.email = this.route.snapshot.params.email;
     this.language = this.helpService.getLanguage();

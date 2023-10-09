@@ -8,10 +8,12 @@ import { HelpService } from 'src/app/service/help.service';
 })
 export class FeaturesComponent implements OnInit {
   public language: any;
+  public domain!: string;
 
   constructor(private helpService: HelpService) {}
 
   ngOnInit(): void {
+    this.domain = this.helpService.checkDomain();
     this.language = this.helpService.getLanguageForLanding();
   }
 

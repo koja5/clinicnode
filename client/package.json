@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "client": "ng serve --proxy-config proxy.config.json",
+    "client": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve --proxy-config proxy.config.json",
     "server": "nodemon ../server/server.js",
     "start": "npx npm-run-all -p client server",
-    "build": "ng serve --port 3000 --open && nodemon server",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod --aot",
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
     "lint": "ng lint",

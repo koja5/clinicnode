@@ -12,6 +12,7 @@ export class HomePageComponent implements OnInit {
   public language: any;
   public selectionLanguage: any = "serbia";
   public chooseLang: any;
+  public domain!: string;
 
   constructor(
     private helpService: HelpService,
@@ -19,6 +20,7 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.domain = this.helpService.checkDomain();
     this.isMobile = this.helpService.checkMobileDevice();
     this.helpService.getAllLangs().subscribe((data) => {
       this.chooseLang = data;

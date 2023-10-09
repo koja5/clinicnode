@@ -24,6 +24,7 @@ export class ChangePasswordComponent implements OnInit {
     password2: "",
   };
   public language: any;
+  public domain!: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +35,7 @@ export class ChangePasswordComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.route);
+    this.domain = this.helpService.checkDomain();
     this.mail = this.route.snapshot.params.id;
     this.passMatch = true;
     this.data.email = this.mail;

@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit, OnChanges {
   public allTranslationsByCountryCode: any;
   public themeColors: any;
   userTypeView = "";
+  public domain!: string;
 
   constructor(
     private router: Router,
@@ -92,7 +93,7 @@ export class DashboardComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log(localStorage.getItem("languageName"));
+    this.domain = this.helpService.checkDomain();
     this.versionInfoService
       .getVersion(localStorage.getItem("languageName"))
       .subscribe((data) => {

@@ -25,6 +25,7 @@ export class HomeNavigationMenuComponent implements OnInit {
 
   public chooseLang: any;
   public selectionLanguage: any;
+  public domain!: string;
 
   constructor(
     private helpService: HelpService,
@@ -33,6 +34,7 @@ export class HomeNavigationMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.domain = this.helpService.checkDomain();
     this.helpService.getAllLangs().subscribe((data) => {
       this.chooseLang = data;
       const selectionLanguage = this.helpService.getSelectionLanguageCode();
