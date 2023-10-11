@@ -21,6 +21,7 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.domain = this.helpService.checkDomain();
+    this.helpService.setDefaultBrowserTabTitle();
     this.isMobile = this.helpService.checkMobileDevice();
     this.helpService.getAllLangs().subscribe((data) => {
       this.chooseLang = data;

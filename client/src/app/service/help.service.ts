@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { DomSanitizer, Title } from "@angular/platform-browser";
+import { DomSanitizer, Title, Meta } from "@angular/platform-browser";
 import "rxjs/add/operator/map";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
@@ -13,7 +13,8 @@ export class HelpService {
     private http: HttpClient,
     private titleService: Title,
     private toastr: ToastrService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private meta: Meta
   ) {}
 
   getGridPageSize() {
@@ -118,11 +119,55 @@ export class HelpService {
   }
 
   setTitleForBrowserTab(value) {
-    this.titleService.setTitle("ClinicNode - " + value);
+    if (this.checkDomain() === "officenode-") {
+      this.titleService.setTitle("OfficeNode - " + value);
+    } else {
+      this.titleService.setTitle("ClinicNode - " + value);
+    }
   }
 
   setDefaultBrowserTabTitle() {
-    this.titleService.setTitle("Clinic Node - Management System");
+    if (this.checkDomain() === "officenode-") {
+      this.titleService.setTitle("Office Node - Management System");
+      this.meta.addTag({
+        name: "description",
+        content:
+          "OfficeNode is cloud clinic management software! All your employee, patient and other information is all in one place!",
+      });
+      this.meta.addTag({
+        property: "og:title",
+        content: "OfficeNode - Management System",
+      });
+      this.meta.addTag({
+        property: "og:description",
+        content:
+          "OfficeNode is cloud clinic management software! All your employee, patient and other information is all in one place!",
+      });
+      this.meta.addTag({
+        property: "og:site_name",
+        content: "OfficeNode - Management System",
+      });
+    } else {
+      this.titleService.setTitle("Clinic Node - Management System");
+      this.meta.addTag({
+        name: "description",
+        content:
+          "ClinicNode is cloud clinic management software! All your employee, patient and other information is all in one place!",
+      });
+      this.meta.addTag({
+        property: "og:title",
+        content: "ClinicNode - Management System",
+      });
+      this.meta.addTag({
+        property: "og:description",
+        content:
+          "ClinicNode is cloud clinic management software! All your employee, patient and other information is all in one place!",
+      });
+      this.meta.addTag({
+        property: "og:site_name",
+        content: "ClinicNode - Management System",
+      });
+    }
   }
 
   getLinkForPatientFormRegistration() {
@@ -463,7 +508,7 @@ export class HelpService {
     if (window.location.hostname === "officenode.com") {
       return "officenode-";
     } else {
-      return ''
+      return "";
     }
   }
 }
