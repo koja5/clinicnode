@@ -448,7 +448,7 @@ router.post("/login", (req, res, next) => {
             }
             if (rows.length >= 1 && rows[0].active === 1) {
               conn.query(
-                "SELECT * from licence_per_user l where l.superadmin_id = ? and  l.expiration_date >= ?",
+                "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 5)",
                 [rows[0].superadmin, new Date()],
                 function (err, licence, fields) {
                   if (licence.length > 0) {
@@ -471,6 +471,7 @@ router.post("/login", (req, res, next) => {
                               id: rows[0].id,
                               storeId: rows[0].storeId,
                               superadmin: rows[0].superadmin,
+                              licence: licence.licence_id,
                             });
                           } else {
                             res.send({
@@ -547,9 +548,10 @@ router.post("/login", (req, res, next) => {
                     logger.log("error", err.sql + ". " + err.sqlMessage);
                     res.json(err);
                   }
+                  console.log(rows);
                   if (rows.length >= 1 && rows[0].active === 1) {
                     conn.query(
-                      "SELECT * from licence_per_user l where l.superadmin_id = ? and l.expiration_date >= ?",
+                      "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 5)",
                       [rows[0].id, new Date()],
                       function (err, licence, fields) {
                         if (licence.length > 0) {
@@ -566,6 +568,7 @@ router.post("/login", (req, res, next) => {
                             storeId: 0,
                             superadmin: rows[0].id,
                             last_login: rows[0].last_login,
+                            licence: licence[0].licence_id,
                           });
                           conn.query(
                             "update users_superadmin SET last_login = ? where id = ?",
@@ -599,7 +602,7 @@ router.post("/login", (req, res, next) => {
 
                         if (rows.length >= 1) {
                           conn.query(
-                            "SELECT * from licence_per_user l where l.superadmin_id = ? and  l.expiration_date >= ?",
+                            "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 5)",
                             [rows[0].storeId, new Date()],
                             function (err, licence, fields) {
                               if (licence.length > 0) {
@@ -616,6 +619,7 @@ router.post("/login", (req, res, next) => {
                                   id: rows[0].id,
                                   storeId: rows[0].storeId,
                                   superadmin: rows[0].storeId,
+                                  licence: licence.licence_id,
                                 });
                               } else {
                                 res.send({
@@ -645,14 +649,6 @@ router.post("/login", (req, res, next) => {
                 }
               );
             }
-            //     } else {
-            //       res.send({
-            //         login: false,
-            //         info: "licence_expired",
-            //       });
-            //     }
-            //   }
-            // );
           }
         );
       }
@@ -10034,6 +10030,8 @@ router.post("/sendReqestForDemoAccountFull", function (req, res, next) {
     req.body.nameOfCompany;
   body.request_for_demo_account_full.fields["countOfEmployees"] =
     req.body.countOfEmployees;
+
+  body.request_for_demo_account_full.fields["price"] = req.body.price;
   body.request_for_demo_account_full.fields["notes"] = req.body.notes;
 
   var options = {
@@ -10453,7 +10451,6 @@ router.post("/createClinic", function (req, res, next) {
             superadmin_id: rows.insertId,
             expiration_date: expiryDate,
           };
-          console.log(licence);
           conn.query(
             "insert licence_per_user SET ?",
             licence,
@@ -10802,6 +10799,7 @@ router.post("/updateLicence", function (req, res, next) {
     }
 
     var new_date = new Date();
+    console.log(req.body);
     var date = {
       licence_id: req.body.licenceId,
       superadmin_id: req.body.superadminId,
@@ -10812,6 +10810,7 @@ router.post("/updateLicence", function (req, res, next) {
       "update licence_per_user set ? where superadmin_id = ?",
       [date, req.body.superadminId],
       function (err, rows, fields) {
+        console.log(err);
         if (err) {
           conn.release();
           res.json(err);
@@ -10820,6 +10819,7 @@ router.post("/updateLicence", function (req, res, next) {
           date["price"] = req.body.price;
           date["date_paid"] = new Date();
           date["numberOfMonth"] = req.body.expired;
+          console.log(date);
           conn.query(
             "insert into licence_payment SET ?",
             [date],
@@ -10839,6 +10839,57 @@ router.post("/updateLicence", function (req, res, next) {
         }
       }
     );
+  });
+});
+
+router.post("/updateLicenceDate", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    var date = {
+      licence_id: req.body.licence_id,
+      superadmin_id: req.body.superadmin_id,
+      expiration_date: new Date(req.body.expiration_date),
+    };
+
+    console.log(date);
+
+    conn.query(
+      "update licence_per_user set ? where superadmin_id = ?",
+      [date, req.body.superadmin_id],
+      function (err, rows, fields) {
+        console.log(err);
+        if (err) {
+          conn.release();
+          res.json(err);
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+        } else {
+          res.json(true);
+        }
+      }
+    );
+  });
+});
+
+
+router.get("/getLicences", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+    conn.query("select * from licence", function (err, rows) {
+      conn.release();
+      if (!err) {
+        res.json(rows);
+      } else {
+        res.json(err);
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+      }
+    });
   });
 });
 
@@ -10891,6 +10942,28 @@ router.get("/getAllPaidLicenseForUser/:id", function (req, res, next) {
     }
     conn.query(
       "select *, lp.id as 'license_paid_id' from licence_payment lp join licence l on lp.licence_id = l.id join users_superadmin u on lp.superadmin_id = u.id where lp.superadmin_id = ? order by lp.date_paid desc",
+      [req.params.id],
+      function (err, rows) {
+        conn.release();
+        if (!err) {
+          res.json(rows);
+        } else {
+          res.json(err);
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+        }
+      }
+    );
+  });
+});
+
+router.get("/getLicenseForUser/:id", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+    conn.query(
+      "select *, lp.id as 'license_paid_id' from licence_per_user lp join licence l on lp.licence_id = l.id join users_superadmin u on lp.superadmin_id = u.id where lp.superadmin_id = ?",
       [req.params.id],
       function (err, rows) {
         conn.release();

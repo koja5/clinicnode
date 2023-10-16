@@ -42,9 +42,27 @@
     "refresh": false,
     "reset": true,
     "toolbar": [
+        "Add",
+        "Edit",
         "Print",
         "Search"
     ],
+    "editSettings": {
+        "allowEditing": true,
+        "allowAdding": true,
+        "allowDeleting": false,
+        "showDeleteConfirmDialog": false,
+        "mode": "Dialog"
+    },
+    "editSettingsRequest": {
+        "edit": {
+            "type": "POST",
+            "api": "/api/updateLicenceDate",
+            "parameters": [],
+            "fields": "",
+            "root": ""
+        }
+    },
     "columns": [
         {
             "title": "licencePaymentDate",
@@ -100,5 +118,49 @@
             }
         }
     ],
-    "configField": []
+    "configField": [
+        {
+            "type": "textbox",
+            "width": "col-md-12 ",
+            "name": "superadmin_id",
+            "label": "superadmin_id",
+            "field": "superadmin_id",
+            "readonly": true
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-12 hide",
+            "name": "licence_id",
+            "label": "licenceName",
+            "field": "licence_id",
+            "required": true
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-12",
+            "name": "name",
+            "label": "licenceName",
+            "field": "name",
+            "required": true,
+            "readonly": true
+        },
+        {
+            "type": "datepicker",
+            "width": "col-md-12",
+            "name": "expiration_date",
+            "label": "licenceExpiredDate",
+            "field": "expiration_date",
+            "required": true,
+            "readonly": true
+        },
+        {
+            "type": "button",
+            "width": "col-md-12",
+            "class": "e-control e-btn e-lib e-primary e-flat",
+            "name": "submit",
+            "label": "Save",
+            "field": "submit",
+            "positionClass": "text-align: end"
+        }
+    ]
 }

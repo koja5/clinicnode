@@ -2832,7 +2832,6 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
       this.sharedCalendarResources = this.value;
       this.getTaskForSelectedUsers(this.value);
       this.getUserInCompany(event);
-      this.storageService.setSelectedStore(this.id, event);
     } else {
       this.value = null;
       if (event !== undefined) {

@@ -224,16 +224,32 @@ export class CustomersComponent implements OnInit {
     this.isFormDirty = true;
   }
 
+  checkLicence() {
+    if (this.helpService.getLocalStorage("lic") === "5") {
+      if (this.gridData.data.length >= 10) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   newUser() {
-    this.storeService.getStore(localStorage.getItem("idUser"), (val) => {
-      this.storeLocation = val;
-    });
-    this.initializeParams();
-    this.changeTheme(this.theme);
-    this.customer.closeOnEscape = false;
-    this.customer.closeOnOutsideClick = false;
-    this.customer.hideCloseButton = true;
-    this.customer.open();
+    if (this.checkLicence()) {
+      this.storeService.getStore(localStorage.getItem("idUser"), (val) => {
+        this.storeLocation = val;
+      });
+      this.initializeParams();
+      this.changeTheme(this.theme);
+      this.customer.closeOnEscape = false;
+      this.customer.closeOnOutsideClick = false;
+      this.customer.hideCloseButton = true;
+      this.customer.open();
+    } else {
+      this.helpService.errorToastr(
+        this.language.licenceForStarterPackageText,
+        this.language.licenceForStarterPackageTitle
+      );
+    }
   }
 
   initializeParams() {

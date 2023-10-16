@@ -294,7 +294,8 @@ export class LoginComponent implements OnInit {
         superadmin,
         last_login,
         info,
-        user_access_id
+        user_access_id,
+        licence
       ) => {
         if (isLogin) {
           if (!notActive) {
@@ -303,7 +304,13 @@ export class LoginComponent implements OnInit {
             ];
             this.loading = false;
           } else {
-            this.setUserInfoToLocalStorage(type, id, storeId, superadmin);
+            this.setUserInfoToLocalStorage(
+              type,
+              id,
+              storeId,
+              superadmin,
+              licence
+            );
             this.superadmin = superadmin;
             if (last_login === null) {
               console.log("last login NULL");
@@ -327,7 +334,13 @@ export class LoginComponent implements OnInit {
           } else if (info === "licence_expired") {
             this.router.navigate(["/access-forbiden"]);
           } else if (info === "licence_expired_owner") {
-            this.setUserInfoToLocalStorage(type, id, storeId, superadmin);
+            this.setUserInfoToLocalStorage(
+              type,
+              id,
+              storeId,
+              superadmin,
+              licence
+            );
             this.router.navigate(["/licence"]);
           } else {
             this.loginInfo = JSON.parse(localStorage.getItem("language"))[
@@ -340,13 +353,14 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  setUserInfoToLocalStorage(type, id, storeId, superadmin) {
+  setUserInfoToLocalStorage(type, id, storeId, superadmin, licence) {
     this.cookie.set("user", type);
     this.helpService.setLocalStorage("type", type);
     this.helpService.setLocalStorage("idUser", id);
     this.helpService.setLocalStorage("indicatorUser", id);
     this.helpService.setLocalStorage("storeId-" + id, storeId);
     this.helpService.setLocalStorage("superadmin", superadmin);
+    this.helpService.setLocalStorage("lic", licence);
   }
 
   signUp(form) {
@@ -444,12 +458,6 @@ export class LoginComponent implements OnInit {
   }
 
   setConfiguration(data, id) {
-    if (data.selectedStore && data.selectedStore.length !== 0) {
-      this.storageService.setSelectedStore(
-        id,
-        JSON.stringify(data.selectedStore[0])
-      );
-    }
     if (data.usersFor && data.usersFor.length !== 0) {
       this.setUsersForConfiguration(data.usersFor);
     }

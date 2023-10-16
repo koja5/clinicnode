@@ -17,11 +17,11 @@ export class StorageService {
   }
 
   getSelectedStore(id) {
-    return Number(sessionStorage.getItem("selectedStore-" + id));
+    return Number(localStorage.getItem("selectedStore-" + id));
   }
 
   setSelectedStore(id, value) {
-    sessionStorage.setItem("selectedStore-" + id, value);
+    localStorage.setItem("selectedStore-" + id, value);
   }
 
   removeSelectedStore(id) {

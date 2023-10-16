@@ -29,7 +29,8 @@ export class LoginService {
           val["superadmin"],
           val["last_login"],
           val["info"],
-          val["user_access_id"]
+          val["user_access_id"],
+          val["licence"]
         );
       });
   }
@@ -48,7 +49,12 @@ export class LoginService {
       .post("/api/postojikorisnik", data)
       .map((res) => res)
       .subscribe((val) => {
-        callback(val["exist"], val["notVerified"], val['superadmin'], val['firstname']);
+        callback(
+          val["exist"],
+          val["notVerified"],
+          val["superadmin"],
+          val["firstname"]
+        );
       });
   }
 

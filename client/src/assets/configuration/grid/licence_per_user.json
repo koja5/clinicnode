@@ -1,0 +1,163 @@
+{
+    "pageSize": 10,
+    "request": {
+        "type": "GET",
+        "api": "/api/getLicenseForUser",
+        "parameters": [
+            "id"
+        ],
+        "fields": "",
+        "root": ""
+    },
+    "paging": {
+        "enable": true,
+        "settings": {
+            "pageSize": 10
+        }
+    },
+    "sorting": {
+        "enable": true,
+        "initalSorting": {
+            "columns": [
+                {
+                    "field": "expiration_date",
+                    "direction": "Descending"
+                }
+            ]
+        }
+    },
+    "grouping": {
+        "enable": true,
+        "group": []
+    },
+    "filtering": {
+        "enable": false
+    },
+    "customGrouping": false,
+    "allowResizing": true,
+    "reorderable": true,
+    "selectable": true,
+    "scrollable": false,
+    "hideable": true,
+    "refresh": false,
+    "reset": true,
+    "toolbar": [
+        "Edit",
+        "Print",
+        "Search"
+    ],
+    "editSettings": {
+        "allowEditing": true,
+        "allowAdding": true,
+        "allowDeleting": false,
+        "showDeleteConfirmDialog": false,
+        "mode": "Dialog"
+    },
+    "editSettingsRequest": {
+        "add": {
+            "type": "POST",
+            "api": "/api/createAvailableAreaCode",
+            "parameters": [],
+            "fields": "",
+            "root": ""
+        },
+        "edit": {
+            "type": "POST",
+            "api": "/api/updateLicenceDate",
+            "parameters": [],
+            "fields": "",
+            "root": ""
+        }
+    },
+    "columns": [
+        {
+            "title": "licenceName",
+            "width": 150,
+            "filterable": true,
+            "filter": "text",
+            "type": "textbox",
+            "class": "text-align-right",
+            "field": "name"
+        },
+        {
+            "title": "licencePrice",
+            "width": 150,
+            "filterable": true,
+            "filter": "text",
+            "type": "textbox",
+            "class": "text-align-right",
+            "field": "price"
+        },
+        {
+            "title": "licenceExpiredDate",
+            "width": 150,
+            "filterable": true,
+            "filter": "text",
+            "type": "date",
+            "class": "text-align-right",
+            "field": "expiration_date",
+            "format": {
+                "type": "date",
+                "format": "dd.MM.yyyy"
+            }
+        }
+    ],
+    "configField": [
+        {
+            "type": "textbox",
+            "width": "col-md-12 ",
+            "name": "superadmin_id",
+            "label": "superadmin_id",
+            "field": "superadmin_id",
+            "readonly": true
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-12 hide",
+            "name": "licence_id",
+            "label": "licenceName",
+            "field": "licence_id",
+            "required": true
+        },
+        {
+            "type": "dropdown",
+            "width": "col-md-12",
+            "name": "licence_id",
+            "label": "licenceName",
+            "field": {
+                "text": "name",
+                "value": "id"
+            },
+            "request": {
+                "type": "GET",
+                "api": "/api/getLicences",
+                "parameters": [],
+                "fields": "",
+                "root": ""
+            },
+            "fieldConfig": {
+                "ignoreAccent": false,
+                "filter": true
+            },
+            "required": true
+        },
+        {
+            "type": "datepicker",
+            "width": "col-md-12",
+            "name": "expiration_date",
+            "label": "licenceExpiredDate",
+            "field": "expiration_date",
+            "required": true,
+            "readonly": true
+        },
+        {
+            "type": "button",
+            "width": "col-md-12",
+            "class": "e-control e-btn e-lib e-primary e-flat",
+            "name": "submit",
+            "label": "Save",
+            "field": "submit",
+            "positionClass": "text-align: end"
+        }
+    ]
+}

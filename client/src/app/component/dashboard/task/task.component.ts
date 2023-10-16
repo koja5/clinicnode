@@ -1,5 +1,5 @@
-import { ComplaintTherapyModel } from './../../../models/complaint-therapy-model';
-import { UserModel } from './../../../models/user-model';
+import { ComplaintTherapyModel } from "./../../../models/complaint-therapy-model";
+import { UserModel } from "./../../../models/user-model";
 import { CustomerModel } from "./../../../models/customer-model";
 import {
   Component,
@@ -39,8 +39,8 @@ import { isNumber } from "util";
 import Swal from "sweetalert2";
 import { MongoService } from "../../../service/mongo.service";
 import { ToastrService } from "ngx-toastr";
-import { UsersService } from '../../../service/users.service';
-import { EventCategoryService } from '../../../service/event-category.service';
+import { UsersService } from "../../../service/users.service";
+import { EventCategoryService } from "../../../service/event-category.service";
 
 @Component({
   selector: "app-task",
@@ -277,7 +277,9 @@ export class TaskComponent implements OnInit {
       );
       // this.selectedStore(this.selectedStoreId);
       if (this.value !== null) {
-        this.getTaskForSelectedUsers(this.value);
+        setTimeout(() => {
+          this.getTaskForSelectedUsers(this.value);
+        }, 50);
       } else {
         this.calendars.push({ name: null, events: [] });
       }
@@ -1068,7 +1070,9 @@ export class TaskComponent implements OnInit {
       "usersFor-" + this.selectedStoreId + "-" + this.id,
       JSON.stringify(this.value)
     );
-    this.getTaskForSelectedUsers(this.value);
+    setTimeout(() => {
+      this.getTaskForSelectedUsers(this.value);
+    }, 50);
 
     const item = {
       user_id: Number(localStorage.getItem("idUser")),
@@ -1210,7 +1214,9 @@ export class TaskComponent implements OnInit {
       this.value = JSON.parse(
         localStorage.getItem("usersFor-" + this.selectedStoreId + "-" + this.id)
       );
+      setTimeout(() => {
       this.getTaskForSelectedUsers(this.value);
+    }, 50)
       this.getUserInCompany(event);
       this.setStoreWork(event);
       localStorage.setItem("selectedStore-" + this.id, event);

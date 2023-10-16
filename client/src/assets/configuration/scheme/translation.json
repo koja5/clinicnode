@@ -2545,6 +2545,12 @@
             "licencePriceTitle": {
                 "type": "string"
             },
+            "licenceForStarterPackageTitle": {
+                "type": "string"
+            },
+            "licenceForStarterPackageText": {
+                "type": "string"
+            },
             "extendedLicenceFor": {
                 "type": "string"
             },
@@ -2558,6 +2564,9 @@
                 "type": "string"
             },
             "archiveOfPaidLicenses": {
+                "type": "string"
+            },
+            "archiveOfCurrentLicenses": {
                 "type": "string"
             },
             "licenceName": {
@@ -7822,6 +7831,12 @@
                         },
                         {
                             "key": "licencePriceTitle"
+                        },
+                        {
+                            "key": "licenceForStarterPackageTitle"
+                        },
+                        {
+                            "key": "licenceForStarterPackageText"
                         }
                     ]
                 },
@@ -7860,6 +7875,9 @@
                         },
                         {
                             "key": "archiveOfPaidLicenses"
+                        },
+                        {
+                            "key": "archiveOfCurrentLicenses"
                         }
                     ]
                 },

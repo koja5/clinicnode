@@ -41,7 +41,7 @@
             <tr>
               <td style="text-align:center;">
                 <a href="https://rakeshmandal.com" title="logo" target="_blank">
-                 <img
+                  <img
                     width="200"
                     src="http://app-production.eu:8080/assets/images/brand-logo.png"
                     title="logo"
@@ -118,13 +118,19 @@
                         style="color:#455056; font-size:15px;line-height:24px; margin:0;"
                       >
                         Name of company:
-                        {{nameOfKindergarden}}
+                        {{nameOfCompany}}
                       </p>
                       <p
                         style="color:#455056; font-size:15px;line-height:24px; margin:0;"
                       >
-                        Name of employees:
-                        {{countOfChildrens}}
+                        Number of employees:
+                        {{countOfEmployees}}
+                      </p>
+                      <p
+                        style="color:#455056; font-size:15px;line-height:24px; margin:0;"
+                      >
+                        Package price:
+                        {{price}}
                       </p>
                       <p
                         style="color:#455056; font-size:15px;line-height:24px; margin:0;"
@@ -148,7 +154,8 @@
               <td style="text-align:center;">
                 <p
                   style="font-size:13px; color:##485963bd; line-height:18px; font-style: italic;"
-                ><strong>This email was automatically generated. Please do not respond to him.</strong></p>
+                ><strong>This email was automatically generated. Please do not
+                    respond to him.</strong></p>
               </td>
             </tr>
           </table>

@@ -63,7 +63,7 @@
     "featureSectionOneText1": "Gewähren Sie Ihren Mitarbeitern, je nach Rolle / Position im Unternehmen, unterschiedliche Zugriffsrechte im System!",
     "featureSectionOneText2": "Auf dieser Basis werden den Mitarbeitern nur die Daten angezeigt, die für sie bestimmt sind und welche Rolle sie im Unternehmen haben!",
     "featureSectionOneDescriptionTitle": "Dazu gehören folgende Rollen:",
-   "featureSectionOneDescriptionList1": "Besitzer des Unternehmens",
+    "featureSectionOneDescriptionList1": "Besitzer des Unternehmens",
     "featureSectionOneDescriptionList2": "Regionalleiter",
     "featureSectionOneDescriptionList3": "Filialleiter",
     "featureSectionOneDescriptionList4": "Gruppenleiter",
@@ -184,6 +184,11 @@
     "priceTable": {
         "header": [
             {
+                "nameOfPackageTitle": "Starter",
+                "nameOfPackageText": "Starter Funktionen. Kostenlose Dienste für bis zu 10 Kunden.",
+                "price": "0.00"
+            },
+            {
                 "nameOfPackageTitle": "Basis",
                 "nameOfPackageText": "Basis Funktionen. Optimierte Version für den erfolgreichen Start.",
                 "price": "9.90"
@@ -205,20 +210,23 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Kunden verwalten",
                 "descriptionPerPackages": [
-                    "exists",
-                    "exists",
-                    "exists"
+                    "Maximal 10 Kunden",
+                    "Unbegrenzt",
+                    "Unbegrenzt",
+                    "Unbegrenzt"
                 ]
             },
             {
                 "name": "Dokumenten Management",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -227,6 +235,7 @@
             {
                 "name": "Filialen verwalten",
                 "descriptionPerPackages": [
+                    "eine Filiale",
                     "eine Filiale",
                     "eine Filiale, optional mehrere",
                     "eine Filiale, optional mehrere"
@@ -237,12 +246,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Rechnungen ertellen",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -253,12 +264,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Online Reservierung",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -269,12 +282,14 @@
                 "descriptionPerPackages": [
                     "",
                     "",
+                    "",
                     ""
                 ]
             },
             {
                 "name": "- Terminerinnerung Email / SMS",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -285,12 +300,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "SMS (100 Stück) für € 9.90",
                 "descriptionPerPackages": [
+                    "optional",
                     "optional",
                     "inkludiert",
                     "inkludiert"
@@ -299,6 +316,7 @@
             {
                 "name": "Marketing - Erweiterte Funktionen",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "exists",
                     "exists"
@@ -309,12 +327,14 @@
                 "descriptionPerPackages": [
                     "not-exists",
                     "not-exists",
+                    "not-exists",
                     "exists"
                 ]
             },
             {
                 "name": "Erweiterte Marketing Funktionen",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "not-exists",
                     "exists"
@@ -325,12 +345,14 @@
                 "descriptionPerPackages": [
                     "not-exists",
                     "not-exists",
+                    "not-exists",
                     "exists"
                 ]
             },
             {
                 "name": "Warteliste mit AI Algorithmus",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "not-exists",
                     "exists"
@@ -341,12 +363,14 @@
                 "descriptionPerPackages": [
                     "",
                     "",
+                    "",
                     ""
                 ]
             },
             {
                 "name": "- Multistore",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "€ 9.90 pro zusätzlicher Filiale",
                     "€ 9.90 pro zusätzlicher Filiale"
@@ -356,6 +380,7 @@
                 "name": "- Payment für Online-Reservierung",
                 "descriptionPerPackages": [
                     "not-exists",
+                    "not-exists",
                     "optional",
                     "optional"
                 ]
@@ -363,6 +388,7 @@
             {
                 "name": "- Online Support",
                 "descriptionPerPackages": [
+                    "optional",
                     "optional",
                     "optional",
                     "optional"
@@ -374,7 +400,7 @@
     "notFoundText": "Die gesuchte Seite existiert nicht.",
     "notFoundBackButton": "Der Rücken",
     "notFoundCopyRight": "Copyright © 2022 ClinicNode. Alle Rechte vorbehalten.",
-     "choosePackage": "Paketauswahl",
+    "choosePackage": "Paketauswahl",
     "priceOfPackage": "Der Preis des ausgewählten Pakets beträgt: ",
     "cardDetails": "Kartendetails",
     "lastPaymentStep": "Der letzte Schritt",
