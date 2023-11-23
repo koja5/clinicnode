@@ -31,5 +31,5 @@ export interface FieldConfig {
   condition?: {
     fieldName: string;
     value?: any;
-  }
+  };
 }

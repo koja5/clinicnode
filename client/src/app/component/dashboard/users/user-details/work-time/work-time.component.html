@@ -1,0 +1,82 @@
+<div>
+  <h3 class="text-center">{{language.workTimeTitle}}</h3>
+  <br>
+  <form>
+    <table class="m-auto" *ngIf="data">
+      <tr style="height: 60px;">
+        <button class="btn btn-info width-100" (click)="createNew()">{{language.createNewWorktime}}</button>
+      </tr>
+      <tr class="mb-3 width-100" style="height: 85px;">
+        <div>
+          <label>{{language.selectPredefineWorktime}}</label>
+          <div class="d-flex justify-content-center align-items-center">
+            <ejs-dropdownlist name="valid" class="width-100" [dataSource]='allWorkTimes'
+              [fields]="{text: 'validate_from', value: 'id'}" [itemTemplate]='itemTemplate'
+              [valueTemplate]='valueTemplate' [placeholder]='text' [(ngModel)]="selectValidDate"
+              (select)="changeValidateFromDropdown($event)">
+              <ng-template #itemTemplate="" let-data="">
+                {{language.validateFromWorktime}} {{data.validate_from | date : 'dd.MM.yyyy'}}
+              </ng-template>
+              <ng-template #valueTemplate="" let-data="">{{language.validateFromWorktime}} {{data.validate_from | date :
+                'dd.MM.yyyy'}}
+              </ng-template>
+            </ejs-dropdownlist>
+            <span class="fa fa-trash ml-3" (click)="deleteSelectedWorkTime()"></span>
+          </div>
+        </div>
+
+      </tr>
+      <tr class="d-flex justify-content-center mb-3" *ngFor="let item of workTime; let i = index">
+        <td style="width: 15%;">
+          <div class="mr-4">
+            <ejs-checkbox #checkbox label="{{item.name}}" [checked]="item.active ? item.active :  false"
+              (change)="item.active = !item.active"></ejs-checkbox>
+          </div>
+        </td>
+        <td style="width: 85%;">
+          <div class="d-flex align-items-center mb-2" *ngFor="let time of item.times; let j = index">
+            <ejs-timepicker class="mr-2 {{invalidStartField[i+j] ? 'border-error' : ''}}"
+              cssClass="{{invalidStartField[i+j] ? 'border-error' : ''}}" name="start{{i}}{{j}}"
+              [(ngModel)]="workTime[i].times[j].start" [enabled]="item.active" [format]="'HH:mm'" (valueChange)="changeWorkTimeStart($event, i, j)"></ejs-timepicker>
+            <ejs-timepicker class="{{invalidEndField[i+j] ? 'border-error' : ''}}"
+              cssClass="{{invalidEndField[i+j] ? 'border-error' : ''}}" name="end{{i}}{{j}}" [value]="time.end"
+              [(ngModel)]="workTime[i].times[j].end" [enabled]="item.active" [format]="'HH:mm'" (valueChange)="changeWorkTimeEnd($event, i, j)"></ejs-timepicker>
+            <span *ngIf="item.times.length > 1" class="fa fa-trash ml-3" (click)="deleteWorkTime(i, j)"></span>
+          </div>
+          <div class="text-center e-error">
+            <p *ngIf="invalidMessageStartField[i]">{{language.timeNeedToBeGreaterThanPrevious}}</p>
+            <p *ngIf="invalidMessageEndField[i]">{{language.timeNeedToBeGreaterThanPreviousSlot}}</p>
+          </div>
+
+          <div class="text-center mt-4" *ngIf="item.active">
+            <button class="btn btn-sm btn-info full-width" (click)="addNewTime(i)">{{language.addNewWorkTime}}</button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="data.validate_from">
+        <div>
+          <label>{{language.validateFromWorktime}}</label>
+          <ejs-datepicker name="validate_from" [(ngModel)]="data.validate_from"
+            [format]="'dd.MM.yyyy'"></ejs-datepicker>
+        </div>
+      </tr>
+      <tr *ngIf="palette && palette.length != 0">
+        <div>
+          <label>{{ language.color }} </label>
+          <kendo-colorpalette class="d-block" [palette]="palette" name="color" [value]="data.color"
+            [(ngModel)]="data.color" [tileSize]="30" (valueChange)="changeColorPalette($event)">
+          </kendo-colorpalette>
+        </div>
+      </tr>
+
+    </table>
+
+    <div class="text-right">
+      <button class="btn btn-info"
+        (click)="newWorkTime ? saveWorkTime() : updateWorkTime()">{{language.saveWorkTime}}</button>
+    </div>
+
+  </form>
+
+
+</div>

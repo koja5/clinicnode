@@ -2,12 +2,14 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { Modal } from "ngx-modal";
 import { Subject } from "rxjs";
 import { DynamicFormsComponent } from "src/app/component/dynamic-elements/dynamic-forms/dynamic-forms.component";
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 import { FormGuardData } from "src/app/models/formGuard-data";
 import { DynamicService } from "src/app/service/dynamic.service";
 import { HelpService } from "src/app/service/help.service";
 import { MarketingService } from "src/app/service/marketing.service";
 
-const draftType = 'email';
+const draftType = "email";
 
 @Component({
   selector: "app-massive-email",
@@ -18,7 +20,7 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
   @ViewChild(DynamicFormsComponent) form: DynamicFormsComponent;
   @ViewChild("recipients") recipients: Modal;
   @ViewChild("saveDraft") saveDraft: Modal;
-  public configField: any;
+  public configField = new FormConfig();
   public language: any;
   public superadmin: string;
   public loading = true;
@@ -32,9 +34,9 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
   public draftName: string;
   public originalDraftName: string;
   isFormDirty: boolean = false;
-  
+
   isDataSaved$: Subject<boolean> = new Subject<boolean>();
-  showDialogExit: boolean = false
+  showDialogExit: boolean = false;
   selectedIndex: number;
   public dialogOpened = false;
   public saveDraftModalHeader: string;
@@ -55,7 +57,7 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
     this.dynamicService
       .getConfiguration("administarator", "massive-email")
       .subscribe((config) => {
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
         this.getEmailDrafts();
 
         this.loading = false;
@@ -63,13 +65,15 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
   }
 
   getEmailDrafts(selectNewlyCreated?: boolean) {
-    this.marketingService.getDrafts(this.superadmin, draftType).subscribe((data) => {
-      this.emailDrafts = data;
-      if (selectNewlyCreated) {
-        this.selectedIndex = this.emailDrafts.length - 1;
-        this.packDraftData(this.emailDrafts[this.emailDrafts.length - 1]);
-      }
-    })
+    this.marketingService
+      .getDrafts(this.superadmin, draftType)
+      .subscribe((data) => {
+        this.emailDrafts = data;
+        if (selectNewlyCreated) {
+          this.selectedIndex = this.emailDrafts.length - 1;
+          this.packDraftData(this.emailDrafts[this.emailDrafts.length - 1]);
+        }
+      });
   }
 
   onDraftChange(emailDraft) {
@@ -77,11 +81,10 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
     this.draftName = "";
     this.isDataSavedChange(true);
     this.changeFormDirty(false);
-    if(emailDraft.id !== 0) {
+    if (emailDraft.id !== 0) {
       this.editMode = true;
-      this.packDraftData(emailDraft)
-    }
-    else {
+      this.packDraftData(emailDraft);
+    } else {
       this.editMode = false;
     }
   }
@@ -90,32 +93,37 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
     this.data = data;
 
     if (this.data) {
-      for (let i = 0; i < this.configField.length; i++) {
-        if (this.configField[i].type === "multiselect") {
-          if (this.configField[i].allowCustom) {
-            this.configField[i].value =
-              Array.isArray(this.data[this.configField[i].name]) ||
-              this.data[this.configField[i].name] === ""
-                ? this.data[this.configField[i].name]
+      for (let i = 0; i < this.configField.config.length; i++) {
+        if (this.configField.config[i].type === "multiselect") {
+          if (this.configField.config[i].allowCustom) {
+            this.configField.config[i].value =
+              Array.isArray(this.data[this.configField.config[i].name]) ||
+              this.data[this.configField.config[i].name] === ""
+                ? this.data[this.configField.config[i].name]
                 : this.helpService.multiSelectStringToArrayString(
-                    this.data[this.configField[i].name]
+                    this.data[this.configField.config[i].name]
                   );
-            this.data[this.configField[i].name] = this.configField[i].value;
+            this.data[this.configField.config[i].name] =
+              this.configField.config[i].value;
           } else {
-            this.configField[i].value = Array.isArray(
-              this.data[this.configField[i].name]
+            this.configField.config[i].value = Array.isArray(
+              this.data[this.configField.config[i].name]
             )
-              ? this.data[this.configField[i].name]
+              ? this.data[this.configField.config[i].name]
               : this.helpService.multiSelectStringToArrayNumber(
-                  this.data[this.configField[i].name]
+                  this.data[this.configField.config[i].name]
                 );
-            this.data[this.configField[i].name] = this.configField[i].value;
+            this.data[this.configField.config[i].name] =
+              this.configField.config[i].value;
           }
-        } else if (this.configField[i].type === "checkbox") {
-          this.configField[i].value = !!this.data[this.configField[i].field];
-          this.data[this.configField[i].field] = this.configField[i].value;
+        } else if (this.configField.config[i].type === "checkbox") {
+          this.configField.config[i].value =
+            !!this.data[this.configField.config[i].field];
+          this.data[this.configField.config[i].field] =
+            this.configField.config[i].value;
         } else {
-          this.configField[i].value = this.data[this.configField[i].field];
+          this.configField.config[i].value =
+            this.data[this.configField.config[i].field];
         }
       }
     }
@@ -137,25 +145,28 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
     this.allRecipients = null;
     this.dynamicService
       .callApiPost("/api/getFilteredRecipients", this.changeData)
-      .subscribe((data) => {
-        console.log(data);
-        if (data) {
-          this.allRecipients = data;
-        }  else if(!data) {
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data) {
+            this.allRecipients = data;
+          } else if (!data) {
+            this.recipients.close();
+            this.helpService.warningToastr(
+              "",
+              this.language.needToConfigurationParams
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
           this.recipients.close();
           this.helpService.warningToastr(
             "",
             this.language.needToConfigurationParams
           );
         }
-      }, (error) => {
-        console.log(error);
-        this.recipients.close();
-        this.helpService.warningToastr(
-          "",
-          this.language.needToConfigurationParams
-        );
-      });
+      );
   }
 
   sendMails() {
@@ -178,14 +189,14 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
   prepareForCopyModal(headerName: string) {
     this.copyMode = true;
     this.editMode = false;
-    this.originalDraftName = this.draftName
+    this.originalDraftName = this.draftName;
     this.draftName = `${this.draftName} Copy`;
     this.openSaveDraftModal(headerName);
   }
 
   actionOnClose() {
-    if(this.copyMode) {
-      this.copyMode = false
+    if (this.copyMode) {
+      this.copyMode = false;
       this.editMode = true;
       this.draftName = this.originalDraftName;
     }
@@ -199,7 +210,7 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
       draftType
     );
 
-    if(this.editMode) {
+    if (this.editMode) {
       emailDraft = {
         ...emailDraft,
         id: this.data.id,
@@ -215,13 +226,13 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
             this.language.successTitle,
             this.language.emailDraftEditedSuccessfully
           );
-        }else {
+        } else {
           this.helpService.errorToastr(
             this.language.errorTitle,
             this.language.errorTextEdit
           );
         }
-      })
+      });
     } else {
       this.marketingService.createDraft(emailDraft).subscribe((data) => {
         if (data) {
@@ -229,7 +240,7 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
             this.language.successTitle,
             this.language.emailDraftSavedSuccessfully
           );
-        }else {
+        } else {
           this.helpService.errorToastr(
             this.language.errorTitle,
             this.language.accountErrorUpdatedAccountText
@@ -243,7 +254,6 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
         this.editMode = true;
       });
     }
-    
   }
 
   onCreateNewDraft() {
@@ -251,12 +261,18 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
     this.draftName = "";
     this.form.form.reset();
     this.editMode = false;
-    if(!this.emailDrafts || !this.emailDrafts.length) {
-      this.emailDrafts.unshift({id: 0, draftName: this.language.addNewEmailDraft || 'Add new email draft'});
+    if (!this.emailDrafts || !this.emailDrafts.length) {
+      this.emailDrafts.unshift({
+        id: 0,
+        draftName: this.language.addNewEmailDraft || "Add new email draft",
+      });
       return;
     }
-    if(this.emailDrafts[0].draftName !== this.language.addNewEmailDraft) {
-      this.emailDrafts.unshift({id: 0, draftName: this.language.addNewEmailDraft || 'Add new email draft'});
+    if (this.emailDrafts[0].draftName !== this.language.addNewEmailDraft) {
+      this.emailDrafts.unshift({
+        id: 0,
+        draftName: this.language.addNewEmailDraft || "Add new email draft",
+      });
     }
   }
 
@@ -269,19 +285,19 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
       this.draftName = "";
       this.isDataSavedChange(true);
       this.changeFormDirty(false);
-      
+
       if (data) {
         this.helpService.successToastr(
           this.language.successTitle,
           this.language.emailDraftDeletedSuccessfully
         );
-      }else {
+      } else {
         this.helpService.errorToastr(
           this.language.errorTitle,
-          this.language.errorTextEdit,
+          this.language.errorTextEdit
         );
       }
-    })
+    });
   }
 
   isDataSavedChange(event: boolean) {
@@ -293,7 +309,7 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
   }
 
   changeFormDirty(event) {
-    this.isFormDirty = event
+    this.isFormDirty = event;
   }
 
   changeShowDialogExit(event) {
@@ -305,7 +321,7 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
   }
 
   closeDeleteDialog(status: string): void {
-    if(status === 'yes') {
+    if (status === "yes") {
       this.deleteEmailDraft();
     }
     this.dialogOpened = false;

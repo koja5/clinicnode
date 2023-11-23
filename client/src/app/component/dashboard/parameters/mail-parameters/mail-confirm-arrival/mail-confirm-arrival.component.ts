@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Subject } from "rxjs";
 import { DynamicFormsComponent } from "src/app/component/dynamic-elements/dynamic-forms/dynamic-forms.component";
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 import { FormGuardData } from "src/app/models/formGuard-data";
 import { MailReminderModel } from "src/app/models/mail-reminder-model";
 import { DynamicService } from "src/app/service/dynamic.service";
@@ -23,11 +25,11 @@ export class MailConfirmArrivalComponent implements OnInit, FormGuardData {
   public data: any;
   public changeData: any;
   public showDialog = false;
-  public configField: any;
+  public configField = new FormConfig();
   public language: any;
   isFormDirty: boolean = false;
   isDataSaved$: Subject<boolean> = new Subject<boolean>();
-  showDialogExit: boolean = false
+  showDialogExit: boolean = false;
 
   constructor(
     private service: ParameterItemService,
@@ -49,7 +51,7 @@ export class MailConfirmArrivalComponent implements OnInit, FormGuardData {
   }
 
   changeFormDirty(event) {
-    this.isFormDirty = event
+    this.isFormDirty = event;
   }
 
   changeShowDialogExit(event) {
@@ -62,7 +64,7 @@ export class MailConfirmArrivalComponent implements OnInit, FormGuardData {
     this.dynamicService
       .getConfiguration(this.path, this.file)
       .subscribe((config) => {
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
         this.getData(this.id);
       });
   }
@@ -78,10 +80,10 @@ export class MailConfirmArrivalComponent implements OnInit, FormGuardData {
   }
 
   packValue(data) {
-    for (let i = 0; i < this.configField.length; i++) {
-      this.configField[i].value = this.helpService.convertValue(
-        data[0][this.configField[i].field],
-        this.configField[i].type
+    for (let i = 0; i < this.configField.config.length; i++) {
+      this.configField.config[i].value = this.helpService.convertValue(
+        data[0][this.configField.config[i].field],
+        this.configField.config[i].type
       );
     }
   }

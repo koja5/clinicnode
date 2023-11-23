@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { Subject } from "rxjs";
 import { AnonymousSubject } from "rxjs-compat";
 import { DynamicFormsComponent } from "src/app/component/dynamic-elements/dynamic-forms/dynamic-forms.component";
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 import { FormGuardData } from "src/app/models/formGuard-data";
 import { DynamicService } from "src/app/service/dynamic.service";
 import { HelpService } from "src/app/service/help.service";
@@ -14,7 +16,7 @@ import { RemindersService } from "src/app/service/reminders.service";
 })
 export class RemindersComponent implements OnInit, FormGuardData {
   @ViewChild(DynamicFormsComponent) form: DynamicFormsComponent;
-  public configField: any;
+  public configField = new FormConfig();
   public language: any;
   public superadmin: string;
   public loading = true;
@@ -39,8 +41,8 @@ export class RemindersComponent implements OnInit, FormGuardData {
 
   getValue(event: any): void {
     if (
-      this.configField[0].value == event.email &&
-      this.configField[1].value == event.sms
+      this.configField.config[0].value == event.email &&
+      this.configField.config[1].value == event.sms
     ) {
       this.isFormDirty = false;
     } else {
@@ -64,7 +66,7 @@ export class RemindersComponent implements OnInit, FormGuardData {
     this.dynamicService
       .getConfiguration("settings/permission", "reminders")
       .subscribe((config) => {
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
         this.getData();
       });
   }
@@ -81,11 +83,11 @@ export class RemindersComponent implements OnInit, FormGuardData {
 
   packValue(data) {
     this.loading = false;
-    for (let i = 0; i < this.configField.length; i++) {
-      if (data && data[this.configField[i].field]) {
-        this.configField[i].value = true;
+    for (let i = 0; i < this.configField.config.length; i++) {
+      if (data && data[this.configField.config[i].field]) {
+        this.configField.config[i].value = true;
       } else {
-        this.configField[i].value = false;
+        this.configField.config[i].value = false;
       }
     }
   }

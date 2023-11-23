@@ -130,6 +130,32 @@
       }
     },
     {
+      "title": "Nicht bezahlt/Bezahlt",
+      "width": 150,
+      "template": {
+        "choices": [
+          {
+            "field": "paid",
+            "value": 0,
+            "operator": "==",
+            "html": "<span class='e-warning'>Nicht bezahlt</span>"
+          },
+          {
+            "field": "paid",
+            "value": 0,
+            "operator": "!=",
+            "html": "<span class='e-success'>Bezahlt</span>"
+          }
+        ]
+      },
+      "field": "paid"
+    },
+    {
+      "title": "Gezahlter Betrag",
+      "width": 80,
+      "field": "amount"
+    },
+    {
       "title": "Email",
       "width": 200,
       "filterable": true,

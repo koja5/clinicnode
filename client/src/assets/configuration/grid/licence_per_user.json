@@ -105,14 +105,6 @@
     "configField": [
         {
             "type": "textbox",
-            "width": "col-md-12 ",
-            "name": "superadmin_id",
-            "label": "superadmin_id",
-            "field": "superadmin_id",
-            "readonly": true
-        },
-        {
-            "type": "textbox",
             "width": "col-md-12 hide",
             "name": "licence_id",
             "label": "licenceName",

@@ -1,7 +1,7 @@
 [
   {
     "type": "textbox",
-    "width": "col-md-4",
+    "width": "col-md-6",
     "name": "firstname",
     "label": "firstname",
     "field": "firstname",
@@ -9,7 +9,7 @@
   },
   {
     "type": "textbox",
-    "width": "col-md-4",
+    "width": "col-md-6",
     "name": "lastname",
     "label": "lastname",
     "field": "lastname",

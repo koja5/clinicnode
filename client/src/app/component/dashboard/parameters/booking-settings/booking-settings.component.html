@@ -1,0 +1,9 @@
+<div class="settings-container">
+  <h3 class="center">{{ language?.bookingSettings }}</h3>
+  <div *ngIf="loading" style="height: 80vh">
+    <div class="spinner loading"></div>
+  </div>
+  <app-dynamic-forms *ngIf="!loading" [path]="path" [file]="file" [data]="data" (submit)="saveConfig($event)">
+  </app-dynamic-forms>
+  <button class="btn btn-default" (click)="generateOnlineLink()">{{language.generateBookingOnlineLink}}</button>
+</div>

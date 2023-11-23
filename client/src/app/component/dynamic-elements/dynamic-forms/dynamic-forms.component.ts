@@ -11,6 +11,10 @@ import { HelpService } from "src/app/service/help.service";
 import { MessageService } from "src/app/service/message.service";
 
 import { FieldConfig } from "./models/field-config";
+import { DynamicService } from "src/app/service/dynamic.service";
+import { FormConfig } from "../dynamic-models/form-config";
+import { ActivatedRoute } from "@angular/router";
+import { FieldType } from "../../enum/field-type";
 
 @Component({
   exportAs: "dynamicForm",
@@ -20,7 +24,10 @@ import { FieldConfig } from "./models/field-config";
 })
 export class DynamicFormsComponent implements OnInit, OnChanges {
   @Input()
-  config: FieldConfig[] = [];
+  config!: FormConfig;
+  @Input() path!: string;
+  @Input() file!: string;
+  @Input() data!: any;
 
   @Input()
   showDialogExit: boolean = false;
@@ -50,7 +57,7 @@ export class DynamicFormsComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   get controls() {
-    return this.config.filter(({ type }) => type !== "button");
+    return this.config.config.filter(({ type }) => type !== "button");
   }
   get changes() {
     return this.form.valueChanges;
@@ -62,13 +69,63 @@ export class DynamicFormsComponent implements OnInit, OnChanges {
     return this.form.value;
   }
   language: any;
+  public loader = false;
 
-  constructor(private fb: FormBuilder, private helpService: HelpService) {}
+  constructor(
+    private fb: FormBuilder,
+    private helpService: HelpService,
+    private configurationService: DynamicService,
+    private router: ActivatedRoute,
+    private service: DynamicService
+  ) {}
 
   ngOnInit() {
-    this.language = this.helpService.getLanguage();
-    this.form = this.createGroup();
-    this.onChanges();
+    if (this.path && this.file && !this.data) {
+      this.initializeConfig();
+      this.loader = false;
+    } else if (this.data) {
+      this.getConfigurationFile();
+      this.loader = false;
+    } else {
+      this.language = this.helpService.getLanguage();
+      this.form = this.createGroup();
+      this.onChanges();
+    }
+  }
+
+  initializeConfig() {
+    this.configurationService
+      .getConfiguration(this.path, this.file)
+      .subscribe((data) => {
+        this.config = data as FormConfig;
+        // if (this.disableEdit) {
+        //   this.setDisableEdit();
+        // }
+        // if (this.config.actionButtons) {
+        //   this.setDisableEdit();
+        // }
+        this.form = this.createGroup();
+        if (this.config.request && !this.data) {
+          this.getData(this.config);
+        }
+      });
+  }
+
+  getConfigurationFile() {
+    this.configurationService
+      .getConfiguration(this.path, this.file)
+      .subscribe((data) => {
+        this.config = data as FormConfig;
+        this.form = this.createGroup();
+        this.setValueToForm(this.config.config, this.data);
+      });
+  }
+
+  getData(data: any) {
+    this.service.callApiGet(data, this.router).subscribe((data) => {
+      this.data = data;
+      this.setValueToForm(this.config.config, data);
+    });
   }
 
   getIsFormDirty() {
@@ -114,7 +171,9 @@ export class DynamicFormsComponent implements OnInit, OnChanges {
       configControls
         .filter((control) => !controls.includes(control))
         .forEach((name) => {
-          const config = this.config.find((control) => control.name === name);
+          const config = this.config.config.find(
+            (control) => control.name === name
+          );
           this.form.addControl(name, this.createControl(config));
         });
     }
@@ -153,7 +212,7 @@ export class DynamicFormsComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.config = this.config.map((item) => {
+    this.config.config = this.config.config.map((item) => {
       if (item.name === name) {
         item.disabled = disable;
       }
@@ -162,7 +221,7 @@ export class DynamicFormsComponent implements OnInit, OnChanges {
   }
 
   private mapCondition(noEventSinceCheckboxVal) {
-    let field = this.config.find((x) => x.name === "noEventSinceDate");
+    let field = this.config.config.find((x) => x.name === "noEventSinceDate");
     let control = this.form.get(field.name);
     if (field.condition) {
       if (noEventSinceCheckboxVal) {
@@ -176,9 +235,52 @@ export class DynamicFormsComponent implements OnInit, OnChanges {
     }
   }
 
-  setValue(name: string, value: any) {
-    if (this.form.controls[name]) {
-      this.form.controls[name].setValue(value, { emitEvent: true });
+  setValue(name: string, value: any, type: string) {
+    if (name) {
+      if (this.form.controls[name]) {
+        if (type === "switch" || type === "checkbox") {
+          this.form.controls[name].setValue(this.convertBooleanValue(value), {
+            emitEvent: true,
+          });
+        } else {
+          this.form.controls[name].setValue(value, { emitEvent: true });
+        }
+      }
     }
+  }
+
+  convertBooleanValue(value: number) {
+    if (value === 1 || value) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  setValueToForm(fields: any, values: any) {
+    if (values && values.length > 0) {
+      for (let k = 0; k < values.length; k++) {
+        for (let i = 0; i < fields.length; i++) {
+          if (fields[i]["type"] !== FieldType.label) {
+            this.setValue(
+              fields[i]["name"],
+              values[k][fields[i]["name"]],
+              fields[i]["type"]
+            );
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < fields.length; i++) {
+        if (fields[i]["type"] !== FieldType.label && values) {
+          this.setValue(
+            fields[i]["name"],
+            values[fields[i]["name"]],
+            fields[i]["type"]
+          );
+        }
+      }
+    }
+    this.loader = false;
   }
 }

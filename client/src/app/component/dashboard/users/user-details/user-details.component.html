@@ -373,20 +373,23 @@
                   </div>
                 </div>
                 <div *ngIf="currentTab === 'workTime'">
-                  <div id="profile-tab" class="tab-pane">
+                  <app-work-time [userId]="id"></app-work-time>
+
+                  <!-- <div id="profile-tab" class="tab-pane">
                     <p *ngIf="noSetWorkTime" class="noSetWorkTime">
                       *{{ language.noSetTimeForUserNote }}
                     </p>
                     <div class="k-form-field col-sm-12 row" style="padding: 0vh">
                       <div class="col-sm-8 col-xs-10">
-                        <label>{{ language.currentWorkTime }}</label><br/>
-                        <select [(ngModel)]="index" class="col-lg-2 col-sm-5 col-xs-5"(change)="onOptionSelected($event.target.value)">
+                        <label>{{ language.currentWorkTime }}</label><br />
+                        <select [(ngModel)]="index" class="col-lg-2 col-sm-5 col-xs-5"
+                          (change)="onOptionSelected($event.target.value)">
                           <option *ngFor="let workTime of allWorkTime;
                            index as indexOfelement;" [value]="indexOfelement">{{indexOfelement + 1}}</option>
                         </select>
                       </div>
                       <div class="col-sm-8 col-xs-10 wrkTimeDiv">
-                        <label>{{ language.validFromDate }}</label><br/>
+                        <label>{{ language.validFromDate }}</label><br />
                         <kendo-datepicker [format]="'dd.MM.yyyy'" class="noPadding" name="validDate"
                           placeholder="Valid date" [(ngModel)]="validDate" validDate.value="" readonly="true">
                         </kendo-datepicker>
@@ -407,54 +410,35 @@
                       ">
                       <div class="row"></div>
                       <div class="form-group dayInWeekDiv col-xs-12 b-r" *ngFor="let item of workTime; let i = index">
-                          <label for="example-number-input" class="col-sm col-sx-1 col-form-label">{{item.day}}</label>
-                          <div class="row col-sm-12 col-xs-12">
-                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
-                              id="example-number-input" value="{{ item.start }}" [(ngModel)]="workTime[i].start"
-                              name="{{ item.day }}start" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
-                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                            value="{{item.startMin}}" [(ngModel)]="workTime[i].startMin" name="{{item.day}}startMin"><span
-                            class="col-sm-1 h">min</span> -->
-                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
-                              id="example-number-input" value="{{ item.end }}" [(ngModel)]="workTime[i].end"
-                              name="{{ item.day }}end" readonly="true" />
-                            <span class="col-sm-1 col-xs-1 h">h</span>
-                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                            value="{{item.endMin}}" [(ngModel)]="workTime[i].endMin" name="{{item.day}}endMin"> <span
-                            class="col-sm-1 h">min</span> -->
+                        <label for="example-number-input" class="col-sm col-sx-1 col-form-label">{{item.day}}</label>
+                        <div class="row col-sm-12 col-xs-12">
+                          <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                            id="example-number-input" value="{{ item.start }}" [(ngModel)]="workTime[i].start"
+                            name="{{ item.day }}start" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
+                          <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                            id="example-number-input" value="{{ item.end }}" [(ngModel)]="workTime[i].end"
+                            name="{{ item.day }}end" readonly="true" />
+                          <span class="col-sm-1 col-xs-1 h">h</span>
 
-                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox  type="number" min="0" max="24"
-                              id="example-number-input" value="{{ item.start2 }}" [(ngModel)]="workTime[i].start2"
-                              name="{{ item.day }}start2" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
-                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                            value="{{item.start2Min}}" [(ngModel)]="workTime[i].start2Min" name="{{item.day}}start2Min"><span
-                            class="col-sm-1 h">min</span> -->
-                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox  type="number" min="0" max="24"
-                              id="example-number-input" value="{{ item.end2 }}" [(ngModel)]="workTime[i].end2"
-                              name="{{ item.day }}end2" readonly="true" />
-                            <span  class="col-sm-1 col-xs-1 h">h</span>
-                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                            value="{{item.end2Min}}" [(ngModel)]="workTime[i].end2Min" name="{{item.day}}end2Min"> <span
-                            class="col-sm-1 h">min</span> -->
+                          <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                            id="example-number-input" value="{{ item.start2 }}" [(ngModel)]="workTime[i].start2"
+                            name="{{ item.day }}start2" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
+                          <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                            id="example-number-input" value="{{ item.end2 }}" [(ngModel)]="workTime[i].end2"
+                            name="{{ item.day }}end2" readonly="true" />
+                          <span class="col-sm-1 col-xs-1 h">h</span>
+                          <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                            id="example-number-input" value="{{ item.start3 }}" [(ngModel)]="workTime[i].start3"
+                            name="{{ item.day }}start3" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
+                          <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
+                            id="example-number-input" value="{{ item.end3 }}" [(ngModel)]="workTime[i].end3"
+                            name="{{ item.day }}end3" readonly="true" />
+                          <span class="col-sm-1 col-xs-1 h">h</span>
+                        </div>
 
-                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
-                              id="example-number-input" value="{{ item.start3 }}" [(ngModel)]="workTime[i].start3"
-                              name="{{ item.day }}start3" readonly="true" /><span class="col-sm-1 col-xs-1 h">h</span>
-                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                            value="{{item.start3Min}}" [(ngModel)]="workTime[i].start3Min" name="{{item.day}}start3Min"><span
-                            class="col-sm-1 h">min</span> -->
-                            <input class="col-sm-5 col-xs-5 b-r" kendoTextBox type="number" min="0" max="24"
-                              id="example-number-input" value="{{ item.end3 }}" [(ngModel)]="workTime[i].end3"
-                              name="{{ item.day }}end3" readonly="true" />
-                            <span class="col-sm-1 col-xs-1 h">h</span>
-                            <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                            value="{{item.end3Min}}" [(ngModel)]="workTime[i].end3Min" name="{{item.day}}end3Min"> <span
-                            class="col-sm-1 h">min</span> -->
-                          </div>
-                     
                       </div>
                     </form>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="tab-content" *ngIf="currentTab === 'permissions'">
                   <div id="profile-tab" class="tab-pane active">
@@ -522,7 +506,7 @@
               <a (click)="changeTab('profile')">{{ language.profile }}</a>
             </li>
             <li [ngClass]="currentTab === 'workTime' ? 'active' : ''">
-              <a (click)="changeTab('workTime')">{{ language.workTime }}</a>language
+              <a (click)="changeTab('workTime')">{{ language.workTime }}</a>
             </li>
             <li [ngClass]="currentTab === 'permissions' ? 'active' : ''">
               <a (click)="changeTab('permissions')">{{
@@ -644,7 +628,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="k-form-field col-md-12 label__active">
+                  <label class="k-form-field col-md-12 text-center mt-4">
                     {{ language.active }} &nbsp;
                     <kendo-switch [(ngModel)]="data.active" name="active"></kendo-switch>
                   </label>
@@ -659,14 +643,16 @@
             </div>
           </div>
           <div *ngIf="currentTab === 'workTime'">
-            <div id="profile-tab" class="tab-pane active">
+            <app-work-time [userId]="id"></app-work-time>
+            <!-- <div id="profile-tab" class="tab-pane active">
               <p *ngIf="noSetWorkTime" class="noSetWorkTime">
                 *{{ language.noSetTimeForUserNote }}
               </p>
               <div class="k-form-field row">
                 <div class="col-sm-8 col-xs-10" style="padding-top: 2%;">
-                  <label>{{ language.currentWorkTime }}</label><br/>
-                  <select [(ngModel)]="index" class="col-lg-3 col-sm-5 col-xs-5"(change)="onOptionSelected($event.target.value)">
+                  <label>{{ language.currentWorkTime }}</label><br />
+                  <select [(ngModel)]="index" class="col-lg-3 col-sm-5 col-xs-5"
+                    (change)="onOptionSelected($event.target.value)">
                     <option *ngFor="let workTime of allWorkTime;
                      index as indexOfelement;" [value]="indexOfelement">{{indexOfelement + 1}}</option>
                   </select>
@@ -680,8 +666,8 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row "style="padding-top: 2%;">
-                <label class="col-md-2 col-xs-8 col-sm-5 col-form-label" > {{ language.validFromDate}} </label>
+              <div class="form-group row " style="padding-top: 2%;">
+                <label class="col-md-2 col-xs-8 col-sm-5 col-form-label"> {{ language.validFromDate}} </label>
                 <kendo-datepicker [format]="'dd.MM.yyyy'" class="col-md-5 col-xs-6" name="validDate"
                   placeholder="Valid date" [(ngModel)]="validDate" validDate.value=""></kendo-datepicker>
                 <div class="col-sm-3 col-xs-6">
@@ -704,44 +690,26 @@
                     <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
                       id="example-number-input" value="{{ item.start }}" [(ngModel)]="workTime[i].start"
                       name="{{ item.day }}start" /><span class="col-sm-1 col-xs-1 h">h</span>
-                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                    value="{{item.startMin}}" [(ngModel)]="workTime[i].startMin" name="{{item.day}}startMin"><span
-                    class="col-sm-1 h">min</span> -->
                     <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
                       id="example-number-input" value="{{ item.end }}" [(ngModel)]="workTime[i].end"
                       name="{{ item.day }}end" />
                     <span class="col-sm-1 col-xs-1 h">h</span>
-                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                    value="{{item.endMin}}" [(ngModel)]="workTime[i].endMin" name="{{item.day}}endMin"> <span
-                    class="col-sm-1 h">min</span> -->
 
                     <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
                       id="example-number-input" value="{{ item.start2 }}" [(ngModel)]="workTime[i].start2"
                       name="{{ item.day }}start2" /><span class="col-sm-1 col-xs-1 h">h</span>
-                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                    value="{{item.start2Min}}" [(ngModel)]="workTime[i].start2Min" name="{{item.day}}start2Min"><span
-                    class="col-sm-1 h">min</span> -->
                     <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
                       id="example-number-input" value="{{ item.end2 }}" [(ngModel)]="workTime[i].end2"
                       name="{{ item.day }}end2" />
                     <span class="col-sm-1 col-xs-1 h">h</span>
-                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                    value="{{item.end2Min}}" [(ngModel)]="workTime[i].end2Min" name="{{item.day}}end2Min"> <span
-                    class="col-sm-1 h">min</span> -->
 
                     <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
                       id="example-number-input" value="{{ item.start3 }}" [(ngModel)]="workTime[i].start3"
                       name="{{ item.day }}start3" /><span class="col-sm-1 col-xs-1 h">h</span>
-                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                    value="{{item.start3Min}}" [(ngModel)]="workTime[i].start3Min" name="{{item.day}}start3Min"><span
-                    class="col-sm-1 h">min</span> -->
                     <input kendoTextBox class="col-sm-5 col-xs-5 b-r" type="number" min="0" max="24"
                       id="example-number-input" value="{{ item.end3 }}" [(ngModel)]="workTime[i].end3"
                       name="{{ item.day }}end3" />
                     <span class="col-sm-1 col-xs-1 h">h</span>
-                    <!-- <input class="col-sm-2 col-xs-6" type="number" min="0" max="24" id="example-number-input"
-                    value="{{item.end3Min}}" [(ngModel)]="workTime[i].end3Min" name="{{item.day}}end3Min"> <span
-                    class="col-sm-1 h">min</span> -->
                   </div>
                 </div>
                 <div class="form-group" style="text-align: center">
@@ -755,7 +723,7 @@
                   </button>
                 </div>
               </form>
-            </div>
+            </div> -->
           </div>
           <div class="tab-content" *ngIf="currentTab === 'permissions'">
             <div id="profile-tab" class="tab-pane active">

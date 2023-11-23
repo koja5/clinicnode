@@ -1066,6 +1066,8 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
     formValue.color = this.getColorForEvent(
       this.selected ? this.selected : args.data.colorTask
     );
+    formValue.online = args.data.online;
+    formValue.paid = args.data.paid;
     formValue.superadmin = this.helpService.getSuperadmin();
     formValue.creator_id = args.data.creator_id;
     formValue = this.colorMapToId(formValue);
@@ -3099,20 +3101,7 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
               date.date.getDay() - 1 < 5 &&
               date.date.getDay() !== 0
             ) {
-              if (
-                (workItem.times[date.date.getDay() - 1].start <=
-                  date.date.getHours() &&
-                  workItem.times[date.date.getDay() - 1].end >
-                    date.date.getHours()) ||
-                (workItem.times[date.date.getDay() - 1].start2 <=
-                  date.date.getHours() &&
-                  workItem.times[date.date.getDay() - 1].end2 >
-                    date.date.getHours()) ||
-                (workItem.times[date.date.getDay() - 1].start3 <=
-                  date.date.getHours() &&
-                  workItem.times[date.date.getDay() - 1].end3 >
-                    date.date.getHours())
-              ) {
+              if (this.checkWorkTimeRange(workItem.times, date.date)) {
                 date.element.style.background = workItem.color;
                 if (this.type === this.userType.readOnlyScheduler) {
                   date.element.style.pointerEvents = "none";
@@ -3167,6 +3156,25 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkWorkTimeRange(worktime, date) {
+    for (let i = 0; i < worktime.length; i++) {
+      for (let j = 0; j < worktime[date.getDay() - 1].times.length; j++) {
+        if (
+          worktime[date.getDay() - 1].active &&
+          worktime[date.getDay() - 1].times[j].start &&
+          worktime[date.getDay() - 1].times[j].end &&
+          new Date(worktime[date.getDay() - 1].times[j].start).getHours() <=
+            date.getHours() &&
+          new Date(worktime[date.getDay() - 1].times[j].end).getHours() >
+            date.getHours()
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   getWorkWeekEndDay() {
     if (
       this.scheduleObj.firstDayOfWeek === 0 ||
@@ -3210,22 +3218,23 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < workTime.length; i++) {
       workTimeArray = [];
-      for (let j = 1; j < 6; j++) {
-        workTimeObject = {
-          day: Number(workTime[i][this.convertNumericToDay(j)].split("-")[0]),
-          start: workTime[i][this.convertNumericToDay(j)].split("-")[1],
-          end: workTime[i][this.convertNumericToDay(j)].split("-")[2],
-          start2: workTime[i][this.convertNumericToDay(j)].split("-")[3],
-          end2: workTime[i][this.convertNumericToDay(j)].split("-")[4],
-          start3: workTime[i][this.convertNumericToDay(j)].split("-")[5],
-          end3: workTime[i][this.convertNumericToDay(j)].split("-")[6],
-        };
-        workTimeArray.push(workTimeObject);
-      }
+      // for (let j = 1; j < 6; j++) {
+      //   workTimeObject = {
+      //     day: Number(workTime[i][this.convertNumericToDay(j)].split("-")[0]),
+      //     start: workTime[i][this.convertNumericToDay(j)].split("-")[1],
+      //     end: workTime[i][this.convertNumericToDay(j)].split("-")[2],
+      //     start2: workTime[i][this.convertNumericToDay(j)].split("-")[3],
+      //     end2: workTime[i][this.convertNumericToDay(j)].split("-")[4],
+      //     start3: workTime[i][this.convertNumericToDay(j)].split("-")[5],
+      //     end3: workTime[i][this.convertNumericToDay(j)].split("-")[6],
+      //   };
+      //   workTimeArray.push(workTimeObject);
+      // }
+
       allWorkTime.push({
-        change: workTime[i].dateChange,
+        change: workTime[i].validate_from,
         color: workTime[i].color,
-        times: workTimeArray,
+        times: JSON.parse(workTime[i].value),
       });
     }
     console.log(allWorkTime);

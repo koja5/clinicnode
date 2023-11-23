@@ -219,3 +219,13 @@ h5 {
 .profile-userpic {
   position: relative;
 }
+
+.modal-body {
+  height: auto !important;
+}
+
+.tab-pane {
+  height: 50rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

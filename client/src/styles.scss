@@ -7,6 +7,9 @@
 @import url("../node_modules/font-awesome/css/font-awesome.min.css");
 @import "~ngx-toastr/toastr";
 @import url("./assets/css/custom/custom-elements/syncfusion-grid.css");
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-angular-buttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-angular-popups/styles/material.css";
 .k-tabstrip > .k-content {
   overflow: -webkit-paged-x !important;
   padding: 3vh 4vh !important;
@@ -200,6 +203,10 @@ tr.k-grid-norecords:hover {
 
 .margin-left {
   margin: 0px 0px 0px 5px;
+}
+
+.m-auto {
+  margin: auto;
 }
 
 .action-button {
@@ -11765,6 +11772,12 @@ tr.group:hover {
   }
 }
 
+@media (max-width: 992px) {
+  .d-xs-none {
+    display: none !important;
+  }
+}
+
 @media (max-width: 480px) {
   .inbox-compose .inbox-form-group > label {
     margin-top: 7px;
@@ -17581,6 +17594,7 @@ kendo-window {
 .k-colorpalette .k-item.k-state-hover {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3),
     inset 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
+    border: 2px solid;
 }
 
 .k-colorpalette .k-item.k-state-selected,
@@ -17588,6 +17602,7 @@ kendo-window {
 .k-colorpalette .k-item.k-state-focused,
 .k-colorpalette .k-item:focus {
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px #000 !important;
+  border: 2px solid;
 }
 
 .columns-dropdown {
@@ -18031,7 +18046,7 @@ kendo-window {
 }
 
 .modal-body {
-  max-height: 67vh;
+  /*max-height: 67vh;*/
   overflow: auto;
 }
 
@@ -19439,6 +19454,10 @@ select:invalid {
   display: flex !important;
 }
 
+.d-block {
+  display: block !important;
+}
+
 .d-flex-center-column {
   display: flex;
   justify-content: center;
@@ -19704,4 +19723,10 @@ body {
 .k-textbox-container.k-textarea-wrapper .k-label,
 .k-floating-label-container.k-textarea-wrapper .k-label {
   left: 0px !important;
+}
+
+.e-input-value {
+  display: flex !important;
+  align-items: center !important;
+  margin-left: 5px !important;
 }

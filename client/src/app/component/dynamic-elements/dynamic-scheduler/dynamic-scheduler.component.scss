@@ -766,8 +766,8 @@
 .checkButton {
   position: absolute;
   right: 4px;
-  bottom: 8px;
-  font-size: 21px;
+  bottom: 4px;
+  font-size: 18px;
   z-index: 100;
 }
 
@@ -800,9 +800,15 @@
   bottom: 4px;
   font-size: 13px;
   color: #000;
-  left: 16px;
+  left: 9px;
 }
-
+.paid-icon-reservation {
+  position: absolute;
+  bottom: 2px;
+  font-size: 14px;
+  color: green;
+  left: 9px;
+}
 .reserved-title {
   color: red;
   font-weight: bold;

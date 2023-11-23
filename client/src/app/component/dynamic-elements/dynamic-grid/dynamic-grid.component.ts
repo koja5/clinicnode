@@ -72,20 +72,18 @@ export class DynamicGridComponent implements OnInit {
   isFormDirty = false;
   showDialog = false;
   currentDialog: any;
-  test = 'test';
+  test = "test";
 
   public showColumnPicker = false;
   public columns: string[] = [];
   public hiddenColumns: string[] = [];
-  public type = 'Reservations';
+  public type = "Reservations";
 
   emailsForSendingMessage = [];
-  mailGroup = new FormGroup(
-    {
-      subject: new FormControl(''),
-      message: new FormControl(''),
-    }
-  )
+  mailGroup = new FormGroup({
+    subject: new FormControl(""),
+    message: new FormControl(""),
+  });
   constructor(
     private service: DynamicService,
     private helpService: HelpService,
@@ -120,17 +118,16 @@ export class DynamicGridComponent implements OnInit {
 
   public initilaizeTarget = () => {
     this.targetElement = this.container.nativeElement.parentElement;
-  }
+  };
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   initialization() {
     this.service
       .getConfiguration(this.path, this.name)
       .subscribe((data: any) => {
         this.config = data;
-        this.config.columns.forEach(column => {
+        this.config.columns.forEach((column) => {
           if (column.title.length > 0) {
             this.columns.push(column.title);
           }
@@ -138,7 +135,7 @@ export class DynamicGridComponent implements OnInit {
         this.config.paging.settings.pageSizes = [5, 10, 20];
         this.config.paging.settings.pageSize = 10;
 
-      if (this.savePage[this.currentUrl]) {
+        if (this.savePage[this.currentUrl]) {
           this.config.paging.settings.currentPage =
             this.savePage[this.currentUrl];
         }
@@ -146,7 +143,11 @@ export class DynamicGridComponent implements OnInit {
           this.config.paging.settings.pageSize =
             this.savePage[this.currentUrl + "Take"];
         }
-        if(this.dataLength < ((this.config.paging.settings.currentPage - 1) * this.config.paging.settings.pageSize)) {
+        if (
+          this.dataLength <
+          (this.config.paging.settings.currentPage - 1) *
+            this.config.paging.settings.pageSize
+        ) {
           this.config.paging.settings.currentPage = 1;
         }
         if (data["localData"]) {
@@ -212,7 +213,9 @@ export class DynamicGridComponent implements OnInit {
       } else if (parameters[i] === "superadmin") {
         parameters[i] = this.helpService.getSuperadmin();
       } else {
-        parameters[i] = this.activateRouter.snapshot.paramMap.get(parameters[i]);
+        parameters[i] = this.activateRouter.snapshot.paramMap.get(
+          parameters[i]
+        );
       }
     }
     return parameters;
@@ -256,16 +259,30 @@ export class DynamicGridComponent implements OnInit {
   }
 
   sendEmail() {
-    const subject = this.mailGroup.get('subject').value;
-    const message = this.mailGroup.get('message').value;
+    const subject = this.mailGroup.get("subject").value;
+    const message = this.mailGroup.get("message").value;
     const superadminId = this.helpService.getSuperadmin();
-    const request = { subject, message, emails: this.emailsForSendingMessage, id: superadminId };
-    this.mailService.sendMailToMultiple(request).subscribe(res => {
-      this.helpService.successToastr(this.language.successSendEmailMessageTextClinics, this.language.confirmed);
-    }, error => {
-      this.helpService.errorToastr(this.language.errorSendEmailMessageText, this.language.errorTitle);
-    });
-    this.mailTemplate.hide()
+    const request = {
+      subject,
+      message,
+      emails: this.emailsForSendingMessage,
+      id: superadminId,
+    };
+    this.mailService.sendMailToMultiple(request).subscribe(
+      (res) => {
+        this.helpService.successToastr(
+          this.language.successSendEmailMessageTextClinics,
+          this.language.confirmed
+        );
+      },
+      (error) => {
+        this.helpService.errorToastr(
+          this.language.errorSendEmailMessageText,
+          this.language.errorTitle
+        );
+      }
+    );
+    this.mailTemplate.hide();
   }
 
   actionComplete(args: DialogEditEventArgs): void {
@@ -417,7 +434,9 @@ export class DynamicGridComponent implements OnInit {
             break;
 
           case parameters[i].type == "language":
-            data["language"] = this.translateFields(parameters[i].translateFields)
+            data["language"] = this.translateFields(
+              parameters[i].translateFields
+            );
             break;
 
           default:
@@ -440,24 +459,13 @@ export class DynamicGridComponent implements OnInit {
     });
   }
 
-  setValue(fields, values) {
+  setValue(fields: any, values: any) {
     for (let i = 0; i < fields.length; i++) {
-      if (fields[i]["type"] === "multiselect" && values[fields[i]["name"]]) {
-        this.form.setValue(
-          fields[i]["name"],
-          values[fields[i]["name"]].split(",").map(Number)
-        );
-      } else if (
-        fields[i]["type"] === "checkbox" &&
-        values[fields[i]["name"]]
-      ) {
-        this.form.setValue(
-          fields[i]["name"],
-          values[fields[i]["name"]] ? true : false
-        );
-      } else {
-        this.form.setValue(fields[i]["name"], values[fields[i]["name"]]);
-      }
+      this.form.setValue(
+        fields[i]["name"],
+        values[fields[i]["name"]],
+        fields[i]["type"]
+      );
     }
   }
 
@@ -487,7 +495,7 @@ export class DynamicGridComponent implements OnInit {
   }
 
   openClinicDetail(id: number) {
-    this.router.navigateByUrl('/dashboard/home/registered-clinic-detail/' + id);
+    this.router.navigateByUrl("/dashboard/home/registered-clinic-detail/" + id);
   }
 
   clickHandler(args: ClickEventArgs): void {
@@ -498,8 +506,8 @@ export class DynamicGridComponent implements OnInit {
     if (target && target.id === "Mail") {
       this.emailsForSendingMessage = [];
       const selectedClinics: any = this.grid.getSelectedRecords();
-      selectedClinics.forEach(clinic => {
-        this.emailsForSendingMessage.push(clinic.email)
+      selectedClinics.forEach((clinic) => {
+        this.emailsForSendingMessage.push(clinic.email);
       });
       this.mailTemplate.show();
     } else if (target && target.id === "collapse") {
@@ -526,18 +534,17 @@ export class DynamicGridComponent implements OnInit {
 
   public onOutputHiddenColumns(columns) {
     this.hiddenColumns = columns;
-    
-    if(!this.grid)
-    {
+
+    if (!this.grid) {
       return;
     }
     this.grid.hideColumns(this.hiddenColumns);
     let shownColumns = [];
-    shownColumns = this.columns.map(column => {
+    shownColumns = this.columns.map((column) => {
       if (!columns.includes(column)) {
         return column;
       }
-    })
+    });
     this.grid.showColumns(shownColumns);
   }
 }

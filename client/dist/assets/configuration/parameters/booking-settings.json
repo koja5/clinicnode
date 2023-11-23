@@ -1,0 +1,68 @@
+{
+    "config": [
+        {
+            "type": "textbox",
+            "width": "col-md-12 hide",
+            "class": "e-outline",
+            "name": "id",
+            "title": "ID",
+            "field": "id",
+            "readonly": true,
+            "hide": true
+        },
+        {
+            "type": "switch",
+            "width": "col-md-12",
+            "name": "active",
+            "label": "activeBookingOnline",
+            "field": "active"
+        },
+        {
+            "type": "switch",
+            "width": "col-md-12",
+            "name": "allow_for_existing_user",
+            "label": "allowPayInClinicForExistingUser",
+            "field": "allow_for_existing_user"
+        },
+        {
+            "type": "switch",
+            "width": "col-md-12",
+            "name": "allow_for_new_user",
+            "label": "allowPayInClinicForNewUser",
+            "field": "allow_for_new_user"
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-6",
+            "subtype": "number",
+            "name": "part_of_full_amount",
+            "label": "partOfFullAmount",
+            "field": "active"
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-6",
+            "subtype": "number",
+            "name": "full_amount",
+            "label": "fullAmount",
+            "field": "full_amount"
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-12",
+            "subtype": "number",
+            "name": "free_appointments_available",
+            "label": "freeAppointmentsAvailable",
+            "field": "free_appointments_available"
+        },
+        {
+            "type": "button",
+            "width": "col-md-12",
+            "class": "e-control e-btn e-lib e-primary e-flat",
+            "name": "submit",
+            "label": "save",
+            "field": "submit",
+            "positionClass": "text-align: end"
+        }
+    ]
+}

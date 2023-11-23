@@ -1,0 +1,20 @@
+.day-in-week {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.border-error {
+    border: 1px solid red;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 5px !important;
+}
+
+.button-options {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}

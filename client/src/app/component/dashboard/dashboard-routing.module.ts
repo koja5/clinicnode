@@ -59,6 +59,7 @@ import { LastMinuteEventConfirmationComponent } from "./customers/last-minute-ev
 import { LicenceComponent } from "./licence/licence.component";
 import { MailMultipleRecepientComponent } from "./parameters/mail-parameters/mail-multiple-recepient/mail-multiple-recepient.component";
 import { MailResetPasswordComponent } from "./parameters/mail-reset-password/mail-reset-password.component";
+import { BookingSettingsComponent } from "./parameters/booking-settings/booking-settings.component";
 
 const routes: Routes = [
   {
@@ -343,6 +344,10 @@ const routes: Routes = [
       {
         path: "licence",
         component: LicenceComponent,
+      },
+      {
+        path: "booking-settings",
+        component: BookingSettingsComponent,
       },
     ],
   },

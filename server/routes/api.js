@@ -50,6 +50,10 @@ function deleteImage(currentImage) {
   }
 }
 
+function convertToDate(date) {
+  return new Date(date);
+}
+
 var link = process.env.link_api;
 /*
 var connection = mysql.createPool({
@@ -2341,7 +2345,7 @@ router.get("/getWorkTimeForUser/:id", function (req, res, next) {
     }
     var id = req.params.id;
     conn.query(
-      "SELECT * from work where user_id = ?",
+      "SELECT * from worktimes where user_id = ?",
       [id],
       function (err, rows) {
         conn.release();
@@ -2436,7 +2440,7 @@ router.get("/getWorkandTaskForUser/:id", function (req, res, next) {
     }
     var id = req.params.id;
     conn.query(
-      "SELECT * from work where user_id = ?",
+      "SELECT * from worktimes where user_id = ? order by validate_from asc",
       [id],
       function (err, work) {
         if (!err) {
@@ -5199,7 +5203,7 @@ router.get("/getReservations/:id", function (req, res, next) {
       res.json(err);
     }
     conn.query(
-      "select t.*, e.color, c.firstname, c.lastname, c.mobile, c.email, c.birthday, u.shortname from tasks t join event_category e on t.colorTask = e.id join customers c on t.customer_id = c.id join users u on t.creator_id = u.id where t.online = 1 and t.superadmin = ? and c.active = 1",
+      "select t.*, CONCAT(t.amount, '', '€') as 'amount', e.color, c.firstname, c.lastname, c.mobile, c.email, c.birthday, u.shortname from tasks t join event_category e on t.colorTask = e.id join customers c on t.customer_id = c.id join users u on t.creator_id = u.id where t.online = 1 and t.superadmin = ? and c.active = 1",
       [id],
       function (err, rows) {
         conn.release();
@@ -10874,7 +10878,6 @@ router.post("/updateLicenceDate", function (req, res, next) {
   });
 });
 
-
 router.get("/getLicences", function (req, res, next) {
   connection.getConnection(function (err, conn) {
     if (err) {
@@ -10977,5 +10980,217 @@ router.get("/getLicenseForUser/:id", function (req, res, next) {
     );
   });
 });
+
+router.get("/getWorkTime/:id", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+    conn.query(
+      "select w.* from worktimes w join user_worktime uw on w.id = uw.worktime_id where uw.user_id = ?",
+      [req.params.id],
+      function (err, rows) {
+        conn.release();
+        if (!err) {
+          res.json(rows);
+        } else {
+          res.json(err);
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+        }
+      }
+    );
+  });
+});
+
+router.get("/getAllWorkTimesForUser/:id", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+    conn.query(
+      "select w.* from worktimes w where w.user_id = ? order by w.validate_from desc",
+      [req.params.id],
+      function (err, rows) {
+        conn.release();
+        if (!err) {
+          res.json(rows);
+        } else {
+          res.json(err);
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+        }
+      }
+    );
+  });
+});
+
+router.post("/saveWorkTime", function (req, res) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    req.body.validate_from = convertToDate(req.body.validate_from);
+
+    delete req.body.id;
+
+    conn.query("insert into worktimes SET ?", [req.body], function (err, rows) {
+      conn.release();
+      if (!err) {
+        if (!err) {
+          res.json(true);
+        } else {
+          res.json(false);
+        }
+      } else {
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+        res.json(err);
+      }
+    });
+  });
+});
+
+router.post("/updateWorkTime", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    req.body.validate_from = convertToDate(req.body.validate_from);
+
+    console.log(req.body);
+
+    conn.query(
+      "update worktimes set ? where id = ?",
+      [req.body, req.body.id],
+      function (err, rows, fields) {
+        conn.release();
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(err);
+        } else {
+          response = true;
+          res.json(response);
+        }
+      }
+    );
+  });
+});
+
+router.get("/deleteSelectedWorkTime/:id", (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        console.error("SQL Connection error: ", err);
+        res.json({
+          code: 100,
+          status: err,
+        });
+      } else {
+        conn.query(
+          "delete from worktimes where id = ?",
+          [req.params.id],
+          function (err, rows, fields) {
+            conn.release();
+            if (err) {
+              res.json(err);
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+            } else {
+              res.json(true);
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
+});
+
+// BOOKING
+router.get("/getBookingSettings/:superadminId", (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        console.error("SQL Connection error: ", err);
+        res.json({
+          code: 100,
+          status: err,
+        });
+      } else {
+        conn.query(
+          "select * from booking_settings where superadmin_id = ?",
+          [req.params.superadminId],
+          function (err, rows, fields) {
+            conn.release();
+            if (err) {
+              res.json(err);
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+            } else {
+              res.json(rows);
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
+});
+
+router.post("/createBookingSettings", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query(
+      "insert into booking_settings set ?",
+      [req.body],
+      function (err, rows, fields) {
+        conn.release();
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(err);
+        } else {
+          response = true;
+          res.json(response);
+        }
+      }
+    );
+  });
+});
+
+router.post("/updateBookingSettings", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query(
+      "update booking_settings set ? where id = ?",
+      [req.body, req.body.id],
+      function (err, rows, fields) {
+        conn.release();
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(err);
+        } else {
+          response = true;
+          res.json(response);
+        }
+      }
+    );
+  });
+});
+
+// END BOOKING
 
 module.exports = router;

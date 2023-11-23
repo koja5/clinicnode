@@ -115,9 +115,12 @@ import { RegisteredClinicsComponent } from './administrator/registered-clinics/r
 import { RegisteredClinicDetailComponent } from './administrator/registered-clinics/registered-clinic-detail/registered-clinic-detail.component';
 import { SharedComponentsModule } from 'src/app/shared/shared-components.module';
 import { LastMinuteEventConfirmationComponent } from './customers/last-minute-event-confirmation/last-minute-event-confirmation.component';
-import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DatePickerModule, DateTimePickerModule, TimePickerAllModule } from '@syncfusion/ej2-angular-calendars';
 import { LicenceComponent } from './licence/licence.component';
 import { MailResetPasswordComponent } from './parameters/mail-reset-password/mail-reset-password.component';
+import { WorkTimeComponent } from './users/user-details/work-time/work-time.component';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import { BookingSettingsComponent } from './parameters/booking-settings/booking-settings.component';
 
 @NgModule({
   declarations: [
@@ -183,6 +186,8 @@ import { MailResetPasswordComponent } from './parameters/mail-reset-password/mai
     LicenceComponent,
     LastMinuteEventConfirmationComponent,
     MailMultipleRecepientComponent,
+    WorkTimeComponent,
+    BookingSettingsComponent
   ],
   imports: [
     CommonModule,
@@ -225,7 +230,9 @@ import { MailResetPasswordComponent } from './parameters/mail-reset-password/mai
     MatFormFieldModule,
     MatInputModule,
     SharedComponentsModule,
-    DatePickerModule
+    DatePickerModule,
+    CheckBoxModule,
+    TimePickerAllModule
   ],
   providers: [
     {

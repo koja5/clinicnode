@@ -183,6 +183,11 @@
     "priceTable": {
         "header": [
             {
+                "nameOfPackageTitle": "Starter",
+                "nameOfPackageText": "Starter functions. Free services for up to 10 customers.",
+                "price": "0.00"
+            },
+            {
                 "nameOfPackageTitle": "Basis",
                 "nameOfPackageText": "Basic functions. Optimized version for a successful start.",
                 "price": "9.90"
@@ -204,20 +209,23 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Manage customers",
                 "descriptionPerPackages": [
-                    "exists",
-                    "exists",
-                    "exists"
+                    "Maximum 10 customers",
+                    "Unlimited",
+                    "Unlimited",
+                    "Unlimited"
                 ]
             },
             {
                 "name": "Manage branches",
                 "descriptionPerPackages": [
+                    "one clinic",
                     "one clinic",
                     "one clinic, optionally several",
                     "one clinic, optionally several"
@@ -228,12 +236,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Create invoices",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -244,12 +254,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Online Reservation",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -260,12 +272,14 @@
                 "descriptionPerPackages": [
                     "",
                     "",
+                    "",
                     ""
                 ]
             },
             {
                 "name": "- Appointment reminder Email / SMS",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -276,12 +290,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "SMS (100 pieces) for € 9.90",
                 "descriptionPerPackages": [
+                    "optional",
                     "optional",
                     "included",
                     "included"
@@ -290,6 +306,7 @@
             {
                 "name": "Marketing Advanced Features",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "exists",
                     "exists"
@@ -300,12 +317,14 @@
                 "descriptionPerPackages": [
                     "not-exists",
                     "not-exists",
+                    "not-exists",
                     "exists"
                 ]
             },
             {
                 "name": "Extended marketing functions",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "not-exists",
                     "exists"
@@ -316,12 +335,14 @@
                 "descriptionPerPackages": [
                     "not-exists",
                     "not-exists",
+                    "not-exists",
                     "exists"
                 ]
             },
             {
                 "name": "Waiting list with AI algorithm",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "not-exists",
                     "exists"
@@ -332,12 +353,14 @@
                 "descriptionPerPackages": [
                     "",
                     "",
+                    "",
                     ""
                 ]
             },
             {
                 "name": "- Multistore",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "€ 9.90 per additional clinic",
                     "€ 9.90 per additional clinic"
@@ -347,6 +370,7 @@
                 "name": "- Payment for online reservation",
                 "descriptionPerPackages": [
                     "not-exists",
+                    "not-exists",
                     "optional",
                     "optional"
                 ]
@@ -354,6 +378,7 @@
             {
                 "name": "- Online Support",
                 "descriptionPerPackages": [
+                    "optional",
                     "optional",
                     "optional",
                     "optional"
@@ -365,7 +390,7 @@
     "notFoundText": "The page you are looking for does not exist.",
     "notFoundBackButton": "Back",
     "notFoundCopyRight": "Copyright © 2020 ClinicNode. All rights reserved.",
-     "choosePackage": "Package selection",
+    "choosePackage": "Package selection",
     "priceOfPackage": "The price of the selected package is: ",
     "cardDetails": "Card details",
     "lastPaymentStep": "The last step",

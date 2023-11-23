@@ -40,7 +40,7 @@
         <div class="d-flex navbar-right">
           <ul class="nav navbar-nav pull-right">
             <!-- start manage user dropdown -->
-            <li>
+            <li class="d-xs-none">
               <a class="menu-help" routerLink="/dashboard/home/help">
                 <i class="fa fa-question-circle"></i> Help
               </a>
@@ -614,6 +614,20 @@
                                   " class="nav-link"><i class="fa fa-comments"></i>
                                   <span class="navigation-link"></span>
                                   {{ language?.smsBirthdayCongratulation }}
+                                </a>
+                              </li>
+
+                              <li class="pl-4 pt-2 pb-2">
+                                <span class="header-item-node">{{
+                                  language.headerMenuBookingOnline
+                                  }}</span>
+                              </li>
+                              <li class="{{ selectedNodeModel['booking_settings'] }}">
+                                <a routerLink="/dashboard/home/booking-settings"
+                                  (click)="returnActiveNode('booking_settings')" class="nav-link"><i
+                                    class="fa fa-calendar-check-o"></i>
+                                  <span class="navigation-link"></span>
+                                  {{ language?.bookingSettings }}
                                 </a>
                               </li>
                             </ul>

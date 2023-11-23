@@ -196,6 +196,10 @@ export class HelpService {
     document.body.removeChild(selBox);
   }
 
+  copyObject(value: any) {
+    return JSON.parse(JSON.stringify(value));
+  }
+
   getPdfFile(file: string) {
     console.log(file);
     const body = { filename: file };
@@ -206,14 +210,14 @@ export class HelpService {
     });
   }
 
-  successToastr(title, text) {
+  successToastr(title, text?) {
     this.toastr.success(title, text, {
       timeOut: 7000,
       positionClass: "toast-bottom-right",
     });
   }
 
-  errorToastr(title, text) {
+  errorToastr(title, text?) {
     this.toastr.error(title, text, {
       timeOut: 7000,
       positionClass: "toast-bottom-right",

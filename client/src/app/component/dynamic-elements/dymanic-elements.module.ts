@@ -26,7 +26,7 @@ import { DatepickerComponent } from "./dynamic-forms/dynamic-fields/datepicker/d
 import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { ButtonComponent } from "./dynamic-forms/dynamic-fields/button/button.component";
 import { DropdownComponent } from "./dynamic-forms/dynamic-fields/dropdown/dropdown.component";
-import { DialogModule } from "@syncfusion/ej2-angular-popups";
+import { DialogModule, TooltipModule } from "@syncfusion/ej2-angular-popups";
 import { DynamicFormsModule } from "./dynamic-forms/dynamic-forms.module";
 import { DynamicSchedulerComponent } from "./dynamic-scheduler/dynamic-scheduler.component";
 import { DropDownButtonAllModule } from "@syncfusion/ej2-angular-splitbuttons";
@@ -79,6 +79,8 @@ import { DynamicTextFormComponent } from "./dynamic-text-form/dynamic-text-form.
 import { HomedModule } from "../home/routing-module/home.module";
 import { SharedComponentsModule } from "src/app/shared/shared-components.module";
 import { MatFormFieldModule, MatInputModule } from "@angular/material";
+import { WorkTimeComponent } from "../dashboard/users/user-details/work-time/work-time.component";
+import { DynamicExplanationComponent } from "./common/dynamic-explanation/dynamic-explanation.component";
 
 @NgModule({
   declarations: [
@@ -86,13 +88,15 @@ import { MatFormFieldModule, MatInputModule } from "@angular/material";
     DynamicFormsComponent,
     DynamicSchedulerComponent,
     DynamicConfirmDialogComponent,
-    DynamicTextFormComponent
+    DynamicTextFormComponent,
+    DynamicExplanationComponent,
   ],
   exports: [
     DynamicGridComponent,
     DynamicFormsComponent,
     DynamicConfirmDialogComponent,
-    DynamicTextFormComponent
+    DynamicTextFormComponent,
+    DynamicExplanationComponent,
   ],
   imports: [
     CommonModule,
@@ -140,6 +144,7 @@ import { MatFormFieldModule, MatInputModule } from "@angular/material";
     SharedComponentsModule,
     MatFormFieldModule,
     MatInputModule,
+    TooltipModule,
   ],
   providers: [
     EditService,
@@ -151,7 +156,7 @@ import { MatFormFieldModule, MatInputModule } from "@angular/material";
     GroupService,
     ResizeService,
     ColumnChooserService,
-    DatePipe
+    DatePipe,
   ],
   entryComponents: [
     TextboxComponent,

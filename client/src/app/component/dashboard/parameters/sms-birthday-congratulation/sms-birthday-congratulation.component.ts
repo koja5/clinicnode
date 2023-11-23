@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Subject } from "rxjs";
 import { DynamicFormsComponent } from "src/app/component/dynamic-elements/dynamic-forms/dynamic-forms.component";
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 import { FormGuardData } from "src/app/models/formGuard-data";
 import { DynamicService } from "src/app/service/dynamic.service";
 import { HelpService } from "src/app/service/help.service";
@@ -11,7 +13,9 @@ import { ParameterItemService } from "src/app/service/parameter-item.service";
   templateUrl: "./sms-birthday-congratulation.component.html",
   styleUrls: ["./sms-birthday-congratulation.component.scss"],
 })
-export class SmsBirthdayCongratulationComponent implements OnInit, FormGuardData {
+export class SmsBirthdayCongratulationComponent
+  implements OnInit, FormGuardData
+{
   @ViewChild(DynamicFormsComponent) form: DynamicFormsComponent;
   public path = "parameters";
   public file = "sms-birthday-congratulation";
@@ -21,7 +25,7 @@ export class SmsBirthdayCongratulationComponent implements OnInit, FormGuardData
   public data: any;
   public changeData: any;
   public showDialog = false;
-  public configField: any;
+  public configField = new FormConfig();
   public language: any;
   isFormDirty: boolean = false;
   isDataSaved$: Subject<boolean> = new Subject<boolean>();
@@ -47,7 +51,7 @@ export class SmsBirthdayCongratulationComponent implements OnInit, FormGuardData
   }
 
   changeFormDirty(event) {
-    this.isFormDirty = event
+    this.isFormDirty = event;
   }
 
   changeShowDialogExit(event) {
@@ -60,7 +64,7 @@ export class SmsBirthdayCongratulationComponent implements OnInit, FormGuardData
     this.dynamicService
       .getConfiguration(this.path, this.file)
       .subscribe((config) => {
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
         this.getData(this.id);
       });
   }
@@ -76,10 +80,10 @@ export class SmsBirthdayCongratulationComponent implements OnInit, FormGuardData
   }
 
   packValue(data) {
-    for (let i = 0; i < this.configField.length; i++) {
-      this.configField[i].value = this.helpService.convertValue(
-        data[0][this.configField[i].field],
-        this.configField[i].type
+    for (let i = 0; i < this.configField.config.length; i++) {
+      this.configField.config[i].value = this.helpService.convertValue(
+        data[0][this.configField.config[i].field],
+        this.configField.config[i].type
       );
     }
   }

@@ -1,5 +1,4 @@
 <div *ngIf="!calendarRights"></div>
-
 <div *ngIf="calendarRights" class="control-section">
   <div class="content-wrapper">
     <div class="schedule-overview">
@@ -370,8 +369,11 @@
                           {{ language.reserved }}
                         </div>
                       </div>
-                      <span *ngIf="data.online === 1" class="fa fa-calendar-plus-o online-icon-reservation"
-                        [title]="language.reservationTooltip">
+                      <span *ngIf="data.online === 1 && data.paid === 0"
+                        class="fa fa-calendar-plus-o online-icon-reservation" [title]="language.reservationTooltip">
+                      </span>
+                      <span *ngIf="data.online === 1 && data.paid !== 0" class="fa fa-eur paid-icon-reservation"
+                        [title]="language.paidReservationTooltip.replace('{amount}', data.amount + '€')">
                       </span>
                       <span *ngIf="data.online === 2" class="fa fa-calendar-check-o online-icon-reservation"
                         [title]="language.approvedReservationTooltip"></span>
@@ -411,8 +413,11 @@
                           {{ language.reserved }}
                         </div>
                       </div>
-                      <span *ngIf="data.online === 1" class="fa fa-calendar-plus-o online-icon-reservation"
-                        [title]="language.reservationTooltip">
+                      <span *ngIf="data.online === 1 && data.paid === 0"
+                        class="fa fa-calendar-plus-o online-icon-reservation" [title]="language.reservationTooltip">
+                      </span>
+                      <span *ngIf="data.online === 1 && data.paid !== 0" class="fa fa-eur paid-icon-reservation"
+                        [title]="language.paidReservationTooltip.replace('{amount}',  data.amount + '€')">
                       </span>
                       <span *ngIf="data.online === 2" class="fa fa-calendar-check-o online-icon-reservation"
                         [title]="language.approvedReservationTooltip"></span>
@@ -445,8 +450,11 @@
                           {{ language.reserved }}
                         </div>
                       </div>
-                      <span *ngIf="data.online === 1" class="fa fa-calendar-plus-o online-icon-reservation"
-                        [title]="language.reservationTooltip">
+                      <span *ngIf="data.online === 1 && data.paid === 0"
+                        class="fa fa-calendar-plus-o online-icon-reservation" [title]="language.reservationTooltip">
+                      </span>
+                      <span *ngIf="data.online === 1 && data.paid !== 0" class="fa fa-eur paid-icon-reservation"
+                        [title]="language.paidReservationTooltip.replace('{amount}',  data.amount + '€')">
                       </span>
                       <span *ngIf="data.online === 2" class="fa fa-calendar-check-o online-icon-reservation"
                         [title]="language.approvedReservationTooltip"></span>
@@ -603,6 +611,8 @@
                       </div>
                     </div>
                     <div *ngIf="type !== userType.patient" class="k-form-field">
+                      <p class="e-error text-center font-bold" *ngIf="data.paid">
+                        {{language.paidReservationTooltip.replace('{amount}', data.amount + '€')}}</p>
                       <div class="mb-3 center">
                         <button kendoButton [icon]="'user'" [primary]="true" class="patient-options"
                           (click)="newCustomer()">
@@ -665,8 +675,7 @@
                       <label class="col-xs-12 p-0 control-label" style="text-align: left">{{
                         languageUser.comment }}</label>
                       <textarea kendoTextArea type="text" class="col-md-12 col-xs-12 textAreaInput" name="comment"
-                        [(ngModel)]="complaintData.comment" comment.value=""
-                        [disabled]="patientReadOnly"></textarea>
+                        [(ngModel)]="complaintData.comment" comment.value="" [disabled]="patientReadOnly"></textarea>
                     </div>
                     <div *ngIf="type !== userType.patient" class="k-form-field">
                       <div>

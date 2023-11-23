@@ -608,6 +608,39 @@
             "selectCurrentWorkTime": {
                 "type": "string"
             },
+            "successSavedWorkTime": {
+                "type": "string"
+            },
+            "successUpdatedWorkTime": {
+                "type": "string"
+            },
+            "enterValidWorkTime": {
+                "type": "string"
+            },
+            "workTimeTitle": {
+                "type": "string"
+            },
+            "addNewWorkTime": {
+                "type": "string"
+            },
+            "saveWorkTime": {
+                "type": "string"
+            },
+            "createNewWorktime": {
+                "type": "string"
+            },
+            "selectPredefineWorktime": {
+                "type": "string"
+            },
+            "validateFromWorktime": {
+                "type": "string"
+            },
+            "timeNeedToBeGreaterThanPrevious": {
+                "type": "string"
+            },
+            "timeNeedToBeGreaterThanPreviousSlot": {
+                "type": "string"
+            },
             "areaCode": {
                 "type": "string"
             },
@@ -777,6 +810,15 @@
                 "type": "string"
             },
             "headerMenuSMSTemplateSettings": {
+                "type": "string"
+            },
+            "headerMenuBookingOnline": {
+                "type": "string"
+            },
+            "bookingSettings": {
+                "type": "string"
+            },
+            "generateBookingOnlineLink": {
                 "type": "string"
             },
             "licence": {
@@ -1662,6 +1704,9 @@
             "approvedReservationTooltip": {
                 "type": "string"
             },
+            "paidReservationTooltip": {
+                "type": "string"
+            },
             "fileUploadTitle": {
                 "type": "string"
             },
@@ -1798,6 +1843,12 @@
                 "type": "string"
             },
             "sendReminderViaSMS": {
+                "type": "string"
+            },
+            "allowPayInClinicOption": {
+                "type": "string"
+            },
+            "forcePayInClinicOption": {
                 "type": "string"
             },
             "changeReminderSettingsButton": {
@@ -2261,6 +2312,30 @@
                 "type": "string"
             },
             "printOnInvoice": {
+                "type": "string"
+            },
+            "activeBookingOnline": {
+                "type": "string"
+            },
+            "allowForExistingUser": {
+                "type": "string"
+            },
+            "allowForNewUser": {
+                "type": "string"
+            },
+            "partOfFullAmount": {
+                "type": "string"
+            },
+            "fullAmount": {
+                "type": "string"
+            },
+            "allowPayInClinicForExistingUser": {
+                "type": "string"
+            },
+            "allowPayInClinicForNewUser": {
+                "type": "string"
+            },
+            "freeAppointmentsAvailable": {
                 "type": "string"
             },
             "additionalInvoiceOptionsTitle": {
@@ -3922,8 +3997,12 @@
                         {
                             "key": "licence"
                         },
-                        {},
-                        {},
+                        {
+                            "key": "headerMenuBookingOnline"
+                        },
+                        {
+                            "key": "bookingSettings"
+                        },
                         {}
                     ]
                 }
@@ -4415,6 +4494,53 @@
                         },
                         {
                             "key": "selectCurrentWorkTime"
+                        },
+                        {
+                            "key": "successSavedWorkTime"
+                        },
+                        {
+                            "key": "successUpdatedWorkTime"
+                        },
+                        {
+                            "key": "enterValidWorkTime"
+                        }
+                    ]
+                },
+                {
+                    "type": "div",
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "items": [
+                        {
+                            "key": "workTimeTitle"
+                        },
+                        {
+                            "key": "addNewWorkTime"
+                        },
+                        {
+                            "key": "saveWorkTime"
+                        },
+                        {
+                            "key": "createNewWorktime"
+                        },
+                        {
+                            "key": "selectPredefineWorktime"
+                        },
+                        {
+                            "key": "validateFromWorktime"
+                        }
+                    ]
+                },
+                {
+                    "type": "div",
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "items": [
+                        {
+                            "key": "timeNeedToBeGreaterThanPrevious"
+                        },
+                        {
+                            "key": "timeNeedToBeGreaterThanPreviousSlot"
                         }
                     ]
                 }
@@ -4499,6 +4625,47 @@
                         },
                         {},
                         {}
+                    ]
+                },
+                {
+                    "type": "div",
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "items": [
+                        {
+                            "key": "activeBookingOnline"
+                        },
+                        {
+                            "key": "allowForExistingUser"
+                        },
+                        {
+                            "key": "allowForNewUser"
+                        },
+                        {
+                            "key": "partOfFullAmount"
+                        },
+                        {
+                            "key": "fullAmount"
+                        }
+                    ]
+                },
+                {
+                    "type": "div",
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "items": [
+                        {
+                            "key": "allowPayInClinicForExistingUser"
+                        },
+                        {
+                            "key": "allowPayInClinicForNewUser"
+                        },
+                        {
+                            "key": "freeAppointmentsAvailable"
+                        },
+                        {
+                            "key": "generateBookingOnlineLink"
+                        }
                     ]
                 }
             ]
@@ -5170,6 +5337,21 @@
                         {
                             "key": "telephoneEdit"
                         }
+                    ]
+                },
+                {
+                    "type": "div",
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "items": [
+                        {
+                            "key": "allowPayInClinicOption"
+                        },
+                        {
+                            "key": "forcePayInClinicOption"
+                        },
+                        {},
+                        {}
                     ]
                 }
             ]
@@ -6272,8 +6454,9 @@
                         {
                             "key": "approvedReservationTooltip"
                         },
-                        {},
-                        {}
+                        {
+                            "key": "paidReservationTooltip"
+                        }
                     ]
                 }
             ]

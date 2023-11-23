@@ -183,6 +183,11 @@
     "priceTable": {
         "header": [
             {
+                "nameOfPackageTitle": "Početni",
+                "nameOfPackageText": "Besplatne usluge za do 10 klijenata.",
+                "price": "0.00"
+            },
+            {
                 "nameOfPackageTitle": "Osnovni",
                 "nameOfPackageText": "Osnovne funkcije. Optimizovana verzija za uspešan početak.",
                 "price": "9.90"
@@ -204,20 +209,23 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Upravljaj pacijentima",
                 "descriptionPerPackages": [
-                    "exists",
-                    "exists",
-                    "exists"
+                    "Maksimum 10 klijenata",
+                    "Neograničeno",
+                    "Neograničeno",
+                    "Neograničeno"
                 ]
             },
             {
                 "name": "Upravljaj klinikama",
                 "descriptionPerPackages": [
+                    "jedna klinika",
                     "jedna klinika",
                     "jedna klinika, opciono više",
                     "jedna klinika, opciono više"
@@ -228,12 +236,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Kreiraj fakture",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -244,12 +254,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "Online rezervacija",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -260,12 +272,14 @@
                 "descriptionPerPackages": [
                     "",
                     "",
+                    "",
                     ""
                 ]
             },
             {
                 "name": "- Podsetnik za termin putem Email/SMS-a",
                 "descriptionPerPackages": [
+                    "exists",
                     "exists",
                     "exists",
                     "exists"
@@ -276,12 +290,14 @@
                 "descriptionPerPackages": [
                     "exists",
                     "exists",
+                    "exists",
                     "exists"
                 ]
             },
             {
                 "name": "SMS (100 poruka) za € 9.90",
                 "descriptionPerPackages": [
+                    "opciono",
                     "opciono",
                     "uključeno",
                     "uključeno"
@@ -290,6 +306,7 @@
             {
                 "name": "Napredne marketing funkcionalnosti",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "exists",
                     "exists"
@@ -300,12 +317,14 @@
                 "descriptionPerPackages": [
                     "not-exists",
                     "not-exists",
+                    "not-exists",
                     "exists"
                 ]
             },
             {
                 "name": "Proširene marketin funcionalnosti",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "not-exists",
                     "exists"
@@ -316,12 +335,14 @@
                 "descriptionPerPackages": [
                     "not-exists",
                     "not-exists",
+                    "not-exists",
                     "exists"
                 ]
             },
             {
                 "name": "Lista čekanja sa AI algoritmom",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "not-exists",
                     "exists"
@@ -332,12 +353,14 @@
                 "descriptionPerPackages": [
                     "",
                     "",
+                    "",
                     ""
                 ]
             },
             {
                 "name": "- Više klinika",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "€ 9.90 po dodatnoj klinici",
                     "€ 9.90 po dodatnoj klinici"
@@ -346,6 +369,7 @@
             {
                 "name": "- Plaćanje za online rezervacije",
                 "descriptionPerPackages": [
+                    "not-exists",
                     "not-exists",
                     "opciono",
                     "opciono"
@@ -356,6 +380,7 @@
                 "descriptionPerPackages": [
                     "opciono",
                     "opciono",
+                    "opciono",
                     "opciono"
                 ]
             }
@@ -364,7 +389,8 @@
     "notFoundTitle": "Stranica nije pronadjena!",
     "notFoundText": "Stranica koju trazite nije pronadjena ili uopste ne postoji!",
     "notFoundBackButton": "Vrati se nazad",
-    "notFoundCopyRight": "Autorska prava © 2020 ClinicNode. Sva prava zadrzana.","choosePackage": "Izbor paketa",
+    "notFoundCopyRight": "Autorska prava © 2020 ClinicNode. Sva prava zadrzana.",
+    "choosePackage": "Izbor paketa",
     "priceOfPackage": "Cena izabranog paketa je: ",
     "cardDetails": "Podaci o kartici",
     "lastPaymentStep": "Poslednji korak",

@@ -240,7 +240,7 @@ export class UserDetailsComponent implements OnInit {
         this.noSetWorkTime = true;
         this.validDate = new Date();
         this.service.getWorkTime().subscribe((data) => {
-          this.workTime = this.convertNumericToDay(data);
+          // this.workTime = this.convertNumericToDay(data);
         });
       } else {
         console.log(data);
@@ -255,7 +255,7 @@ export class UserDetailsComponent implements OnInit {
         this.selectedColor = dataSort[0].color;
         this.allWorkTime = dataSort;
         this.validDate = new Date(dataSort[0].dateChange);
-        this.workTime = this.packWorkTimeFromDatabase(dataSort[0]);
+        // this.workTime = this.packWorkTimeFromDatabase(dataSort[0]);
         console.log(this.workTime);
       }
     });
@@ -526,14 +526,14 @@ export class UserDetailsComponent implements OnInit {
     }
 
     this.nextInd = "";
-    this.workTime = this.packWorkTimeFromDatabase(this.allWorkTime[this.index]);
+    // this.workTime = this.packWorkTimeFromDatabase(this.allWorkTime[this.index]);
     this.validDate = new Date(this.allWorkTime[this.index].dateChange);
   }
   onOptionSelected(selectedIndex : string){
    console.log("Selected index->", selectedIndex)
    this.index = Number(selectedIndex);
    this.previousInd = "";
-    this.workTime = this.packWorkTimeFromDatabase(this.allWorkTime[selectedIndex]);
+    // this.workTime = this.packWorkTimeFromDatabase(this.allWorkTime[selectedIndex]);
     this.validDate = new Date(this.allWorkTime[selectedIndex].dateChange);
   }
   nextWorkTime() {
@@ -546,7 +546,7 @@ export class UserDetailsComponent implements OnInit {
       this.nextInd = "disabled-button";
     }
     this.previousInd = "";
-    this.workTime = this.packWorkTimeFromDatabase(this.allWorkTime[this.index]);
+    // this.workTime = this.packWorkTimeFromDatabase(this.allWorkTime[this.index]);
     this.validDate = new Date(this.allWorkTime[this.index].dateChange);
   }
 

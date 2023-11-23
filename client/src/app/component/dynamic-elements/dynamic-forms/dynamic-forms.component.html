@@ -1,8 +1,8 @@
-<form
+<form *ngIf="config"
   [formGroup]="form"
   (submit)="handleSubmit($event)"
 >
-  <ng-container *ngFor="let field of config">
+  <ng-container *ngFor="let field of config.config">
     <ng-container 
       dynamicField
       [config]="field"

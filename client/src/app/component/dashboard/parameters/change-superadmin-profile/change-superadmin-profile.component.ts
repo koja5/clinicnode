@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Subject } from "rxjs";
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 import { FormGuardData } from "src/app/models/formGuard-data";
 import { DynamicService } from "src/app/service/dynamic.service";
 import { HelpService } from "src/app/service/help.service";
@@ -19,18 +21,17 @@ export class ChangeSuperadminProfileComponent implements OnInit, FormGuardData {
   public data: any;
   public changeData: any;
   public showDialog = false;
-  public configField: any;
+  public configField = new FormConfig();
   public language: any;
   isFormDirty: boolean = false;
   isDataSaved$: Subject<boolean> = new Subject<boolean>();
   showDialogExit: boolean = false;
 
-
   constructor(
     private service: ParameterItemService,
     private helpService: HelpService,
     private dynamicService: DynamicService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.language = this.helpService.getLanguage();
@@ -46,7 +47,7 @@ export class ChangeSuperadminProfileComponent implements OnInit, FormGuardData {
   }
 
   changeFormDirty(event) {
-    this.isFormDirty = event
+    this.isFormDirty = event;
   }
 
   changeShowDialogExit(event) {
@@ -57,7 +58,7 @@ export class ChangeSuperadminProfileComponent implements OnInit, FormGuardData {
     this.dynamicService
       .getConfiguration(this.path, this.file)
       .subscribe((config) => {
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
         this.getData(this.helpService.getSuperadmin());
       });
   }
@@ -83,20 +84,22 @@ export class ChangeSuperadminProfileComponent implements OnInit, FormGuardData {
 
   receiveConfirm(event) {
     if (event) {
-      this.changeData['id'] = this.data[0].id;
-      this.service.updateSuperadminProfile(this.changeData).subscribe((data) => {
-        if (data) {
-          this.helpService.successToastr(
-            this.language.successExecutedActionTitle,
-            this.language.successExecutedActionText
-          );
-        } else {
-          this.helpService.errorToastr(
-            this.language.errorExecutedActionTitle,
-            this.language.errorExecutedActionText
-          );
-        }
-      });
+      this.changeData["id"] = this.data[0].id;
+      this.service
+        .updateSuperadminProfile(this.changeData)
+        .subscribe((data) => {
+          if (data) {
+            this.helpService.successToastr(
+              this.language.successExecutedActionTitle,
+              this.language.successExecutedActionText
+            );
+          } else {
+            this.helpService.errorToastr(
+              this.language.errorExecutedActionTitle,
+              this.language.errorExecutedActionText
+            );
+          }
+        });
       this.isFormDirty = false;
     }
 

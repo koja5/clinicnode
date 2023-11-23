@@ -6,8 +6,10 @@ import { HelpService } from "src/app/service/help.service";
 import { Subject } from "rxjs";
 import { MarketingService } from "src/app/service/marketing.service";
 import { FormGuardData } from "src/app/models/formGuard-data";
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 
-const draftType = 'sms';
+const draftType = "sms";
 
 @Component({
   selector: "app-massive-sms",
@@ -18,7 +20,7 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   @ViewChild(DynamicFormsComponent) form: DynamicFormsComponent;
   @ViewChild("recipients") recipients: Modal;
   @ViewChild("saveDraft") saveDraft: Modal;
-  public configField: any;
+  public configField = new FormConfig();
   public language: any;
   public superadmin: string;
   public loading = true;
@@ -27,14 +29,14 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   public showDialog = false;
   public allRecipients: any;
   public smsDrafts;
-  public fields: Object = { text: 'draftName', value: 'id' };
+  public fields: Object = { text: "draftName", value: "id" };
   public editMode: boolean = false;
   public copyMode: boolean = false;
   public draftName: string;
   public originalDraftName: string;
   isFormDirty: boolean = false;
   isDataSaved$: Subject<boolean> = new Subject<boolean>();
-  showDialogExit: boolean = false
+  showDialogExit: boolean = false;
   selectedIndex: number;
   public dialogOpened = false;
   public saveDraftModalHeader: string;
@@ -43,7 +45,7 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
     private helpService: HelpService,
     private dynamicService: DynamicService,
     private marketingService: MarketingService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.language = this.helpService.getLanguage();
@@ -55,8 +57,7 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
     this.dynamicService
       .getConfiguration("administarator", "massive-sms")
       .subscribe((config) => {
-        console.log(config);
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
         this.getSmsDrafts();
 
         this.loading = false;
@@ -64,13 +65,15 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   }
 
   getSmsDrafts(selectNewlyCreated?: boolean) {
-    this.marketingService.getDrafts(this.superadmin, draftType).subscribe((data) => {
-      this.smsDrafts = data;
-      if (selectNewlyCreated) {
-        this.selectedIndex = this.smsDrafts.length - 1;
-        this.packDraftData(this.smsDrafts[this.smsDrafts.length - 1]);
-      }
-    })
+    this.marketingService
+      .getDrafts(this.superadmin, draftType)
+      .subscribe((data) => {
+        this.smsDrafts = data;
+        if (selectNewlyCreated) {
+          this.selectedIndex = this.smsDrafts.length - 1;
+          this.packDraftData(this.smsDrafts[this.smsDrafts.length - 1]);
+        }
+      });
   }
 
   onDraftChange(smsDraft) {
@@ -78,11 +81,10 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
     this.draftName = "";
     this.isDataSavedChange(true);
     this.changeFormDirty(false);
-    if(smsDraft.id !== 0) {
+    if (smsDraft.id !== 0) {
       this.editMode = true;
-      this.packDraftData(smsDraft)
-    }
-    else {
+      this.packDraftData(smsDraft);
+    } else {
       this.editMode = false;
     }
   }
@@ -91,32 +93,37 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
     this.data = data;
 
     if (this.data) {
-      for (let i = 0; i < this.configField.length; i++) {
-        if (this.configField[i].type === "multiselect") {
-          if (this.configField[i].allowCustom) {
-            this.configField[i].value =
-              Array.isArray(this.data[this.configField[i].name]) ||
-              this.data[this.configField[i].name] === ""
-                ? this.data[this.configField[i].name]
+      for (let i = 0; i < this.configField.config.length; i++) {
+        if (this.configField.config[i].type === "multiselect") {
+          if (this.configField.config[i].allowCustom) {
+            this.configField.config[i].value =
+              Array.isArray(this.data[this.configField.config[i].name]) ||
+              this.data[this.configField.config[i].name] === ""
+                ? this.data[this.configField.config[i].name]
                 : this.helpService.multiSelectStringToArrayString(
-                    this.data[this.configField[i].name]
+                    this.data[this.configField.config[i].name]
                   );
-            this.data[this.configField[i].name] = this.configField[i].value;
+            this.data[this.configField.config[i].name] =
+              this.configField.config[i].value;
           } else {
-            this.configField[i].value = Array.isArray(
-              this.data[this.configField[i].name]
+            this.configField.config[i].value = Array.isArray(
+              this.data[this.configField.config[i].name]
             )
-              ? this.data[this.configField[i].name]
+              ? this.data[this.configField.config[i].name]
               : this.helpService.multiSelectStringToArrayNumber(
-                  this.data[this.configField[i].name]
+                  this.data[this.configField.config[i].name]
                 );
-            this.data[this.configField[i].name] = this.configField[i].value;
+            this.data[this.configField.config[i].name] =
+              this.configField.config[i].value;
           }
-        } else if (this.configField[i].type === "checkbox") {
-          this.configField[i].value = !!this.data[this.configField[i].field];
-          this.data[this.configField[i].field] = this.configField[i].value;
+        } else if (this.configField.config[i].type === "checkbox") {
+          this.configField.config[i].value =
+            !!this.data[this.configField.config[i].field];
+          this.data[this.configField.config[i].field] =
+            this.configField.config[i].value;
         } else {
-          this.configField[i].value = this.data[this.configField[i].field];
+          this.configField.config[i].value =
+            this.data[this.configField.config[i].field];
         }
       }
     }
@@ -139,24 +146,27 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   getFilteredRecipients() {
     this.dynamicService
       .callApiPost("/api/getFilteredRecipients", this.changeData)
-      .subscribe((data) => {
-        if (data) {
-          this.allRecipients = data;
-        } else if(!data) {
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.allRecipients = data;
+          } else if (!data) {
+            this.recipients.close();
+            this.helpService.warningToastr(
+              "",
+              this.language.needToConfigurationParams
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
           this.recipients.close();
           this.helpService.warningToastr(
             "",
             this.language.needToConfigurationParams
           );
         }
-      }, (error) => {
-        console.log(error);
-        this.recipients.close();
-        this.helpService.warningToastr(
-          "",
-          this.language.needToConfigurationParams
-        );
-      });
+      );
   }
 
   sendSms(event) {
@@ -197,14 +207,14 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   prepareForCopyModal(headerName: string) {
     this.copyMode = true;
     this.editMode = false;
-    this.originalDraftName = this.draftName
+    this.originalDraftName = this.draftName;
     this.draftName = `${this.draftName} Copy`;
     this.openSaveDraftModal(headerName);
   }
 
   actionOnClose() {
-    if(this.copyMode) {
-      this.copyMode = false
+    if (this.copyMode) {
+      this.copyMode = false;
       this.editMode = true;
       this.draftName = this.originalDraftName;
     }
@@ -219,7 +229,7 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
       draftType
     );
 
-    if(this.editMode) {
+    if (this.editMode) {
       smsDraft = {
         ...smsDraft,
         id: this.data.id,
@@ -235,13 +245,13 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
             this.language.successTitle,
             this.language.smsDraftEditedSuccessfully
           );
-        }else {
+        } else {
           this.helpService.errorToastr(
             this.language.errorTitle,
             this.language.errorTextEdit
           );
         }
-      })
+      });
     } else {
       this.marketingService.createDraft(smsDraft).subscribe((data) => {
         if (data) {
@@ -249,7 +259,7 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
             this.language.successTitle,
             this.language.smsDraftSavedSuccessfully
           );
-        }else {
+        } else {
           this.helpService.errorToastr(
             this.language.errorTitle,
             this.language.accountErrorUpdatedAccountText
@@ -263,7 +273,6 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
         this.editMode = true;
       });
     }
-    
   }
 
   onCreateNewDraft() {
@@ -271,14 +280,20 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
     this.draftName = "";
     this.form.form.reset();
     this.editMode = false;
-    if(!this.smsDrafts || !this.smsDrafts.length) {
-      this.smsDrafts.unshift({id: 0, draftName: this.language.addNewSmsDraft || 'Add new sms draft'});
+    if (!this.smsDrafts || !this.smsDrafts.length) {
+      this.smsDrafts.unshift({
+        id: 0,
+        draftName: this.language.addNewSmsDraft || "Add new sms draft",
+      });
       return;
     }
-    if(this.smsDrafts[0].draftName !== this.language.addNewSmsDraft) {
-      this.smsDrafts.unshift({id: 0, draftName: this.language.addNewSmsDraft || 'Add new sms draft'});
+    if (this.smsDrafts[0].draftName !== this.language.addNewSmsDraft) {
+      this.smsDrafts.unshift({
+        id: 0,
+        draftName: this.language.addNewSmsDraft || "Add new sms draft",
+      });
     }
-  } 
+  }
 
   deleteSmsDraft() {
     this.marketingService.deleteDraft(this.data).subscribe((data) => {
@@ -294,13 +309,13 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
           this.language.successTitle,
           this.language.smsDraftDeletedSuccessfully
         );
-      }else {
+      } else {
         this.helpService.errorToastr(
           this.language.errorTitle,
-          this.language.errorTextEdit,
+          this.language.errorTextEdit
         );
       }
-    })
+    });
   }
 
   isDataSavedChange(event: boolean) {
@@ -312,7 +327,7 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   }
 
   changeFormDirty(event) {
-    this.isFormDirty = event
+    this.isFormDirty = event;
   }
 
   changeShowDialogExit(event) {
@@ -324,7 +339,7 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   }
 
   closeDeleteDialog(status: string): void {
-    if(status === 'yes') {
+    if (status === "yes") {
       this.deleteSmsDraft();
     }
     this.dialogOpened = false;
