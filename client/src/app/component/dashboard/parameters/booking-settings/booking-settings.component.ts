@@ -14,6 +14,8 @@ export class BookingSettingsComponent implements OnInit {
   public data: any;
   public language: any;
   public loading = true;
+  public buttonLoader = false;
+  public stripeActivated = false;
 
   constructor(
     private service: DynamicService,
@@ -23,6 +25,7 @@ export class BookingSettingsComponent implements OnInit {
   ngOnInit() {
     this.language = this.helpService.getLanguage();
     this.getData();
+    this.checkStripeAccount();
   }
 
   getData() {
@@ -34,6 +37,18 @@ export class BookingSettingsComponent implements OnInit {
         if (data) {
           this.data = data[0];
           this.loading = false;
+        }
+      });
+  }
+
+  checkStripeAccount() {
+    this.service
+      .callApiGet("/api/checkStripeAccount", this.helpService.getSuperadmin())
+      .subscribe((data: any) => {
+        if (data) {
+          this.stripeActivated = true;
+        } else {
+          this.stripeActivated = false;
         }
       });
   }
@@ -71,5 +86,25 @@ export class BookingSettingsComponent implements OnInit {
         sha1(this.helpService.getSuperadmin())
     );
     this.helpService.successToastr(this.language.successCopiedFormLink, "");
+  }
+
+  connectToStripe() {
+    this.buttonLoader = true;
+    this.service
+      .callApiPost("/api/payment/connect-to-stripe", {
+        superadminId: this.helpService.getSuperadmin(),
+      })
+      .subscribe((data: any) => {
+        window.open(data.url);
+        this.buttonLoader = false;
+      });
+  }
+
+  test() {
+    this.service
+      .callApiPost("/api/payment/stripe-test-payment", null)
+      .subscribe((data: any) => {
+        console.log(data);
+      });
   }
 }

@@ -108,7 +108,7 @@ a:hover {
 }
 
 .authfy-login {
-  min-height: 600px;
+  height: 100%;
   position: relative;
   top: 0;
   left: 0;
@@ -437,4 +437,15 @@ a:hover {
 .btn-login {
   background: #0f1d2b !important;
   border: #0f1d2b !important;
+}
+
+.sum-div {
+  width: 100%;
+  text-align: right;
+}
+
+.sum-price {
+  border-top: 1px solid lightgray;
+  padding: 9px;
+  margin: 0px;
 }

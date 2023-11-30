@@ -225,7 +225,7 @@ export class CustomersComponent implements OnInit {
   }
 
   checkLicence() {
-    if (this.helpService.getLocalStorage("lic") === "5") {
+    if (this.helpService.getLocalStorage("lic") === "0") {
       if (this.gridData.data.length >= 10) {
         return false;
       }

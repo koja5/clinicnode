@@ -71,7 +71,7 @@ export class LicenceComponent implements OnInit {
           this.diffDate = this.calculateDiff(this.licence.expiration_date);
         } else {
           this.licence = {
-            name: "demo",
+            name: "starter",
             price: 0.0,
             expiration_date: new Date(),
           };
@@ -227,12 +227,6 @@ export class LicenceComponent implements OnInit {
               .subscribe(
                 (res) => {
                   if (res["status"]) {
-                    // const successPayment = {
-                    //   name: this.data["name"],
-                    //   price: this.data["price"],
-                    //   email: this.data["email"],
-                    //   expiration_date: this.data["expiration_date"],
-                    // };
                     const successPayment = this.packDateForSendLicenseMail(
                       res["payment_id"]
                     );

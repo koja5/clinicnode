@@ -12,6 +12,106 @@ const calculateOrderAmount = (items) => {
   return 1500;
 };
 
+router.post("/connect-to-stripe", (req, res, next) => {
+  stripe.accounts.create(
+    {
+      country: "US",
+      type: "express",
+      capabilities: {
+        card_payments: {
+          requested: true,
+        },
+        transfers: {
+          requested: true,
+        },
+      },
+    },
+    (err, charge) => {
+      stripe.accountLinks.create(
+        {
+          account: charge.id,
+          refresh_url:
+            process.env.link_api +
+            "payment/check-stripe-account/" +
+            charge.id +
+            "/" +
+            req.body.superadminId,
+          return_url:
+            process.env.link_api +
+            "payment/check-stripe-account/" +
+            charge.id +
+            "/" +
+            req.body.superadminId,
+          type: "account_onboarding",
+          collect: "eventually_due",
+        },
+        (err, link) => {
+          console.log(link);
+          if (link && link.url) {
+            res.json(link);
+          } else {
+            res.json({ url: process.env.link_client + "/not-found" });
+          }
+        }
+      );
+    }
+  );
+});
+
+router.get(
+  "/check-stripe-account/:stripeId/:superadminId",
+  (req, res, next) => {
+    stripe.accounts.retrieve(req.params.stripeId, (err, account) => {
+      console.log("USAO!");
+      if (!err) {
+        if (
+          account &&
+          account.requirements &&
+          account.requirements.currently_due.length === 0
+        ) {
+          const body = {
+            stripeId: req.params.stripeId,
+            superadminId: req.params.superadminId,
+          };
+          var options = {
+            rejectUnauthorized: false,
+            url: process.env.link_api + "updateStripeAccountId",
+            method: "POST",
+            body: body,
+            json: true,
+          };
+          request(options, function (error, response, body) {
+            console.log(response);
+            res.redirect(process.env.link_client + "/dashboard/home/booking-settings");
+          });
+        } else {
+          res.redirect(process.env.link_client + "/dashboard/home/booking-settings");
+        }
+      } else {
+        res.json(false);
+      }
+    });
+  }
+);
+
+router.post("/test-stripe-payment", (req, res, next) => {
+  stripe.paymentIntents.create(
+    {
+      amount: 10 * 100,
+      currency: "usd",
+      automatic_payment_methods: { enabled: true },
+    },
+    {
+      stripeAccount: "acct_1OH2WmQ6Do0F22cu",
+    },
+    (err, charge) => {
+      console.log(err);
+      console.log(charge);
+      res.json(true);
+    }
+  );
+});
+
 router.post("/create-payment", (req, res, next) => {
   stripe.charges.create(
     {
@@ -31,6 +131,7 @@ router.post("/create-payment", (req, res, next) => {
         console.log(err);
         next(err);
       }
+      console.log(req.body);
       var options = {
         rejectUnauthorized: false,
         url: process.env.link_api + "updateLicence",

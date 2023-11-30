@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LoginService } from "../../service/login.service";
 import { MailService } from "../../service/mail.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CookieService } from "ng2-cookies";
 import { DashboardService } from "../../service/dashboard.service";
 import { MongoService } from "../../service/mongo.service";
@@ -9,6 +9,13 @@ import { HelpService } from "src/app/service/help.service";
 import { PackLanguageService } from "src/app/service/pack-language.service";
 import { StorageService } from "src/app/service/storage.service";
 import { HttpClient } from "@angular/common/http";
+import {
+  Elements,
+  Element as StripeElement,
+  ElementsOptions,
+  StripeService,
+} from "ngx-stripe";
+import { DynamicService } from "src/app/service/dynamic.service";
 
 @Component({
   selector: "app-login",
@@ -18,6 +25,7 @@ import { HttpClient } from "@angular/common/http";
 export class LoginComponent implements OnInit {
   public loginForm = "active";
   public signupForm: string;
+  public paymentForm: string;
   public recoverForm: string;
   public userAccessForm: string;
   public loading = false;
@@ -29,14 +37,27 @@ export class LoginComponent implements OnInit {
   public errorInfo: string;
   public emailValid = true;
   public language: any;
+  public languageLanding: any;
   private superadmin: number;
   public userAccessId: number;
   public userAccessDevice: string;
   public agreeValue = false;
+  public validatePaymentField = false;
+  public validateAgreeValue = false;
   public domain!: string;
+  public package: string;
+  public createdLicenceId: string;
+  card: StripeElement;
+  elementsOptions: ElementsOptions = {
+    locale: "en",
+  };
+  elements: Elements;
 
   public data = {
     id: "",
+    firstname: "",
+    lastname: "",
+    name: "",
     shortname: "",
     password: "",
     street: "",
@@ -46,8 +67,11 @@ export class LoginComponent implements OnInit {
     telephone: "",
     mobile: "",
     comment: "",
+    price: 0,
     storeId: 0,
     ipAddress: "",
+    licence_id: 1,
+    expired: null,
   };
   // public data: LoginData;
 
@@ -56,12 +80,15 @@ export class LoginComponent implements OnInit {
     private mailService: MailService,
     private cookie: CookieService,
     private router: Router,
+    private activatedRouter: ActivatedRoute,
     private dashboardService: DashboardService,
     private mongo: MongoService,
     private helpService: HelpService,
     private packLanguage: PackLanguageService,
     private storageService: StorageService,
-    public http: HttpClient
+    private stripeService: StripeService,
+    public http: HttpClient,
+    private callApi: DynamicService
   ) {}
 
   ngOnInit() {
@@ -94,6 +121,14 @@ export class LoginComponent implements OnInit {
     }
     this.helpService.setDefaultBrowserTabTitle();
     this.initializeIpAddress();
+
+    this.languageLanding = this.helpService.getLanguageForLanding();
+
+    this.createPaymentForm();
+    if (this.helpService.getSessionStorage("login") === "signup") {
+      this.signUpActive();
+      this.helpService.clearSessionStorage("login");
+    }
   }
 
   initializeIpAddress() {
@@ -256,14 +291,25 @@ export class LoginComponent implements OnInit {
   }
 
   signUpActive() {
+    this.package = this.activatedRouter.snapshot.params.type;
+    this.data.licence_id = this.getPackageId();
+    this.loginForm = "";
+    this.paymentForm = "";
+    this.signupForm = "active";
+  }
+
+  paymetActive() {
     this.loginForm = "";
     this.recoverForm = "";
-    this.signupForm = "active";
+    this.signupForm = "";
+    this.paymentForm = "active";
+    this.createPaymentForm();
   }
 
   loginActive() {
     this.signupForm = "";
     this.recoverForm = "";
+    this.paymentForm = "";
     this.loginForm = "active";
   }
 
@@ -364,41 +410,59 @@ export class LoginComponent implements OnInit {
   }
 
   signUp(form) {
-    console.log(this.data);
+    this.loading = true;
     this.errorInfo = "";
     this.loginInfo = "";
     if (
       this.data.email !== "" &&
       this.data.shortname &&
-      this.data.password !== ""
+      this.data.password !== "" &&
+      this.data.licence_id &&
+      this.data.telephone != "" &&
+      this.agreeValue
     ) {
       if (this.agreeValue) {
-        this.service.signUp(this.data, (val) => {
-          if (!val.success) {
-            this.errorInfo = val.info;
-          } else {
-            this.data["language"] =
-              this.packLanguage.getLanguageForConfirmMail();
-            this.mailService.sendMail(this.data, function () {});
-            this.signUpInfo = JSON.parse(localStorage.getItem("language"))[
-              "checkMailForActive"
-            ];
-            setTimeout(() => {
-              this.loginActive();
-            }, 3000);
-          }
-          // form.reset();
-        });
+        if (this.data.licence_id > 1) {
+          this.paymetActive();
+        } else {
+          this.signUpAccount();
+        }
       } else {
+        this.loading = false;
         this.errorInfo = JSON.parse(localStorage.getItem("language"))[
           "needToAgree"
         ];
       }
     } else {
+      this.loading = false;
       this.errorInfo = JSON.parse(localStorage.getItem("language"))[
         "fillFields"
       ];
     }
+  }
+
+  signUpAccount() {
+    this.service.signUp(this.data, (val) => {
+      if (!val.success) {
+        this.errorInfo = val.info;
+      } else {
+        this.data["language"] = this.packLanguage.getLanguageForConfirmMail();
+        this.mailService.sendMail(this.data, function () {});
+        this.signUpInfo = JSON.parse(localStorage.getItem("language"))[
+          "checkMailForActive"
+        ];
+        this.helpService.setLocalStorage("superadmin", val.id);
+        if (Number(this.data.licence_id) === 1) {
+          setTimeout(() => {
+            this.loginActive();
+          }, 3000);
+        } else {
+          this.createdLicenceId = val.licenceId;
+          this.createPayment();
+        }
+      }
+      this.loading = false;
+    });
   }
 
   forgotPassword() {
@@ -547,5 +611,201 @@ export class LoginComponent implements OnInit {
 
   backToLanding() {
     this.router.navigate(["./"]);
+  }
+
+  selectPackage(event) {
+    this.data.licence_id = event;
+  }
+
+  getPackageId() {
+    for (let i = 0; i < this.languageLanding.priceTable.header.length; i++) {
+      if (
+        this.languageLanding.priceTable.header[i].nameOfPackageTitle ===
+        this.package
+      ) {
+        return this.languageLanding.priceTable.header[i].id;
+      }
+    }
+  }
+
+  getPackagePrice() {
+    for (let i = 0; i < this.languageLanding.priceTable.header.length; i++) {
+      if (
+        this.languageLanding.priceTable.header[i].id ===
+        Number(this.data.licence_id)
+      ) {
+        return this.languageLanding.priceTable.header[i].price;
+      }
+    }
+  }
+
+  getPackageName() {
+    for (let i = 0; i < this.languageLanding.priceTable.header.length; i++) {
+      if (
+        this.languageLanding.priceTable.header[i].id ===
+        Number(this.data.licence_id)
+      ) {
+        return this.languageLanding.priceTable.header[i].name;
+      }
+    }
+  }
+
+  getSum() {
+    const sum = Number(this.data.expired) * Number(this.getPackagePrice());
+    return sum.toFixed(2);
+  }
+
+  createPaymentForm() {
+    this.card = null;
+    setTimeout(() => {
+      this.stripeService
+        .elements(this.elementsOptions)
+        .subscribe((elements) => {
+          this.elements = elements;
+          if (!this.card) {
+            this.card = this.elements.create("card", {
+              iconStyle: "solid",
+              style: {
+                base: {
+                  iconColor: "#666EE8",
+                  color: "#31325F",
+                  lineHeight: "40px",
+                  fontWeight: 300,
+                  fontFamily: '"Helverica Neue", Helvetica, sans-serif',
+                  fontSize: "18px",
+                  "::placeholder": {
+                    color: "#CFD7E8",
+                  },
+                },
+              },
+            });
+            this.card.mount("#card-element");
+          }
+        });
+    }, 100);
+  }
+
+  payLicence() {
+    console.log(this.data);
+    if (
+      !this.data.firstname ||
+      !this.data.lastname ||
+      !this.data.email ||
+      !this.data.telephone ||
+      !this.data.licence_id ||
+      !this.data.expired
+    ) {
+      this.validatePaymentField = true;
+    } else if (!this.agreeValue) {
+      this.validateAgreeValue = true;
+    } else {
+      this.signUpAccount();
+    }
+  }
+
+  createPayment() {
+    this.data.price = Number(
+      (this.getPackagePrice() * this.data.expired).toFixed(2)
+    );
+    this.stripeService
+      .createToken(this.card, {
+        name:
+          this.data.firstname +
+          " " +
+          this.data.lastname +
+          " - " +
+          this.helpService.getSuperadmin(),
+      })
+      .subscribe(
+        (result) => {
+          if (result.token) {
+            this.data["name"] = this.data.firstname + " " + this.data.lastname;
+            this.data["token"] = result.token;
+            this.data["licenceId"] = this.createdLicenceId;
+            this.data["superadminId"] = this.helpService.getSuperadmin();
+            this.data["expiration_date"] = new Date().setMonth(
+              new Date().getMonth() + Number(this.data.expired)
+            );
+            this.callApi
+              .callApiPost("/api/payment/create-payment", this.data)
+              .subscribe(
+                (res) => {
+                  if (res["status"]) {
+                    const successPayment = this.packDateForSendLicenseMail(
+                      res["payment_id"]
+                    );
+                    this.callApi
+                      .callApiPost(
+                        "/api/sendInfoForLicencePaymentSuccess",
+                        successPayment
+                      )
+                      .subscribe((res) => {});
+                    this.router.navigate([
+                      "payment-success/" + res["payment_id"],
+                    ]);
+                  } else {
+                    this.helpService.errorToastr(
+                      this.language.paymentError,
+                      ""
+                    );
+                  }
+                },
+                (error) => {
+                  this.helpService.errorToastr(this.language.paymentError, "");
+                }
+              );
+          }
+        },
+        (error) => {
+          this.helpService.errorToastr(this.language.paymentError, "");
+        }
+      );
+  }
+
+  packDateForSendLicenseMail(paidId) {
+    const licenceName = this.getPackageName();
+    return {
+      licensePaidId: paidId,
+      licenseInvoice: this.language.licenseInvoice,
+      licenseCompany: this.language.licenseCompany,
+      licenseCompanyName: this.language.licenseCompanyName,
+      licenseCompanyAddress: this.language.licenseCompanyAddress,
+      licenseZipCode: this.language.licenseZipCode,
+      licenseCity: this.language.licenseCity,
+      licenseCompanyUID: this.language.licenseCompanyUID,
+      licenseCompanyFN: this.language.licenseCompanyFN,
+      licenseInvoiceNumber: this.language.licenseInvoiceNumber,
+      licenseInvoicePrefix: this.language.licenseInvoicePrefix,
+      invoiceDate: this.language.invoiceDate,
+      date: new Date(),
+      licensePayer: this.language.licensePayer,
+      payerName: this.data.name,
+      payerEmail: this.data.email,
+      payerPhone: this.data.telephone,
+      licencePaymentDate: this.language.licencePaymentDate,
+      licenceName: this.language.licenceName,
+      licencePrice: this.language.licencePrice,
+      licenseMonth: this.language.licenseMonth,
+      licenseNetoPrice: this.language.licenseNetoPrice,
+      licenseFee: this.language.licenseFee,
+      licenseBrutoPrice: this.language.licenseBrutoPrice,
+      licenceExpiredDate: this.language.licenceExpiredDate,
+      datePaid: new Date(),
+      name: this.language[licenceName]
+        ? this.language[licenceName]
+        : licenceName,
+      price: this.getPackagePrice(),
+      expired: this.data["expired"],
+      feeValue: this.language.feeValue,
+      expirationDate: this.data["expiration_date"],
+      numberOfMonth: this.data["expired"],
+      paymentType: this.language.paymentType,
+      licenseCompanyPhone: this.language.licenseCompanyPhone,
+      licenseCompanyEmail: this.language.licenseCompanyEmail,
+    };
+  }
+
+  checkSelectedPackage(id) {
+    return id === Number(this.data.licence_id) ? true : false;
   }
 }

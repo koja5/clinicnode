@@ -106,7 +106,58 @@
       "allowEditing": false
     },
     {
-      "title": "Firstname",
+      "title": "Termine",
+      "width": 150,
+      "filterable": true,
+      "hideable": true,
+      "type": "date",
+      "class": "text-align-right",
+      "defaultValue": "no date",
+      "field": "start",
+      "format": {
+        "type": "date",
+        "format": "dd.MM.yyyy"
+      }
+    },
+    {
+      "title": "Aus",
+      "width": 150,
+      "filterable": true,
+      "hideable": true,
+      "type": "date",
+      "class": "text-align-right",
+      "defaultValue": "no date",
+      "field": "start",
+      "format": {
+        "type": "date",
+        "format": "HH:mm"
+      }
+    },
+    {
+      "title": "Zu",
+      "width": 150,
+      "filterable": true,
+      "hideable": true,
+      "type": "date",
+      "class": "text-align-right",
+      "defaultValue": "no date",
+      "field": "end",
+      "format": {
+        "type": "date",
+        "format": "HH:mm"
+      }
+    },
+    {
+      "title": "Arzt",
+      "width": 200,
+      "filterable": true,
+      "hideable": true,
+      "type": "string",
+      "class": "text-align-right",
+      "field": "shortname"
+    },
+    {
+      "title": "Vorname",
       "width": 120,
       "filterable": true,
       "hideable": true,
@@ -118,7 +169,7 @@
       }
     },
     {
-      "title": "Lastname",
+      "title": "Familienname, Nachname",
       "width": 120,
       "filterable": true,
       "hideable": true,
@@ -130,32 +181,6 @@
       }
     },
     {
-      "title": "Nicht bezahlt/Bezahlt",
-      "width": 150,
-      "template": {
-        "choices": [
-          {
-            "field": "paid",
-            "value": 0,
-            "operator": "==",
-            "html": "<span class='e-warning'>Nicht bezahlt</span>"
-          },
-          {
-            "field": "paid",
-            "value": 0,
-            "operator": "!=",
-            "html": "<span class='e-success'>Bezahlt</span>"
-          }
-        ]
-      },
-      "field": "paid"
-    },
-    {
-      "title": "Gezahlter Betrag",
-      "width": 80,
-      "field": "amount"
-    },
-    {
       "title": "Email",
       "width": 200,
       "filterable": true,
@@ -165,7 +190,7 @@
       "field": "email"
     },
     {
-      "title": "Mobile",
+      "title": "Handy, Mobiltelefon",
       "width": 150,
       "filterable": true,
       "hideable": true,
@@ -174,7 +199,7 @@
       "field": "mobile"
     },
     {
-      "title": "Birthday",
+      "title": "Geburtstag",
       "width": 120,
       "filterable": true,
       "hideable": true,
@@ -184,45 +209,8 @@
       "field": "birthday",
       "format": {
         "type": "date",
-        "format": "dd/MM/yyyy"
+        "format": "dd.MM.yyyy"
       }
-    },
-    {
-      "title": "From",
-      "width": 150,
-      "filterable": true,
-      "hideable": true,
-      "type": "date",
-      "class": "text-align-right",
-      "defaultValue": "no date",
-      "field": "start",
-      "format": {
-        "type": "date",
-        "format": "dd/MM/yyyy - hh:MM"
-      }
-    },
-    {
-      "title": "To",
-      "width": 150,
-      "filterable": true,
-      "hideable": true,
-      "type": "date",
-      "class": "text-align-right",
-      "defaultValue": "no date",
-      "field": "end",
-      "format": {
-        "type": "date",
-        "format": "dd/MM/yyyy - hh:MM"
-      }
-    },
-    {
-      "title": "Doctor",
-      "width": 200,
-      "filterable": true,
-      "hideable": true,
-      "type": "string",
-      "class": "text-align-right",
-      "field": "shortname"
     }
   ],
   "configField": []

@@ -113,7 +113,7 @@
                   <!-- ./remember-row -->
                   <div class="form-group">
                     <button class="btn btn-lg btn-block btn-primary btn-login" type="submit">
-                      {{ language.loginWithEmail }}
+                      <i class="fa fa-spinner fa-spin" *ngIf="loading"></i> {{ language.loginWithEmail }}
                     </button>
                   </div>
                 </form>
@@ -154,18 +154,21 @@
               <div class="col-xs-12 col-sm-12">
                 <div class="authfy-heading">
                   <h3 class="auth-title">{{ language.signUpTitle }}</h3>
-                  <p>{{ signUpInfo }}</p>
-                  <p style="color: red">{{ errorInfo }}</p>
+                  <p style="color: green; font-weight: bold;">{{ signUpInfo }}</p>
+                  <p style="color: red; font-weight: bold;">{{ errorInfo }}</p>
                 </div>
                 <form name="signupForm" class="signupForm" (ngSubmit)="signUp($event)">
                   <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="{{ language.email }}"
-                      required="required" [(ngModel)]="data.email" email.value="" #email="ngModel" />
-                  </div>
-
-                  <div class="form-group">
                     <input type="text" class="form-control" name="fullname" placeholder="{{ language.fullName }}"
                       required="required" [(ngModel)]="data.shortname" shortname.value="" #shortname="ngModel" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="telephone" placeholder="{{ language.telephone }}"
+                      required="required" [(ngModel)]="data.telephone" shortname.value="" #telephone="ngModel" />
+                  </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="{{ language.email }}"
+                      required="required" [(ngModel)]="data.email" email.value="" #email="ngModel" />
                   </div>
                   <div class="form-group">
                     <div class="pwdMask">
@@ -173,6 +176,22 @@
                         placeholder="{{ language.password }}" [(ngModel)]="data.password" password.value=""
                         #password="ngModel" />
                       <span class="fa {{ hideShowEye }} pwd-toggle" (click)="hideShowPassword()"></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="pwdMask">
+                      <select class="form-control" (change)="selectPackage($event.target.value)" name="package"
+                        id="package">
+                        <option value="undefined" selected="" disabled="">
+                          {{
+                          languageLanding.choosePackage
+                          }}
+                        </option>
+                        <option *ngFor="let item of languageLanding.priceTable.header" value="{{ item.id }}"
+                          [selected]="item.nameOfPackageTitle === package ? true : false">
+                          {{ item.nameOfPackageTitle }}
+                        </option>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group">
@@ -187,7 +206,7 @@
                   </div>
                   <div class="form-group">
                     <button class="btn btn-lg btn-block btn-primary btn-login" type="submit">
-                      {{ language.signUpWithEmail }}
+                      <i class="fa fa-spinner fa-spin" *ngIf="loading"></i> {{ language.signUpWithEmail }}
                     </button>
                   </div>
                 </form>
@@ -196,6 +215,96 @@
               </div>
             </div>
           </div>
+
+          <!--licence buy-->
+          <div class="authfy-panel panel-signup text-center {{ paymentForm }}">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12">
+                <div class="authfy-heading">
+                  <h3 class="auth-title">{{ language.loginLicenceTitle }}</h3>
+                  <p>{{ language.loginLicenceText }}</p>
+                </div>
+                <p *ngIf="validatePaymentField" style="color: red; font-weight: bold;">You need to fill all data!</p>
+                <form name="signupForm" class="signupForm">
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="firstname" placeholder="{{ language.firstname }}"
+                      required="required" [(ngModel)]="data.firstname" firstname.value="" #firstname="ngModel" />
+                  </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="lastname" placeholder="{{ language.lastname }}"
+                      required="required" [(ngModel)]="data.lastname" lastname.value="" #lastname="ngModel" />
+                  </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="{{ language.email }}"
+                      required="required" [(ngModel)]="data.email" email.value="" #email="ngModel" />
+                  </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="telephone" placeholder="{{ language.telephone }}"
+                      required="required" [(ngModel)]="data.telephone" telephone.value="" #telephone="ngModel" />
+                  </div>
+                  <div class="form-group">
+                    <div class="pwdMask">
+                      <select class="form-control" (change)="selectPackage($event.target.value)" name="package"
+                        id="package">
+                        <option value="undefined" selected="" disabled="">
+                          {{
+                          languageLanding.choosePackage
+                          }}
+                        </option>
+                        <option *ngFor="let item of languageLanding.priceTable.header" value="{{ item.id }}"
+                          [selected]="checkSelectedPackage(item.id)">
+                          {{ item.nameOfPackageTitle }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="pwdMask">
+                      <select class="form-control" [(ngModel)]="data.expired" name="package" id="package">
+                        <option disabled selected value="null">{{language.selectNumberOfMonth}}</option>
+                        <option *ngFor="let item of [].constructor(12); let i = index" value="{{i + 1}}">{{i + 1}}
+                          {{language.month}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="div-flex"></div>
+                  <div id="card-element" class="field mt-5 mb-5"></div>
+
+                  <div class="form-group sum-div" *ngIf="data.expired&&data.licence_id > 1">
+                    <h4>{{data.expired}} {{language.month}} x {{getPackagePrice()}} €</h4>
+                    <h3 class="sum-price">{{getSum()}} €</h3>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="checkbox text-left">
+                      <input type="checkbox" [(ngModel)]="agreeValue" name="agreeValue" /><span class="label-text">{{
+                        language.clickAgreeLicenceText }}
+                        <a routerLink="/terms" target="_blank" class="signup-term-link">{{ language.termOfUseLicence
+                          }}</a>
+                        {{ language.andPrivacyPolicy }}
+                        <a routerLink="/privacy-policy" target="_blank" class="signup-term-link">{{
+                          language.privacyPolicyLicence }}</a> {{language.andLicence}} <a
+                          routerLink="/right-of-withdrawal" target="_blank"
+                          class="signup-term-link">{{language.rightOfWithdrawal}}</a>
+                        {{language.rightOfWithdrawalPost}}</span>
+                    </label>
+
+                    <p *ngIf="validateAgreeValue" style="color: red; font-weight: bold;">Need to agree value!
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <button class="btn btn-lg btn-block btn-primary btn-login" (click)="payLicence()">
+                      {{ language.loginLicenceButton }}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!--licence buy end-->
           <!-- ./panel-signup -->
           <!-- panel-forget start -->
           <div class="authfy-panel panel-forgot {{ recoverForm }}">
@@ -229,6 +338,7 @@
               </div>
             </div>
           </div>
+
           <!-- ./panel-forgot -->
         </div>
         <!-- ./authfy-login -->

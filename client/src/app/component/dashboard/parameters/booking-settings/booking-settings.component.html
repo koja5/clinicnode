@@ -5,5 +5,20 @@
   </div>
   <app-dynamic-forms *ngIf="!loading" [path]="path" [file]="file" [data]="data" (submit)="saveConfig($event)">
   </app-dynamic-forms>
-  <button class="btn btn-default" (click)="generateOnlineLink()">{{language.generateBookingOnlineLink}}</button>
+
+  <div>
+    <h4>{{language.generateBookingOnlineLink}}</h4>
+    <button class="btn btn-default" (click)="generateOnlineLink()">{{language.copyBookingLinkToClipboard}}</button>
+  </div>
+
+  <div class="mt-4">
+    <h4>{{language.connectToStripeTitle}}</h4>
+    <p>{{language.connectToStripeText}}</p>
+    <div>
+      <button *ngIf="!stripeActivated" class="btn btn-default" (click)="connectToStripe()"><i
+          class="fa fa-spinner fa-spin" *ngIf="buttonLoader"></i> {{language.connectToStripeButton}}</button>
+      <button *ngIf="stripeActivated"
+        class="btn btn-success font-weight-bold">{{language.stripeIsSuccessfulyConnected}}</button>
+    </div>
+  </div>
 </div>

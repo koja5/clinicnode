@@ -117,22 +117,17 @@ router.post("/signUp", function (req, res, next) {
       logger.log("error", err.sql + ". " + err.sqlMessage);
       res.json(err);
     }
-
-    var email = req.body.email;
-    var shortname = req.body.shortname;
-    var pass = sha1(req.body.password);
-
     test = {};
     var podaci = {
-      password: pass,
-      shortname: shortname,
+      password: sha1(req.body.password),
+      shortname: req.body.shortname,
       firstname: "",
       lastname: "",
       street: "",
       zipcode: "",
       place: "",
-      email: email,
-      telephone: "",
+      email: req.body.email,
+      telephone: req.body.telephone,
       mobile: "",
       birthday: "",
       incompanysince: "",
@@ -140,6 +135,8 @@ router.post("/signUp", function (req, res, next) {
       active: 0,
       img: "",
     };
+
+    console.log(req.body);
 
     conn.query(
       "SELECT * FROM users_superadmin WHERE email=?",
@@ -174,10 +171,15 @@ router.post("/signUp", function (req, res, next) {
                   smsCountData,
                   function (err, rows) {}
                 );
+
                 var expiryDate = new Date();
-                expiryDate.setDate(expiryDate.getDate() + 14);
+                if (req.body.licence_id > 1) {
+                  expiryDate.setDate(expiryDate.getDate() + 14);
+                } else {
+                  expiryDate = null;
+                }
                 const licence = {
-                  licence_id: 1,
+                  licence_id: req.body.licence_id,
                   superadmin_id: rows.insertId,
                   expiration_date: expiryDate,
                 };
@@ -185,7 +187,12 @@ router.post("/signUp", function (req, res, next) {
                 conn.query(
                   "insert into licence_per_user SET ?",
                   [licence],
-                  function (err, rows) {
+                  function (err, licence) {
+                    console.log(err);
+                    console.log("USAO SA LICENCOM!");
+                    console.log(licence);
+                    test.licenceId = licence.insertId;
+                    res.json(test);
                     conn.release();
                   }
                 );
@@ -197,7 +204,6 @@ router.post("/signUp", function (req, res, next) {
                 test.success = false;
                 test.info = "Error";
               }
-              res.json(test);
             }
           );
         }
@@ -452,7 +458,7 @@ router.post("/login", (req, res, next) => {
             }
             if (rows.length >= 1 && rows[0].active === 1) {
               conn.query(
-                "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 5)",
+                "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 1)",
                 [rows[0].superadmin, new Date()],
                 function (err, licence, fields) {
                   if (licence.length > 0) {
@@ -555,7 +561,7 @@ router.post("/login", (req, res, next) => {
                   console.log(rows);
                   if (rows.length >= 1 && rows[0].active === 1) {
                     conn.query(
-                      "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 5)",
+                      "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 1)",
                       [rows[0].id, new Date()],
                       function (err, licence, fields) {
                         if (licence.length > 0) {
@@ -606,7 +612,7 @@ router.post("/login", (req, res, next) => {
 
                         if (rows.length >= 1) {
                           conn.query(
-                            "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 5)",
+                            "SELECT * from licence_per_user l where l.superadmin_id = ? and (l.expiration_date >= ? or l.licence_id = 1)",
                             [rows[0].storeId, new Date()],
                             function (err, licence, fields) {
                               if (licence.length > 0) {
@@ -10805,14 +10811,15 @@ router.post("/updateLicence", function (req, res, next) {
     var new_date = new Date();
     console.log(req.body);
     var date = {
-      licence_id: req.body.licenceId,
+      licence_id: req.body.licence_id,
       superadmin_id: req.body.superadminId,
       expiration_date: new Date(req.body.expiration_date),
     };
+    console.log(date);
 
     conn.query(
-      "update licence_per_user set ? where superadmin_id = ?",
-      [date, req.body.superadminId],
+      "update licence_per_user set ? where id = ?",
+      [date, req.body.licenceId],
       function (err, rows, fields) {
         console.log(err);
         if (err) {
@@ -11192,5 +11199,73 @@ router.post("/updateBookingSettings", function (req, res, next) {
 });
 
 // END BOOKING
+
+/* UPDATE STRIPE ACCOUNT */
+
+router.post("/updateStripeAccountId", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    console.log(req.body);
+
+    conn.query(
+      "update users_superadmin set stripe_id = ? where id = ?",
+      [req.body.stripeId, Number(req.body.superadminId)],
+      function (err, rows, fields) {
+        conn.release();
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(false);
+        } else {
+          res.json(true);
+        }
+      }
+    );
+  });
+});
+
+router.get("/checkStripeAccount/:superadminId", (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        console.error("SQL Connection error: ", err);
+        res.json({
+          code: 100,
+          status: err,
+        });
+      } else {
+        conn.query(
+          "select * from users_superadmin where id = ?",
+          [req.params.superadminId],
+          function (err, rows, fields) {
+            conn.release();
+            if (err) {
+              res.json(err);
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+            } else {
+              if (rows && rows.length) {
+                if (rows[0].stripe_id) {
+                  res.json(true);
+                } else {
+                  res.json(false);
+                }
+              } else {
+                res.json(false);
+              }
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
+});
+
+/* END UPDATE STRIPE ACCOUNT */
 
 module.exports = router;

@@ -26,6 +26,11 @@ const routes: Routes = [
     loadChildren: "./component/login/login.module#LoginModule",
   },
   {
+    path: "login/:type",
+    canActivate: [LoggedGuard],
+    loadChildren: "./component/login/login.module#LoginModule",
+  },
+  {
     path: "dashboard",
     canActivate: [LoginGuard],
     loadChildren: "./component/dashboard/dashboard.module#DashboardModule",

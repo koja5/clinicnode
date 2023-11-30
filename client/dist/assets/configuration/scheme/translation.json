@@ -104,6 +104,15 @@
             "needToSuperadminApproveAccess": {
                 "type": "string"
             },
+            "loginLicenceTitle": {
+                "type": "string"
+            },
+            "loginLicenceText": {
+                "type": "string"
+            },
+            "loginLicenceButton": {
+                "type": "string"
+            },
             "confirmPassword": {
                 "type": "string"
             },
@@ -819,6 +828,9 @@
                 "type": "string"
             },
             "generateBookingOnlineLink": {
+                "type": "string"
+            },
+            "copyBookingLinkToClipboard": {
                 "type": "string"
             },
             "licence": {
@@ -2739,6 +2751,18 @@
             },
             "translationUpdate": {
                 "type": "string"
+            },
+            "connectToStripeTitle": {
+                "type": "string"
+            },
+            "connectToStripeText": {
+                "type": "string"
+            },
+            "connectToStripeButton": {
+                "type": "string"
+            },
+            "stripeIsSuccessfulyConnected": {
+                "type": "string"
             }
         }
     },
@@ -3071,9 +3095,15 @@
                         {
                             "key": "needToSuperadminApproveAccess"
                         },
-                        {},
-                        {},
-                        {}
+                        {
+                            "key": "loginLicenceTitle"
+                        },
+                        {
+                            "key": "loginLicenceText"
+                        },
+                        {
+                            "key": "loginLicenceButton"
+                        }
                     ]
                 }
             ]
@@ -4665,6 +4695,9 @@
                         },
                         {
                             "key": "generateBookingOnlineLink"
+                        },
+                        {
+                            "key": "copyBookingLinkToClipboard"
                         }
                     ]
                 }
@@ -8175,6 +8208,33 @@
                         {},
                         {},
                         {}
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "section",
+            "title": "Stripe",
+            "expandable": true,
+            "expanded": false,
+            "items": [
+                {
+                    "type": "div",
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "items": [
+                        {
+                            "key": "connectToStripeTitle"
+                        },
+                        {
+                            "key": "connectToStripeText"
+                        },
+                        {
+                            "key": "connectToStripeButton"
+                        },
+                        {
+                            "key": "stripeIsSuccessfulyConnected"
+                        }
                     ]
                 }
             ]

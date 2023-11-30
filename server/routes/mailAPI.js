@@ -56,7 +56,7 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
-/*var smtpTransport = nodemailer.createTransport({
+var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
   secure: process.env.smtp_secure,
@@ -67,20 +67,20 @@ var connection = mysql.createPool({
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
   },
-});*/
-
-var smtpTransport = nodemailer.createTransport({
-  host: "116.203.109.78",
-  port: 25,
-  secure: false,
-  tls: {
-    rejectUnauthorized: false,
-  },
-  auth: {
-    user: "info@clinicnode.com",
-    pass: "!91y^ODGp7w#",
-  },
 });
+
+// var smtpTransport = nodemailer.createTransport({
+//   host: "116.203.109.78",
+//   port: 25,
+//   secure: false,
+//   tls: {
+//     rejectUnauthorized: false,
+//   },
+//   auth: {
+//     user: "info@clinicnode.com",
+//     pass: "!91y^ODGp7w#",
+//   },
+// });
 
 //slanje maila pri registraciji
 router.post("/send", function (req, res) {
@@ -299,7 +299,9 @@ router.post("/forgotmail", function (req, res) {
         var mailOptions = {
           from: '"ClinicNode" info@clinicnode.com',
           to: req.body.email,
-          subject: mail.mailSubject ? mail.mailSubject : req.body.language.subjectForgotMail,
+          subject: mail.mailSubject
+            ? mail.mailSubject
+            : req.body.language.subjectForgotMail,
           html: compiledTemplate.render({
             firstName: req.body.firstname,
             verificationLink: verificationLinkButton,
@@ -725,8 +727,7 @@ router.post("/sendPatientFormRegistration", function (req, res) {
               : req.body.language.copyRight,
             introductoryMessageForPatientRegistrationForm: mail.mailMessage
               ? mail.mailMessage
-              : req.body.language
-                  .introductoryMessageForPatientRegistrationForm,
+              : req.body.language.introductoryMessageForPatientRegistrationForm,
             openForm: req.body.language.openForm,
             signatureAddress:
               signatureAvailable &&
