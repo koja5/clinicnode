@@ -18,4 +18,5 @@ export class EventModel {
   color?: string;
   online?: number;
   paid?: number;
+  amount?: number;
 }

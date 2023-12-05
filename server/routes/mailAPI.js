@@ -118,19 +118,18 @@ router.post("/send", function (req, res) {
   };
 
   smtpTransport.sendMail(mailOptions, function (error, response) {
-    console.log(response);
     if (error) {
       logger.log(
         "error",
         `Error to sent mail for VERIFICATION MAIL on EMAIL: ${req.body.email}. Error: ${error}`
       );
-      res.end("error");
+      res.json(false);
     } else {
       logger.log(
         "info",
         `Sent mail for VERIFICATION MAIL for USER: ${req.body.shortname} on EMAIL: ${req.body.email}`
       );
-      res.end("sent");
+      res.json(true);
     }
   });
 });
@@ -2416,7 +2415,7 @@ router.post("/sendInfoForLicencePaymentSuccess", function (req, res) {
   var mailOptions = {
     from: '"ClinicNode" info@clinicnode.com',
     to: req.body.payerEmail,
-    subject: "Payment received successfully!",
+    subject: "Zahlung erfolgreich erhalten!",
     html: compiledTemplate.render({
       licensePaidId: req.body.licensePaidId,
       licenseInvoice: req.body.licenseInvoice,
@@ -2504,7 +2503,7 @@ router.post("/sendInfoForSMSPaymentSuccess", function (req, res) {
   var mailOptions = {
     from: '"ClinicNode" info@clinicnode.com',
     to: req.body.email,
-    subject: "Payment received successfully!",
+    subject: "Zahlung erfolgreich erhalten!",
     html: compiledTemplate.render({
       name: req.body.name,
       price: req.body.price,

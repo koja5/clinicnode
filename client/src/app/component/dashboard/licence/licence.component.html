@@ -113,7 +113,7 @@
               (change)="changeLicence($event.target.selectedIndex)">
               <option *ngFor="let item of allLicences" [ngValue]="item"
                 [selected]="item.name === licence.name ? true : false">{{language[item.name] ? language[item.name] :
-                item.name}}</option>
+                item.name}} ({{item.price}} €)</option>
             </select>
             <select class="col-md-12 col-xs-12 payment-input" [(ngModel)]="data.expired">
               <option disabled selected value="undefined">{{language.selectNumberOfMonth}}</option>

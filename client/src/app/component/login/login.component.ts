@@ -428,11 +428,12 @@ export class LoginComponent implements OnInit {
           this.signUpAccount();
         }
       } else {
-        this.loading = false;
         this.errorInfo = JSON.parse(localStorage.getItem("language"))[
           "needToAgree"
         ];
       }
+
+      this.loading = false;
     } else {
       this.loading = false;
       this.errorInfo = JSON.parse(localStorage.getItem("language"))[
@@ -442,6 +443,7 @@ export class LoginComponent implements OnInit {
   }
 
   signUpAccount() {
+    this.loading = true;
     this.service.signUp(this.data, (val) => {
       if (!val.success) {
         this.errorInfo = val.info;
@@ -704,6 +706,7 @@ export class LoginComponent implements OnInit {
   }
 
   createPayment() {
+    this.loading = true;
     this.data.price = Number(
       (this.getPackagePrice() * this.data.expired).toFixed(2)
     );
@@ -749,6 +752,7 @@ export class LoginComponent implements OnInit {
                       ""
                     );
                   }
+                  this.loading = false;
                 },
                 (error) => {
                   this.helpService.errorToastr(this.language.paymentError, "");

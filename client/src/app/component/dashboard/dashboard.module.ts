@@ -121,6 +121,7 @@ import { MailResetPasswordComponent } from './parameters/mail-reset-password/mai
 import { WorkTimeComponent } from './users/user-details/work-time/work-time.component';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { BookingSettingsComponent } from './parameters/booking-settings/booking-settings.component';
+import { PackagesComponent } from './administrator/packages/packages.component';
 
 @NgModule({
   declarations: [
@@ -187,7 +188,8 @@ import { BookingSettingsComponent } from './parameters/booking-settings/booking-
     LastMinuteEventConfirmationComponent,
     MailMultipleRecepientComponent,
     WorkTimeComponent,
-    BookingSettingsComponent
+    BookingSettingsComponent,
+    PackagesComponent
   ],
   imports: [
     CommonModule,

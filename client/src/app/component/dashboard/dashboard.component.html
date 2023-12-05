@@ -706,6 +706,13 @@
                                   {{ language?.mailMultipleRecepient }}
                                 </a>
                               </li>
+
+                              <li class="{{ selectedNodeModel['packages'] }}">
+                                <a (click)="returnActiveNode('packages')" routerLink="/dashboard/home/packages"><i
+                                    class="fa fa-th-large"></i><span class="navigation-link"></span>
+                                  {{ language?.packages }}
+                                </a>
+                              </li>
                             </ul>
                           </li>
 

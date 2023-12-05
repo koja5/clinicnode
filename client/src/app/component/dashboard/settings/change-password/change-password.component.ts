@@ -5,7 +5,8 @@ import { AccountService } from "src/app/service/account.service";
 import { DynamicService } from "src/app/service/dynamic.service";
 import { HelpService } from "src/app/service/help.service";
 import * as sha1 from "sha1";
-
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 @Component({
   selector: "app-change-password",
   templateUrl: "./change-password.component.html",
@@ -15,12 +16,13 @@ export class ChangePasswordComponent implements OnInit {
   @ViewChild(DynamicFormsComponent) form: DynamicFormsComponent;
   public userType = UserType;
   public language: any;
-  public configField: any;
+  public configField = new FormConfig();
   public type: number;
   public id: number;
   public showDialog = false;
   public data: any;
   public changeData: any;
+  public loading = true;
 
   constructor(
     private service: AccountService,
@@ -40,7 +42,8 @@ export class ChangePasswordComponent implements OnInit {
     this.dynamicService
       .getConfiguration("settings/change-password", "change-password")
       .subscribe((config) => {
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
+        this.loading = false;
         this.getData(this.type, this.id);
       });
   }
@@ -50,6 +53,7 @@ export class ChangePasswordComponent implements OnInit {
       this.service.getSuperadmin(id).subscribe((data) => {
         if (data && data["length"] > 0) {
           this.data = data[0];
+          this.packValue(data);
         }
       });
     } else if (
@@ -60,12 +64,14 @@ export class ChangePasswordComponent implements OnInit {
       this.service.getUser(id).subscribe((data) => {
         if (data && data["length"] > 0) {
           this.data = data[0];
+          this.packValue(data);
         }
       });
     } else if (type === this.userType.patient) {
       this.service.getCustomerWithId(id).subscribe((data) => {
         if (data && data["length"] > 0) {
           this.data = data[0];
+          this.packValue(data);
         }
       });
     }
@@ -76,10 +82,18 @@ export class ChangePasswordComponent implements OnInit {
     this.showDialog = true;
   }
 
+  packValue(data) {
+    for (let i = 0; i < this.configField.config.length; i++) {
+      this.configField.config[i].value = this.helpService.convertValue(
+        data[0][this.configField.config[i].field],
+        this.configField.config[i].type
+      );
+    }
+  }
+
   resetValue() {
-    console.log(this.configField);
-    for (let i = 0; i < this.configField.length; i++) {
-      this.configField[i].value = "";
+    for (let i = 0; i < this.configField.config.length; i++) {
+      this.configField.config[i].value = "";
     }
   }
 

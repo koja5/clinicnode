@@ -189,7 +189,7 @@
                         </option>
                         <option *ngFor="let item of languageLanding.priceTable.header" value="{{ item.id }}"
                           [selected]="item.nameOfPackageTitle === package ? true : false">
-                          {{ item.nameOfPackageTitle }}
+                          {{ item.nameOfPackageTitle }} ({{item.price}} €)
                         </option>
                       </select>
                     </div>
@@ -253,7 +253,7 @@
                         </option>
                         <option *ngFor="let item of languageLanding.priceTable.header" value="{{ item.id }}"
                           [selected]="checkSelectedPackage(item.id)">
-                          {{ item.nameOfPackageTitle }}
+                          {{ item.nameOfPackageTitle }} ({{item.price}} €)
                         </option>
                       </select>
                     </div>
@@ -297,7 +297,7 @@
 
                   <div class="form-group">
                     <button class="btn btn-lg btn-block btn-primary btn-login" (click)="payLicence()">
-                      {{ language.loginLicenceButton }}
+                      <i class="fa fa-spinner fa-spin" *ngIf="loading"></i> {{ language.loginLicenceButton }}
                     </button>
                   </div>
                 </form>

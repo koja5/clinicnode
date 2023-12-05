@@ -82,10 +82,14 @@ router.get(
           };
           request(options, function (error, response, body) {
             console.log(response);
-            res.redirect(process.env.link_client + "/dashboard/home/booking-settings");
+            res.redirect(
+              process.env.link_client + "/dashboard/home/booking-settings"
+            );
           });
         } else {
-          res.redirect(process.env.link_client + "/dashboard/home/booking-settings");
+          res.redirect(
+            process.env.link_client + "/dashboard/home/booking-settings"
+          );
         }
       } else {
         res.json(false);
@@ -131,7 +135,6 @@ router.post("/create-payment", (req, res, next) => {
         console.log(err);
         next(err);
       }
-      console.log(req.body);
       var options = {
         rejectUnauthorized: false,
         url: process.env.link_api + "updateLicence",
@@ -140,7 +143,11 @@ router.post("/create-payment", (req, res, next) => {
         json: true,
       };
       request(options, function (error, response, body) {
-        res.json(response.body);
+        if (response) {
+          res.json(response.body);
+        } else {
+          res.json({ status: false });
+        }
       });
     }
   );

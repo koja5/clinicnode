@@ -106,4 +106,9 @@ export class HomeNavigationMenuComponent implements OnInit {
   navigationUrl(url: string) {
     this.router.navigate([url]);
   }
+
+  signUp() {
+    this.helpService.setSessionStorage("login", "signup");
+    this.router.navigate(["/login"]);
+  }
 }

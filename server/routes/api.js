@@ -188,12 +188,9 @@ router.post("/signUp", function (req, res, next) {
                   "insert into licence_per_user SET ?",
                   [licence],
                   function (err, licence) {
-                    console.log(err);
-                    console.log("USAO SA LICENCOM!");
-                    console.log(licence);
+                    conn.release();
                     test.licenceId = licence.insertId;
                     res.json(test);
-                    conn.release();
                   }
                 );
               } else {
@@ -10919,6 +10916,85 @@ router.get("/getAllLicences", function (req, res, next) {
       }
     });
   });
+});
+
+router.post("/createLicence", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query(
+      "insert into licence set ?",
+      [req.body],
+      function (err, rows, fields) {
+        conn.release();
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(err);
+        } else {
+          response = true;
+          res.json(response);
+        }
+      }
+    );
+  });
+});
+
+router.post("/updatePackageLicence", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query(
+      "update licence set ? where id = ?",
+      [req.body, req.body.id],
+      function (err, rows, fields) {
+        console.log(err);
+        if (err) {
+          conn.release();
+          res.json(err);
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+        } else {
+          res.json(true);
+        }
+      }
+    );
+  });
+});
+
+router.post("/deleteLicence", (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        console.error("SQL Connection error: ", err);
+        res.json({
+          code: 100,
+          status: err,
+        });
+      } else {
+        conn.query(
+          "delete from licence where id = ?",
+          [req.body.id],
+          function (err, rows, fields) {
+            conn.release();
+            if (err) {
+              res.json(false);
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+            } else {
+              res.json(true);
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
 });
 
 router.get("/getInvoiceForLicence/:id", function (req, res, next) {

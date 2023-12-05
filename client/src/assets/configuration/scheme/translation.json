@@ -827,6 +827,9 @@
             "bookingSettings": {
                 "type": "string"
             },
+            "packages": {
+                "type": "string"
+            },
             "generateBookingOnlineLink": {
                 "type": "string"
             },
@@ -2593,6 +2596,9 @@
             "demo": {
                 "type": "string"
             },
+            "starter": {
+                "type": "string"
+            },
             "basic": {
                 "type": "string"
             },
@@ -4033,7 +4039,9 @@
                         {
                             "key": "bookingSettings"
                         },
-                        {}
+                        { 
+                            "key": "packages"
+                        }
                     ]
                 }
             ]
@@ -7984,6 +7992,9 @@
                     "items": [
                         {
                             "key": "demo"
+                        },
+                        {
+                            "key": "starter"
                         },
                         {
                             "key": "basic"

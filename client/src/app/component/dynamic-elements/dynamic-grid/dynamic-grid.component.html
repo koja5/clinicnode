@@ -76,7 +76,7 @@
     <ng-template #editSettingsTemplate let-data>
       <div ngForm #orderForm="ngForm" style="max-height: 70% !important">
         <div class="form-row">
-          <app-dynamic-forms [config]="config.configField" (submit)="submitEmitter($event)"
+          <app-dynamic-forms [config]="{config: config.configField}" (submit)="submitEmitter($event)"
             (isFormDirtyChange)="setDirtyForm($event)" #form="dynamicForm">
           </app-dynamic-forms>
 

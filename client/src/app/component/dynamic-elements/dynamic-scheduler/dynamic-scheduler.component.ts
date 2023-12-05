@@ -1035,8 +1035,6 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
   }
 
   updateTask(args) {
-    console.log(args);
-    console.log("updateTask");
     let formValue = new EventModel();
     if (this.type === this.userType.patient) {
       formValue.online = 1;
@@ -1068,6 +1066,8 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
     );
     formValue.online = args.data.online;
     formValue.paid = args.data.paid;
+    formValue.amount = args.data.amount;
+    formValue.confirm = args.data.confirm;
     formValue.superadmin = this.helpService.getSuperadmin();
     formValue.creator_id = args.data.creator_id;
     formValue = this.colorMapToId(formValue);
@@ -1090,11 +1090,11 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
     );
     formValue["StartTime"] = new Date(formValue.start);
     formValue["EndTime"] = new Date(formValue.end);
-    if (this.isConfirm) {
-      formValue.confirm = 0;
-    } else {
-      formValue.confirm = -1;
-    }
+    // if (this.isConfirm) {
+    //   formValue.confirm = 0;
+    // } else {
+    //   formValue.confirm = -1;
+    // }
     formValue.user.isConfirm = this.isConfirm;
     formValue.user.reminderViaEmail = this.reminderViaEmail;
     formValue.user.reminderViaSMS = this.reminderViaSMS;
