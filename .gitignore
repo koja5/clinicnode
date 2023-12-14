@@ -14,6 +14,8 @@ client/dist/assets/error.log
 client/dist/assets/warn.log
 client/.env
 server/.env
+client/node_modules/
+server/node_modules/
 node_modules/
 bower_components/
 
