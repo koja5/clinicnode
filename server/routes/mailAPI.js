@@ -56,16 +56,24 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
+// var smtpTransport = nodemailer.createTransport({
+//   host: process.env.smtp_host,
+//   port: process.env.smtp_port,
+//   secure: process.env.smtp_secure,
+//   tls: {
+//     rejectUnauthorized: process.env.smtp_rejectUnauthorized,
+//   },
+//   auth: {
+//     user: process.env.smtp_user,
+//     pass: process.env.smtp_pass,
+//   },
+// });
+
 var smtpTransport = nodemailer.createTransport({
-  host: process.env.smtp_host,
-  port: process.env.smtp_port,
-  secure: process.env.smtp_secure,
-  tls: {
-    rejectUnauthorized: process.env.smtp_rejectUnauthorized,
-  },
+  service: "gmail",
   auth: {
-    user: process.env.smtp_user,
-    pass: process.env.smtp_pass,
+    user: "kidsnodeoffice@gmail.com",
+    pass: "rvciekpadttcvbwt",
   },
 });
 

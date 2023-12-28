@@ -5,7 +5,7 @@ const path = require("path");
 var nodemailer = require("nodemailer");
 const logger = require("./logger");
 
-/*var smtpTransport = nodemailer.createTransport({
+var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
   secure: process.env.smtp_secure,
@@ -18,26 +18,25 @@ const logger = require("./logger");
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
   },
-});*/
-
-var smtpTransport = nodemailer.createTransport({
-  host: "116.203.109.78",
-  port: 25,
-  secure: false,
-  tls: {
-    rejectUnauthorized: false,
-  },
-  auth: {
-    user: "info@clinicnode.com",
-    pass: "!91y^ODGp7w#",
-  },
 });
+
+// var smtpTransport = nodemailer.createTransport({
+//   host: "116.203.109.78",
+//   port: 25,
+//   secure: false,
+//   tls: {
+//     rejectUnauthorized: false,
+//   },
+//   auth: {
+//     user: "info@clinicnode.com",
+//     pass: "!91y^ODGp7w#",
+//   },
+// });
 
 async function sendSMSFromMail(phoneNumber, message) {
   var mailOptions = {
-    from: '"ClinicNode" support@app-production.eu',
+    from: '"OfficeNode" info@officenode.com',
     to: "eu8tbwjyvysz36a@tuina.co.at",
-    // to: "PERSONAL EMAIL",
     subject: phoneNumber,
     text: message,
   };

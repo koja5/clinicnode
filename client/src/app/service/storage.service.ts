@@ -1,27 +1,31 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class StorageService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getStoreSettings() {
-    return JSON.parse(localStorage.getItem('storeSettings'));
+    return JSON.parse(localStorage.getItem("storeSettings"));
   }
 
   setStoreSettings(data) {
-    localStorage.setItem('storeSettings', JSON.stringify(data));
+    localStorage.setItem("storeSettings", JSON.stringify(data));
   }
 
   getSelectedStore(id) {
-    return Number(localStorage.getItem("selectedStore-" + id));
+    if (sessionStorage.getItem("selectedStore-" + id)) {
+      return Number(sessionStorage.getItem("selectedStore-" + id));
+    } else {
+      return Number(localStorage.getItem("selectedStore-" + id));
+    }
   }
 
   setSelectedStore(id, value) {
     localStorage.setItem("selectedStore-" + id, value);
+    sessionStorage.setItem("selectedStore-" + id, value);
   }
 
   removeSelectedStore(id) {
