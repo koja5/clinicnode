@@ -125,8 +125,27 @@ import * as CryptoJS from "crypto-js";
 import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 declare var moment: any;
 
-loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
-L10n.load(SCHEDULER_TRANSLATIONS);
+// loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
+// L10n.load(SCHEDULER_TRANSLATIONS);
+
+loadCldr(
+  require("cldr-data/supplemental/numberingSystems.json"),
+  require("cldr-data/main/de/ca-gregorian.json"),
+  require("cldr-data/main/de/numbers.json"),
+  require("cldr-data/main/de/timeZoneNames.json")
+);
+
+L10n.load({
+  de: {
+    schedule: {
+      day: "journée",
+      week: "La semaine",
+      workWeek: "Semaine de travail",
+      month: "Mois",
+      today: "Heute",
+    },
+  },
+});
 
 @Component({
   selector: "app-dynamic-scheduler",
@@ -1090,10 +1109,13 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
     );
     formValue["StartTime"] = new Date(formValue.start);
     formValue["EndTime"] = new Date(formValue.end);
-    if (this.isConfirm) {
-      formValue.confirm = 0;
-    } else {
-      formValue.confirm = -1;
+    formValue.confirm = args.data.confirm;
+    if (!formValue.confirm) {
+      if (this.isConfirm) {
+        formValue.confirm = 0;
+      } else {
+        formValue.confirm = -1;
+      }
     }
     formValue.user.isConfirm = this.isConfirm;
     formValue.user.reminderViaEmail = this.reminderViaEmail;

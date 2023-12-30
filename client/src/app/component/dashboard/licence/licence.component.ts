@@ -118,6 +118,7 @@ export class LicenceComponent implements OnInit {
           if (!this.card) {
             this.card = this.elements.create("card", {
               iconStyle: "solid",
+              hidePostalCode: true,
               style: {
                 base: {
                   iconColor: "#666EE8",
@@ -168,6 +169,7 @@ export class LicenceComponent implements OnInit {
           if (!this.card) {
             this.card = this.elements.create("card", {
               iconStyle: "solid",
+              hidePostalCode: true,
               style: {
                 base: {
                   iconColor: "#666EE8",

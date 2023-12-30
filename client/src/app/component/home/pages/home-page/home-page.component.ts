@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { HelpService } from "src/app/service/help.service";
 import { LoginService } from "src/app/service/login.service";
 
@@ -16,7 +17,8 @@ export class HomePageComponent implements OnInit {
 
   constructor(
     private helpService: HelpService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -77,5 +79,10 @@ export class HomePageComponent implements OnInit {
       this.helpService.setSelectionLanguageCode(code);
       this.language = this.helpService.getLanguageForLanding();
     });
+  }
+
+  goToSignUpPage() {
+    this.router.navigate(["/login/" + name]);
+    this.helpService.setSessionStorage("login", "signup");
   }
 }

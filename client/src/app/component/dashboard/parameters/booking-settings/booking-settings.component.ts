@@ -11,6 +11,8 @@ import * as sha1 from "sha1";
 export class BookingSettingsComponent implements OnInit {
   public path = "parameters";
   public file = "booking-settings";
+  public pathPayment = "parameters";
+  public filePayment = "booking-seetings-payment";
   public data: any;
   public language: any;
   public loading = true;

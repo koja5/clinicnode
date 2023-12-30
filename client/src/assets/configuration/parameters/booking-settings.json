@@ -33,22 +33,6 @@
         },
         {
             "type": "textbox",
-            "width": "col-md-6",
-            "subtype": "number",
-            "name": "part_of_full_amount",
-            "label": "partOfFullAmount",
-            "field": "active"
-        },
-        {
-            "type": "textbox",
-            "width": "col-md-6",
-            "subtype": "number",
-            "name": "full_amount",
-            "label": "fullAmount",
-            "field": "full_amount"
-        },
-        {
-            "type": "textbox",
             "width": "col-md-12",
             "subtype": "number",
             "name": "free_appointments_available",

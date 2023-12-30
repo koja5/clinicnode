@@ -291,7 +291,12 @@ export class LoginComponent implements OnInit {
   }
 
   signUpActive() {
-    this.package = this.activatedRouter.snapshot.params.type;
+    if (this.activatedRouter.snapshot.params.type) {
+      this.package = this.activatedRouter.snapshot.params.type;
+    } else {
+      this.package =
+        this.languageLanding.priceTable.header[0].nameOfPackageTitle;
+    }
     this.data.licence_id = this.getPackageId();
     this.loginForm = "";
     this.paymentForm = "";
@@ -665,6 +670,7 @@ export class LoginComponent implements OnInit {
           if (!this.card) {
             this.card = this.elements.create("card", {
               iconStyle: "solid",
+              hidePostalCode: true,
               style: {
                 base: {
                   iconColor: "#666EE8",

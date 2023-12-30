@@ -120,17 +120,23 @@
                   </ng-template>
                 </e-item>
                 <e-item type="Separator"></e-item>
-                <e-item prefixIcon="e-icons e-schedule-day-view" tooltipText="Day" text="Day"></e-item>
-                <e-item prefixIcon="e-icons e-schedule-week-view" tooltipText="Week" text="Week">
+                <!-- <e-item prefixIcon="e-icons e-schedule-day-view" tooltipText="{{language.day}}"
+                  text="{{language.day}}"></e-item>
+                <e-item prefixIcon="e-icons e-schedule-week-view" tooltipText="{{language.week}}"
+                  text="{{language.week}}">
                 </e-item>
-                <e-item prefixIcon="e-icons e-schedule-workweek-view" tooltipText="WorkWeek" text="WorkWeek"></e-item>
-                <e-item prefixIcon="e-icons e-schedule-month-view" tooltipText="Month" text="Month">
+                <e-item prefixIcon="e-icons e-schedule-workweek-view" tooltipText="{{language.workWeek}}"
+                  text="{{language.workWeek}}"></e-item>
+                <e-item prefixIcon="e-icons e-schedule-month-view" tooltipText="{{language.month}}"
+                  text="{{language.month}}">
                 </e-item>
-                <e-item prefixIcon="e-icons e-schedule-year-view" tooltipText="Year" text="Year">
+                <e-item prefixIcon="e-icons e-schedule-year-view" tooltipText="{{language.year}}"
+                  text="{{language.year}}">
                 </e-item>
-                <e-item prefixIcon="e-icons e-schedule-agenda-view" tooltipText="Agenda" text="Agenda">
+                <e-item prefixIcon="e-icons e-schedule-agenda-view" tooltipText="{{language.agenda}}"
+                  text="{{language.agenda}}">
                 </e-item>
-                <e-item tooltipText="Timeline Views">
+                <e-item tooltipText="{{language.timeline}}">
                   <ng-template #template>
                     <div style="height: 46px; line-height: 23px">
                       <div class="icon-child" style="text-align: center">
@@ -138,11 +144,11 @@
                         </ejs-switch>
                       </div>
                       <div class="text-child" style="font-size: 14px">
-                        Timeline Views
+                        {{language.timeline}}
                       </div>
                     </div>
                   </ng-template>
-                </e-item>
+                </e-item> -->
                 <e-item type="Separator"></e-item>
                 <e-item tooltipText="{{ language.settingsToolbar }}">
                   <ng-template #template>
@@ -327,9 +333,9 @@
                 </span>
               </div>
               <ejs-schedule *ngIf="!loading && sharedCalendarResources && isValidStoreSelected && isUserSelected"
-                #scheduleObj cssClass="e-control schedule-overview table" height="100%" [(currentView)]="currentView"
-                [dateFormat]="dateFormatScheduler" [group]="value ? group : []" [showWeekNumber]="true"
-                [eventSettings]="eventSettings" [allowKeyboardInteraction]="
+                #scheduleObj locale='de' cssClass="e-control schedule-overview table" height="100%"
+                [(currentView)]="currentView" [dateFormat]="dateFormatScheduler" [group]="value ? group : []"
+                [showWeekNumber]="true" [eventSettings]="eventSettings" [allowKeyboardInteraction]="
                   type === userType.patient ? false : true
                 " (renderCell)="onRenderCell($event)" (actionBegin)="onActionBegin($event)"
                 (popupClose)="onPopupClose($event)" (popupOpen)="onPopupOpen($event)" (drag)="onItemDrag($event)"
@@ -678,23 +684,6 @@
                         [(ngModel)]="complaintData.comment" comment.value="" [disabled]="patientReadOnly"></textarea>
                     </div>
                     <div *ngIf="type !== userType.patient" class="k-form-field">
-                      <div>
-                        <kendo-textbox-container floatingLabel="{{ languageUser.cs }}">
-                          <kendo-combobox class="col-md-12 col-xs-12 noPadding" [data]="CSValue" [textField]="'title'"
-                            [valueField]="'id'" [(ngModel)]="complaintData.cs" (valueChange)="onValueChangeCS($event)"
-                            [valuePrimitive]="true">
-                          </kendo-combobox>
-                        </kendo-textbox-container>
-                      </div>
-
-                      <div>
-                        <kendo-textbox-container floatingLabel="{{ languageUser.stateValue }}">
-                          <kendo-combobox class="col-md-12 col-xs-12 noPadding" [data]="stateValue"
-                            [textField]="'title'" [valueField]="'id'" [(ngModel)]="complaintData.state"
-                            [valuePrimitive]="true">
-                          </kendo-combobox>
-                        </kendo-textbox-container>
-                      </div>
 
                       <div>
                         <kendo-textbox-container floatingLabel="{{ languageUser.em }}">

@@ -2705,9 +2705,6 @@ router.post("/addTherapy", function (req, res, next) {
       therapies_previous: req.body.therapies_previous,
       therapies_previous_title: req.body.therapies_previous_title,
       comment: req.body.comment,
-      cs: req.body.cs,
-      cs_title: req.body.cs_title,
-      state: req.body.state,
       em: req.body.em,
       em_title: req.body.em_title,
     };
@@ -2770,9 +2767,6 @@ router.post("/updateTherapy", function (req, res, next) {
       therapies_previous: req.body.therapies_previous,
       therapies_previous_title: req.body.therapies_previous_title,
       comment: req.body.comment,
-      cs: req.body.cs,
-      cs_title: req.body.cs_title,
-      state: req.body.state,
       em: req.body.em,
       em_title: req.body.em_title,
     };

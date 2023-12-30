@@ -331,21 +331,6 @@
                                 </a>
                               </li>
 
-                              <li class="{{ selectedNodeModel['CS'] }}">
-                                <a routerLink="/dashboard/home/CS" (click)="returnActiveNode('CS')" class="nav-link"><i
-                                    class="fa fa-contao"></i>
-                                  <span class="navigation-link"></span>
-                                  {{ language?.csMenu }}
-                                </a>
-                              </li>
-
-                              <li class="{{ selectedNodeModel['state'] }}">
-                                <a routerLink="/dashboard/home/state" (click)="returnActiveNode('state')"
-                                  class="nav-link"><i class="fa fa-thermometer-three-quarters"></i>
-                                  <span class="navigation-link"></span>
-                                  {{ language?.stateMenu }}
-                                </a>
-                              </li>
                               <li class="{{
                                   selectedNodeModel['event_category']
                                 }}">
@@ -435,18 +420,6 @@
                                 </a>
                               </li>
 
-                              <li class="{{
-                                  selectedNodeModel['permission_patient_menu']
-                                }}">
-                                <a routerLink="/dashboard/home/permission-patient-menu" (click)="
-                                    returnActiveNode('permission_patient_menu')
-                                  " class="nav-link"><i class="fa fa-cogs"></i>
-                                  <span class="navigation-link"></span>
-                                  {{
-                                  language?.perimissionForPatientNavigationMenu
-                                  }}
-                                </a>
-                              </li>
                               <li class="{{ selectedNodeModel['user_access'] }}">
                                 <a routerLink="/dashboard/home/user-access" (click)="returnActiveNode('user_access')"
                                   class="nav-link"><i class="fa fa-universal-access"></i>
@@ -495,36 +468,6 @@
                                   " class="nav-link"><i class="fa fa-envelope"></i>
                                   <span class="navigation-link"></span>
                                   {{ language?.mailConfirmArrival }}
-                                </a>
-                              </li>
-                              <li class="{{
-                                  selectedNodeModel[
-                                    'mail_patient_created_account'
-                                  ]
-                                }}">
-                                <a routerLink="/dashboard/home/mail-patient-created-account" (click)="
-                                    returnActiveNode(
-                                      'mail_patient_created_account'
-                                    )
-                                  " class="nav-link"><i class="fa fa-envelope"></i>
-                                  <span class="navigation-link"></span>
-                                  {{ language?.mailPatientCreatedAccount }}
-                                </a>
-                              </li>
-                              <li class="{{
-                                  selectedNodeModel[
-                                    'mail_patient_created_account_via_form'
-                                  ]
-                                }}">
-                                <a routerLink="/dashboard/home/mail-patient-created-account-via-form" (click)="
-                                    returnActiveNode(
-                                      'mail_patient_created_account_via_form'
-                                    )
-                                  " class="nav-link"><i class="fa fa-envelope"></i>
-                                  <span class="navigation-link"></span>
-                                  {{
-                                  language?.mailPatientCreatedAccountViaForm
-                                  }}
                                 </a>
                               </li>
                               <li class="{{

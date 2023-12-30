@@ -1,0 +1,39 @@
+{
+    "config": [
+        {
+            "type": "textbox",
+            "width": "col-md-12 hide",
+            "class": "e-outline",
+            "name": "id",
+            "title": "ID",
+            "field": "id",
+            "readonly": true,
+            "hide": true
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-6",
+            "subtype": "number",
+            "name": "part_of_full_amount",
+            "label": "partOfFullAmount",
+            "field": "active"
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-6",
+            "subtype": "number",
+            "name": "full_amount",
+            "label": "fullAmount",
+            "field": "full_amount"
+        },
+        {
+            "type": "button",
+            "width": "col-md-12",
+            "class": "e-control e-btn e-lib e-primary e-flat",
+            "name": "submit",
+            "label": "save",
+            "field": "submit",
+            "positionClass": "text-align: end"
+        }
+    ]
+}

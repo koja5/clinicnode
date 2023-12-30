@@ -262,16 +262,6 @@ const routes: Routes = [
         component: MailMultipleRecepientComponent,
       },
       {
-        path: "mail-patient-created-account",
-        canDeactivate: [FormGuard],
-        component: MailPatientCreatedAccountComponent,
-      },
-      {
-        path: "mail-patient-created-account-via-form",
-        canDeactivate: [FormGuard],
-        component: MailPatientCreatedAccountViaFormComponent,
-      },
-      {
         path: "mail-patient-form-registration",
         canDeactivate: [FormGuard],
         component: MailPatientFormRegistrationComponent,

@@ -55,6 +55,7 @@ export class RequestDemoComponent implements OnInit {
       if (!this.card) {
         this.card = this.elements.create("card", {
           iconStyle: "solid",
+          hidePostalCode: true,
           style: {
             base: {
               iconColor: "#666EE8",
@@ -125,6 +126,7 @@ export class RequestDemoComponent implements OnInit {
             if (!this.card) {
               this.card = this.elements.create("card", {
                 iconStyle: "solid",
+                hidePostalCode: true,
                 style: {
                   base: {
                     iconColor: "#666EE8",

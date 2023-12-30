@@ -290,6 +290,9 @@
             "multiDay": {
                 "type": "string"
             },
+            "year": {
+                "type": "string"
+            },
             "timeline": {
                 "type": "string"
             },
@@ -2326,6 +2329,9 @@
             "printOnInvoice": {
                 "type": "string"
             },
+            "generalBookingSettings": {
+                "type": "string"
+            },
             "activeBookingOnline": {
                 "type": "string"
             },
@@ -3264,6 +3270,9 @@
                         },
                         {
                             "key": "timeline"
+                        },
+                        {
+                            "key": "year"
                         }
                     ]
                 },
@@ -4653,7 +4662,9 @@
                         {
                             "key": "printOnInvoice"
                         },
-                        {},
+                        {
+                            "key": "generalBookingSettings"
+                        },
                         {}
                     ]
                 },
