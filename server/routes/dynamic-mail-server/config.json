@@ -21,12 +21,11 @@
     },
     "send_from_contact_form": {
         "template": "send_from_contact_form.hjs",
-        "email": "kidsnode@gmail.com",
-        "subject": "Upit putem kontakt forme",
+        "subject": "Anfrage über das Kontaktformular",
         "fields": {
-            "title": "Upit putem kontakt forme",
-            "text": "Dobili ste upit putem kontakt forme. Podaci o korisniku i poruka se nalaze u nastavku!",
-            "greeting": "Postovani"
+            "title": "Anfrage über das Kontaktformular",
+            "text": "Sie haben über das Kontaktformular eine Anfrage erhalten. Benutzerdetails und Nachricht finden Sie unten!",
+            "greeting": "Respektierte"
         }
     }
 }

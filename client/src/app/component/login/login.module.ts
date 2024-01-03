@@ -10,6 +10,7 @@ import { SharedModule } from 'src/app/shared.module';
 import { RegistrationPatientComponent } from './registration-patient/registration-patient.component';
 import { CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [LoginComponent, RegistrationPatientComponent],
@@ -22,7 +23,8 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
     SharedModule,
     RadioButtonModule,
     DatePickerModule,
-    CheckBoxModule
+    CheckBoxModule,
+    RouterModule
   ]
 })
 export class LoginModule { }

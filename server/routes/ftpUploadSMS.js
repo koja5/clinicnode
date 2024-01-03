@@ -8,7 +8,6 @@ const logger = require("./logger");
 var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
-  secure: process.env.smtp_secure,
   tls: {
     rejectUnauthorized: process.env.smtp_rejectUnauthorized,
   },
@@ -20,22 +19,9 @@ var smtpTransport = nodemailer.createTransport({
   },
 });
 
-// var smtpTransport = nodemailer.createTransport({
-//   host: "116.203.109.78",
-//   port: 25,
-//   secure: false,
-//   tls: {
-//     rejectUnauthorized: false,
-//   },
-//   auth: {
-//     user: "info@clinicnode.com",
-//     pass: "!91y^ODGp7w#",
-//   },
-// });
-
 async function sendSMSFromMail(phoneNumber, message) {
   var mailOptions = {
-    from: '"OfficeNode" info@officenode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: "eu8tbwjyvysz36a@tuina.co.at",
     subject: phoneNumber,
     text: message,

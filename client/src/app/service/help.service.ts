@@ -314,13 +314,9 @@ export class HelpService {
 
   getLanguageForLanding() {
     if (localStorage.getItem("language-landing")) {
-      return JSON.parse(
-        localStorage.getItem("language-landing")
-          ? localStorage.getItem("language-landing")
-          : "{}"
-      );
+      return JSON.parse(localStorage.getItem("language-landing"));
     } else {
-      return null;
+      false;
     }
   }
 
@@ -336,7 +332,7 @@ export class HelpService {
     }
   }
 
-  getRealLanguageName(): Observable<any> {
+  getRealLanguageName() {
     if (this.getSelectionLanguage()) {
       return <any>this.getSelectionLanguage();
     } else {
@@ -374,8 +370,11 @@ export class HelpService {
   getSelectionLanguageCode() {
     if (localStorage.getItem("selectionLanguageCode")) {
       return localStorage.getItem("selectionLanguageCode");
+    } else if (localStorage.getItem("countryCode")) {
+      return localStorage.getItem("countryCode");
+    } else {
+      return null;
     }
-    return null;
   }
 
   getNameOfFlag() {

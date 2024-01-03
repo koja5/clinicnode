@@ -122,8 +122,8 @@ import { Subject, Subscription } from "rxjs";
 import { DatePipe } from "@angular/common";
 import { DynamicService } from "src/app/service/dynamic.service";
 import * as CryptoJS from "crypto-js";
-import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 declare var moment: any;
+declare var require: any;
 
 // loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 // L10n.load(SCHEDULER_TRANSLATIONS);

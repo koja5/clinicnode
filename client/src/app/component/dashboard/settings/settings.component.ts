@@ -32,9 +32,7 @@ export class SettingsComponent implements OnInit {
     private helpService: HelpService,
     private router: Router,
     private messageService: MessageService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit() {
     this.language = this.helpService.getLanguage();
@@ -42,16 +40,21 @@ export class SettingsComponent implements OnInit {
     this.helpService.setTitleForBrowserTab(this.language.settings);
     this.packDataForMobileNavigationMenu();
 
-    this.subscription = this.messageService.getNewLanguage().takeUntil(this.unsubscribe).subscribe((mess) => {
-      this.language = JSON.parse(this.helpService.getLocalStorage('language'));
-    });
+    this.subscription = this.messageService
+      .getNewLanguage()
+      .takeUntil(this.unsubscribe)
+      .subscribe((mess) => {
+        this.language = JSON.parse(
+          this.helpService.getLocalStorage("language")
+        );
+      });
   }
 
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
     this.subscription.unsubscribe();
-}
+  }
 
   packDataForMobileNavigationMenu() {
     this.value = "/dashboard/home/settings/account";
@@ -73,18 +76,6 @@ export class SettingsComponent implements OnInit {
         category: this.language.settingsAccountNavigation,
         route: "/dashboard/home/settings/change-language",
         icon: "fa fa-globe",
-      },
-      {
-        menu: this.language.perimissionForPatientNavigationMenu,
-        category: this.language.settingsPermissionNavigation,
-        route: "/dashboard/home/settings/permission-patient-menu",
-        icon: "fa fa-user",
-      },
-      {
-        menu: this.language.reminderMenu,
-        category: this.language.settingsPermissionNavigation,
-        route: "/dashboard/home/settings/reminders",
-        icon: "fa fa-user",
       },
     ];
   }

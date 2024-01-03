@@ -122,12 +122,33 @@ export class LoginComponent implements OnInit {
     this.helpService.setDefaultBrowserTabTitle();
     this.initializeIpAddress();
 
-    this.languageLanding = this.helpService.getLanguageForLanding();
+    if (!this.helpService.getLanguageForLanding()) {
+      const selectedLanguageCode = this.helpService.getSelectionLanguageCode();
+      this.helpService.getAllLangs().subscribe((data: any) => {
+        for (let i = 0; i < data.length; i++) {
+          for (let j = 0; j < data[i].similarCode.length; j++) {
+            if (data[i].similarCode[j] === selectedLanguageCode) {
+              this.service
+                .getLanguageForLanding(data[i].name)
+                .subscribe((data) => {
+                  this.helpService.setLanguageForLanding(data);
+                  this.helpService.setSelectionLanguageCode(
+                    this.helpService.getSelectionLanguageCode()
+                  );
+                  this.languageLanding =
+                    this.helpService.getLanguageForLanding();
+                });
+            }
+          }
+        }
+      });
+    } else {
+      this.languageLanding = this.helpService.getLanguageForLanding();
+    }
 
     this.createPaymentForm();
-    if (this.helpService.getSessionStorage("login") === "signup") {
+    if (this.activatedRouter.snapshot.params.type) {
       this.signUpActive();
-      this.helpService.clearSessionStorage("login");
     }
   }
 
@@ -459,7 +480,7 @@ export class LoginComponent implements OnInit {
         this.helpService.setLocalStorage("superadmin", val.id);
         if (Number(this.data.licence_id) === 1) {
           setTimeout(() => {
-            this.loginActive();
+            this.router.navigate(["/login"]);
           }, 3000);
         } else {
           this.createdLicenceId = val.licenceId;
@@ -615,7 +636,8 @@ export class LoginComponent implements OnInit {
   }
 
   backToLanding() {
-    this.router.navigate(["./"]);
+    // this.router.navigate(["./"]);
+    window.open("https://officenode.com", "_self");
   }
 
   selectPackage(event) {

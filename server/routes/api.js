@@ -55,41 +55,13 @@ function convertToDate(date) {
 }
 
 var link = process.env.link_api;
-/*
-var connection = mysql.createPool({
-    host: "185.178.193.141",
-    user: "appproduction.",
-    password: "jBa9$6v7",
-    database: "management"
-});
- */
+
 var connection = mysql.createPool({
   host: process.env.host,
   user: process.env.user,
   password: process.env.password,
   database: process.env.database,
 });
-
-/*var connection = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'management'
-});*/
-
-/*var connection = mysql.createPool({
-  host: '116.203.85.82',
-  user: 'appprodu_appproduction_prod',
-  password: 'CJr4eUqWg33tT97mxPFx',
-  database: 'appprodu_management_prod_1'
-})*/
-
-/*var connection = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'appprodu_management_prod'
-});*/
 
 connection.getConnection(function (err, conn) {});
 

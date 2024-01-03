@@ -16,9 +16,14 @@ import { LicenceComponent } from "./component/dashboard/licence/licence.componen
 import { RightOfWithdrawalComponent } from "./component/templates/right-of-withdrawal/right-of-withdrawal.component";
 
 const routes: Routes = [
+  // {
+  //   path: "",
+  //   loadChildren: "./component/home/routing-module/home.module#HomedModule",
+  // },
   {
     path: "",
-    loadChildren: "./component/home/routing-module/home.module#HomedModule",
+    redirectTo: "/login",
+    pathMatch: "full",
   },
   {
     path: "login",

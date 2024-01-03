@@ -178,7 +178,7 @@
                       <span class="fa {{ hideShowEye }} pwd-toggle" (click)="hideShowPassword()"></span>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="languageLanding">
                     <div class="pwdMask">
                       <select class="form-control" (change)="selectPackage($event.target.value)" name="package"
                         id="package">
@@ -242,7 +242,7 @@
                     <input type="email" class="form-control" name="telephone" placeholder="{{ language.telephone }}"
                       required="required" [(ngModel)]="data.telephone" telephone.value="" #telephone="ngModel" />
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="languageLanding">
                     <div class="pwdMask">
                       <select class="form-control" (change)="selectPackage($event.target.value)" name="package"
                         id="package">

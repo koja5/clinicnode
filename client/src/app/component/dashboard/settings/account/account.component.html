@@ -5,5 +5,7 @@
   </div>
   <app-dynamic-forms *ngIf="!loading" [config]="configField" (submit)="submitEmitter($event)" #form="dynamicForm">
   </app-dynamic-forms>
-  <app-dynamic-confirm-dialog [showDialog]="showDialog" [title]="language?.accountConfirmDialogTitle" [question]="language?.accountConfirmDialogQuestion" (sendEmitter)="receiveConfirm($event)"></app-dynamic-confirm-dialog>
+  <app-dynamic-confirm-dialog [showDialog]="showDialog" [title]="language?.accountConfirmDialogTitle"
+    [question]="language?.accountConfirmDialogQuestion"
+    (sendEmitter)="receiveConfirm($event)"></app-dynamic-confirm-dialog>
 </div>

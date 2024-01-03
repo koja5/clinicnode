@@ -56,37 +56,23 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
-// var smtpTransport = nodemailer.createTransport({
-//   host: process.env.smtp_host,
-//   port: process.env.smtp_port,
-//   secure: process.env.smtp_secure,
-//   tls: {
-//     rejectUnauthorized: process.env.smtp_rejectUnauthorized,
-//   },
-//   auth: {
-//     user: process.env.smtp_user,
-//     pass: process.env.smtp_pass,
-//   },
-// });
-
 var smtpTransport = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.smtp_host,
+  port: process.env.smtp_port,
+  tls: {
+    rejectUnauthorized: process.env.smtp_rejectUnauthorized,
+  },
   auth: {
-    user: "kidsnodeoffice@gmail.com",
-    pass: "rvciekpadttcvbwt",
+    user: process.env.smtp_user,
+    pass: process.env.smtp_pass,
   },
 });
 
 // var smtpTransport = nodemailer.createTransport({
-//   host: "116.203.109.78",
-//   port: 25,
-//   secure: false,
-//   tls: {
-//     rejectUnauthorized: false,
-//   },
+//   service: "gmail",
 //   auth: {
-//     user: "info@clinicnode.com",
-//     pass: "!91y^ODGp7w#",
+//     user: "kidsnodeoffice@gmail.com",
+//     pass: "rvciekpadttcvbwt",
 //   },
 // });
 
@@ -101,7 +87,7 @@ router.post("/send", function (req, res) {
     link + "korisnik/verifikacija/" + sha1(req.body.email);
 
   var mailOptions = {
-    from: '"ClinicNode" info@clinicnode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: req.body.email,
     subject: req.body.language.subjectConfirmMail,
     html: compiledTemplate.render({
@@ -168,7 +154,7 @@ router.post("/sendCustomerVerificationMail", function (req, res) {
         }
         console.log(req.body);
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -259,7 +245,7 @@ router.post("/send1", function (req, res) {
   mail += "Best regards,\nTuina Praxis!";
 
   var mailOptions = {
-    from: '"ClinicNode" info@clinicnode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: req.body.email,
     subject: "Confirm registration",
     text: mail,
@@ -305,7 +291,7 @@ router.post("/forgotmail", function (req, res) {
         console.log(mailMessage);
 
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -423,7 +409,7 @@ router.post("/sendMailToMultiple", function (req, res) {
         console.log(mail);
 
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.emails,
           subject: req.body.subject ? req.body.subject : mail.mailSubject,
           html: compiledTemplate.render({
@@ -570,7 +556,7 @@ router.post("/sendConfirmArrivalAgain", function (req, res) {
                 ":" +
                 (endMinutes < 10 ? "0" + endMinutes : endMinutes);
               var mailOptions = {
-                from: '"ClinicNode" info@clinicnode.com',
+                from: process.env.smtp_name + " " + process.env.smtp_user,
                 subject: mail.mailSubject
                   ? mail.mailSubject
                   : req.body.language.subjectConfirmArrival,
@@ -701,7 +687,7 @@ router.post("/sendPatientFormRegistration", function (req, res) {
           }
         }
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -809,7 +795,7 @@ router.post("/sendInfoToPatientForCreatedAccount", function (req, res) {
           }
         }
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -949,7 +935,7 @@ router.post("/sendInfoForApproveReservation", function (req, res) {
           (endMinutes < 10 ? "0" + endMinutes : endMinutes);
 
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -1091,7 +1077,7 @@ router.post("/sendInfoForDenyReservation", function (req, res) {
           (endMinutes < 10 ? "0" + endMinutes : endMinutes);
 
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -1186,7 +1172,7 @@ router.post("/sendInfoForDenyReservation", function (req, res) {
 
 router.post("/sendEmailToPatient", function (req, res) {
   var mailOptions = {
-    from: '"ClinicNode" info@clinicnode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: req.body.email,
     subject: req.body.subject,
     text: req.body.content,
@@ -1256,7 +1242,7 @@ router.post("/sendReminderViaEmailManual", function (req, res) {
           }
         }
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: req.body.email,
           subject: mail.mailSubject,
           html: compiledTemplate.render({
@@ -1373,7 +1359,7 @@ router.post("/confirmUserViaMacAddress", function (req, res) {
     (hours < 10 ? "0" + hours : hours);
 
   var mailOptions = {
-    from: '"ClinicNode" info@clinicnode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: req.body.email,
     subject: "Neue Geräte bestätigen",
     html: compiledTemplate.render({
@@ -1431,7 +1417,7 @@ router.post("/sendLastMinuteOfferMails", function (req, res) {
         rows.forEach(function (to, i, array) {
           console.log(to);
           var mailOptions = {
-            from: '"ClinicNode" info@clinicnode.com',
+            from: process.env.smtp_name + " " + process.env.smtp_user,
             to: to.email,
             subject: req.body.lastMinuteEMailSubject,
             html: sendMassive.render({
@@ -1503,7 +1489,7 @@ router.post("/sendMassiveEMail", function (req, res) {
             }
             console.log(to);
             var mailOptions = {
-              from: '"ClinicNode" info@clinicnode.com',
+              from: process.env.smtp_name + " " + process.env.smtp_user,
               to: to.email,
               subject: req.body.subject ? req.body.subject : mail.mailSubject,
               html: sendMassive.render({
@@ -2141,7 +2127,7 @@ router.post("/infoAboutConfirmDenyAccessDevice", function (req, res) {
     (hours < 10 ? "0" + hours : hours);
 
   var mailOptions = {
-    from: '"ClinicNode" info@clinicnode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: req.body.email,
     subject:
       (req.body.access ? "Aktiviert" : "Erloschen") + " ist dein Profil!",
@@ -2192,7 +2178,7 @@ router.sendVaucherToMail = (data) => {
         var mail = {};
         var signatureAvailable = false;
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: user.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -2314,7 +2300,7 @@ router.sendMailAdminInfo = (data) => {
         var mail = {};
         var signatureAvailable = false;
         var mailOptions = {
-          from: '"ClinicNode" info@clinicnode.com',
+          from: process.env.smtp_name + " " + process.env.smtp_user,
           to: data.email,
           subject: mail.mailSubject
             ? mail.mailSubject
@@ -2422,7 +2408,7 @@ router.post("/sendInfoForLicencePaymentSuccess", function (req, res) {
     "." +
     expiration_date.getFullYear();
   var mailOptions = {
-    from: '"ClinicNode" info@clinicnode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: req.body.payerEmail,
     subject: "Payment received successfully!",
     html: compiledTemplate.render({
@@ -2510,7 +2496,7 @@ router.post("/sendInfoForSMSPaymentSuccess", function (req, res) {
   );
   var compiledTemplate = hogan.compile(template);
   var mailOptions = {
-    from: '"ClinicNode" info@clinicnode.com',
+    from: process.env.smtp_name + " " + process.env.smtp_user,
     to: req.body.email,
     subject: "Payment received successfully!",
     html: compiledTemplate.render({

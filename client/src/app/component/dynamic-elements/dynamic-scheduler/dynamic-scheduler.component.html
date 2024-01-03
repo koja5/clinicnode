@@ -717,7 +717,7 @@
                         <kendo-textbox-container floatingLabel="{{ language.startTime }}({{ language.required }})">
                           <kendo-timepicker id="startTime" [(ngModel)]="eventTime.start" [disabled]="
                               type === userType.patient ? true : false
-                            " required>
+                            " format="HH:mm" required>
                           </kendo-timepicker>
                         </kendo-textbox-container>
                         <mat-error *ngIf="checkIfInputValid('startTime')">{{ language?.thisFieldIsRequired
@@ -739,7 +739,7 @@
                         <kendo-textbox-container floatingLabel="{{ language.endTime }}({{ language.required }})">
                           <kendo-timepicker id="endTime" [(ngModel)]="eventTime.end" [disabled]="
                               type === userType.patient ? true : false
-                            " required>
+                            " format="HH:mm" required>
                           </kendo-timepicker>
                         </kendo-textbox-container>
                         <mat-error *ngIf="checkIfInputValid('endTime')">{{ language?.thisFieldIsRequired }}</mat-error>

@@ -8,12 +8,9 @@ var fs = require("fs");
 var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
-  secure: process.env.smtp_secure,
   tls: {
     rejectUnauthorized: process.env.smtp_rejectUnauthorized,
   },
-  debug: true,
-  ssl: true,
   auth: {
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
@@ -42,7 +39,7 @@ router.post("/sendMail", function (req, res) {
   var mailOptions = {
     from: req.body.sender
       ? '"' + req.body.sender + '"' + process.env.smtp_user
-      : '"ClinicNode"' + process.env.smtp_user,
+      : process.env.smtp_name + " " + process.env.smtp_user,
     to: process.env.admin_email,
     subject: req.body.subject,
     html: compiledTemplate.render(req.body.fields),

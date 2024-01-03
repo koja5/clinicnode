@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DynamicFormsComponent } from "src/app/component/dynamic-elements/dynamic-forms/dynamic-forms.component";
+import { FieldConfig } from "src/app/component/dynamic-elements/dynamic-forms/models/field-config";
+import { FormConfig } from "src/app/component/dynamic-elements/dynamic-models/form-config";
 import { UserType } from "src/app/component/enum/user-type";
 import { AccountService } from "src/app/service/account.service";
 import { DynamicService } from "src/app/service/dynamic.service";
@@ -19,7 +21,7 @@ export class AccountComponent implements OnInit {
   public data: any;
   public changeData: any;
   public showDialog = false;
-  public configField: any;
+  public configField = new FormConfig();
   public language: any;
 
   constructor(
@@ -40,7 +42,7 @@ export class AccountComponent implements OnInit {
     this.dynamicService
       .getConfiguration("settings/account", "owner")
       .subscribe((config) => {
-        this.configField = config;
+        this.configField.config = config as FieldConfig[];
         this.getData(this.type, this.id);
       });
   }
@@ -76,8 +78,8 @@ export class AccountComponent implements OnInit {
 
   packValue(data) {
     this.loading = false;
-    for (let i = 0; i < this.configField.length; i++) {
-      this.configField[i].value = data[0][this.configField[i].field];
+    for (let i = 0; i < this.configField.config.length; i++) {
+      this.configField.config[i].value = data[0][this.configField.config[i].field];
     }
   }
 
