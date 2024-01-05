@@ -81,6 +81,7 @@ import { SharedComponentsModule } from "src/app/shared/shared-components.module"
 import { MatFormFieldModule, MatInputModule } from "@angular/material";
 import { WorkTimeComponent } from "../dashboard/users/user-details/work-time/work-time.component";
 import { DynamicExplanationComponent } from "./common/dynamic-explanation/dynamic-explanation.component";
+import { DayService, WeekService, WorkWeekService, MonthService, AgendaService, MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
 
 @NgModule({
   declarations: [
@@ -157,6 +158,12 @@ import { DynamicExplanationComponent } from "./common/dynamic-explanation/dynami
     ResizeService,
     ColumnChooserService,
     DatePipe,
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthService,
+    AgendaService,
+    MonthAgendaService,
   ],
   entryComponents: [
     TextboxComponent,

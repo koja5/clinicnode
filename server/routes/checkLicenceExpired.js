@@ -40,29 +40,15 @@ var connection = mysql.createPool({
   database: process.env.database,
 });
 
-/*var smtpTransport = nodemailer.createTransport({
+var smtpTransport = nodemailer.createTransport({
   host: process.env.smtp_host,
   port: process.env.smtp_port,
-  secure: process.env.smtp_secure,
   tls: {
     rejectUnauthorized: process.env.smtp_rejectUnauthorized,
   },
   auth: {
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
-  },
-});*/
-
-var smtpTransport = nodemailer.createTransport({
-  host: "116.203.109.78",
-  port: 25,
-  secure: false,
-  tls: {
-    rejectUnauthorized: false,
-  },
-  auth: {
-    user: "info@clinicnode.com",
-    pass: "!91y^ODGp7w#",
   },
 });
 
@@ -94,7 +80,7 @@ function checkLicenceExpired() {
               expiration_date.getFullYear();
 
             var mailOptions = {
-              from: '"ClinicNode" info@app-production.eu',
+              from: process.env.smtp_name + " " + process.env.smtp_user,
               subject: "Licence expired!",
               html: compiledTemplate.render({
                 name: to.firstname,

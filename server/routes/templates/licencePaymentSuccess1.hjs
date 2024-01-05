@@ -12,7 +12,7 @@
     />
     <title
       style="box-sizing: inherit;border-width: 0;border-style: solid;border-color: #dae1e7;"
-    >Licence expired - ClinicNode</title>
+    >Licence expired - OfficeNode</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/tailwindcss@0.7.4/dist/tailwind.min.css"
@@ -117,7 +117,7 @@
               Greetings,<br
                 style="box-sizing: inherit;border-width: 0;border-style: solid;border-color: #dae1e7;"
               />
-              ClinicNode Team
+              OfficeNode Team
             </p>
             <br />
           </div>
@@ -134,7 +134,7 @@
             <p
               style="box-sizing: inherit;border-width: 0;border-style: solid;border-color: #dae1e7;margin: 0;"
             >
-              www.clinicnode.com</p>
+              www.officenode.com</p>
           </div>
 
         </div>
@@ -157,7 +157,7 @@
                 href="#"
                 class="text-grey-darkest"
                 style="box-sizing: inherit;border-width: 0;border-style: solid;border-color: #dae1e7;background-color: transparent;color: #3d4852;"
-              >info@clinicnode.com</a>
+              >info@officenode.com</a>
             </p>
           </div>
           <div
@@ -172,7 +172,7 @@
             <p
               style="box-sizing: inherit;border-width: 0;border-style: solid;border-color: #dae1e7;margin: 0;"
             >
-              ClinicNode 2022. All right is reserved!
+              OfficeNode 2022. All right is reserved!
             </p>
           </div>
 

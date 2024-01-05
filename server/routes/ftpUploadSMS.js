@@ -11,8 +11,6 @@ var smtpTransport = nodemailer.createTransport({
   tls: {
     rejectUnauthorized: process.env.smtp_rejectUnauthorized,
   },
-  debug: true,
-  ssl: true,
   auth: {
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,

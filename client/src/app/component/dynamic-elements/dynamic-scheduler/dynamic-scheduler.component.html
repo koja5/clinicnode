@@ -42,7 +42,7 @@
             <div class="control-panel">
               <button ejs-button id="printBtn" cssClass="title-bar-btn" iconCss="e-icons e-schedule-print"
                 (click)="printCalendar()">
-                Print
+                {{language.printCalendar}}
               </button>
             </div>
             <!-- <div
@@ -65,7 +65,7 @@
             </div> -->
             <button ejs-button id="printBtn" cssClass="title-bar-btn" iconCss="e-icons e-schedule-excel-export"
               (click)="exportCalendar()">
-              Export to Excel
+              {{language.exportToExcelCalendar}}
             </button>
             <!-- <div class="control-panel">
               <button ejs-dropdownbutton id="exporting" [items]="exportItems">
@@ -120,20 +120,20 @@
                   </ng-template>
                 </e-item>
                 <e-item type="Separator"></e-item>
-                <!-- <e-item prefixIcon="e-icons e-schedule-day-view" tooltipText="{{language.day}}"
+                <e-item prefixIcon="e-icons e-schedule-day-view" (click)="changeCurrentView('Day')" tooltipText="{{language.day}}"
                   text="{{language.day}}"></e-item>
-                <e-item prefixIcon="e-icons e-schedule-week-view" tooltipText="{{language.week}}"
+                <e-item prefixIcon="e-icons e-schedule-week-view" (click)="changeCurrentView('Week')"  tooltipText="{{language.week}}"
                   text="{{language.week}}">
                 </e-item>
-                <e-item prefixIcon="e-icons e-schedule-workweek-view" tooltipText="{{language.workWeek}}"
+                <e-item prefixIcon="e-icons e-schedule-workweek-view" (click)="changeCurrentView('WorkWeek')" tooltipText="{{language.workWeek}}"
                   text="{{language.workWeek}}"></e-item>
-                <e-item prefixIcon="e-icons e-schedule-month-view" tooltipText="{{language.month}}"
+                <e-item prefixIcon="e-icons e-schedule-month-view" (click)="changeCurrentView('Month')" tooltipText="{{language.month}}"
                   text="{{language.month}}">
                 </e-item>
-                <e-item prefixIcon="e-icons e-schedule-year-view" tooltipText="{{language.year}}"
+                <e-item prefixIcon="e-icons e-schedule-year-view" (click)="changeCurrentView('Year')" tooltipText="{{language.year}}"
                   text="{{language.year}}">
                 </e-item>
-                <e-item prefixIcon="e-icons e-schedule-agenda-view" tooltipText="{{language.agenda}}"
+                <e-item prefixIcon="e-icons e-schedule-agenda-view" (click)="changeCurrentView('Agenda')" tooltipText="{{language.agenda}}"
                   text="{{language.agenda}}">
                 </e-item>
                 <e-item tooltipText="{{language.timeline}}">
@@ -148,7 +148,7 @@
                       </div>
                     </div>
                   </ng-template>
-                </e-item> -->
+                </e-item>
                 <e-item type="Separator"></e-item>
                 <e-item tooltipText="{{ language.settingsToolbar }}">
                   <ng-template #template>

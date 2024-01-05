@@ -7665,8 +7665,8 @@ table.valign-middle tbody tr td {
 }
 
 .btn-primary {
-  background-color: #188ae2 !important;
-  border: 1px solid #188ae2 !important;
+  background-color: var(--theme-color) !important;
+  border: 1px solid var(--theme-color) !important;
   color: #fff !important;
 }
 
@@ -7679,9 +7679,33 @@ table.valign-middle tbody tr td {
 .btn-primary:focus,
 .btn-primary:hover,
 .open > .dropdown-toggle.btn-primary {
-  background-color: #167ccb !important;
-  border: 1px solid #167ccb !important;
+  background-color: var(--theme-color) !important;
+  border: 1px solid var(--theme-color) !important;
   color: #fff !important;
+}
+
+.k-checkbox:checked {
+  border-color: var(--theme-color) !important;
+  background-color: var(--theme-color) !important;
+}
+
+.k-radio:checked {
+  border-color: var(--theme-color) !important;
+  color: var(--theme-color) !important;
+}
+
+.k-switch-on .k-switch-container,
+.k-switch-on .k-switch-handle,
+.k-switch-on.k-state-hover .k-switch-handle,
+.k-switch-on:hover .k-switch-handle {
+  background-color: var(--theme-color) !important;
+}
+
+.k-switch-on.k-state-focused .k-switch-container,
+.k-switch-on.k-state-hover .k-switch-container,
+.k-switch-on:focus .k-switch-container,
+.k-switch-on:hover .k-switch-container {
+  background-color: var(--theme-color-light) !important;
 }
 
 .btn-success {
@@ -13354,6 +13378,7 @@ tr.group:hover {
   --logo-color: #222c3c;
   --header-color: #0f1d2b;
   --theme-color: #0f1d2b;
+  --theme-color-light: #1e3f60;
   --navbar-background-color: #fff;
   --navbar-font-color: #333;
 }
@@ -17594,7 +17619,7 @@ kendo-window {
 .k-colorpalette .k-item.k-state-hover {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3),
     inset 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
-    border: 2px solid;
+  border: 2px solid;
 }
 
 .k-colorpalette .k-item.k-state-selected,
@@ -18152,7 +18177,7 @@ perfect-scrollbar > .ps {
 :root {
   --bs-primary-soft: #ceddff;
   --bs-primary-light: #3a75ff;
-  --bs-primary: #175cff;
+  --bs-primary: #0f1d2b;
   --bs-primary-dark: #0048f0;
   --bs-secondary-light: #dcdcdf;
   --bs-white: #fff;
@@ -18454,7 +18479,7 @@ h4 {
 
 a,
 .btn-link {
-  color: var(--bs-primary-light);
+  color: var(--theme-color);
   transition: all 0.3s ease-in-out;
 }
 a:hover,
@@ -19666,16 +19691,20 @@ body {
 .k-textarea.k-state-focus,
 .k-textarea.k-state-focused,
 .k-timepicker .k-picker-wrap:hover {
-  border-color: #80bdff !important;
-  border-top-color: #80bdff !important;
+  border-color: var(--theme-color) !important;
+  border-top-color: var(--theme-color) !important;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .k-multiselect.k-state-focused > .k-multiselect-wrap,
 .k-state-focused.k-dropdowntree > .k-multiselect-wrap {
-  border-color: #80bdff;
-  border-top-color: #80bdff !important;
+  border-color: var(--theme-color);
+  border-top-color: var(--theme-color) !important;
+}
+
+.k-combobox .k-dropdown-wrap.k-state-focused, .k-dateinput .k-dateinput-wrap.k-state-focused, .k-state-focused > .k-dateinput .k-dateinput-wrap, .k-dateinput .k-picker-wrap.k-state-focused, .k-state-focused > .k-dateinput .k-picker-wrap, .k-datepicker .k-dateinput-wrap.k-state-focused, .k-state-focused > .k-datepicker .k-dateinput-wrap, .k-datepicker .k-picker-wrap.k-state-focused, .k-state-focused > .k-datepicker .k-picker-wrap, .k-datetimepicker .k-dateinput-wrap.k-state-focused, .k-state-focused > .k-datetimepicker .k-dateinput-wrap, .k-datetimepicker .k-picker-wrap.k-state-focused, .k-state-focused > .k-datetimepicker .k-picker-wrap, .k-timepicker .k-dateinput-wrap.k-state-focused, .k-state-focused > .k-timepicker .k-dateinput-wrap, .k-timepicker .k-picker-wrap.k-state-focused, .k-state-focused > .k-timepicker .k-picker-wrap, .k-textbox:hover, .k-textbox:focus-within {
+  border-color: #ced4da !important;
 }
 
 .k-multiselect.k-state-invalid .k-multiselect-wrap,
@@ -19712,7 +19741,7 @@ body {
 .k-combobox.ng-invalid.ng-touched .k-dropdown-wrap,
 .k-combobox.ng-invalid.ng-dirty .k-dropdown-wrap,
 .k-textbox.ng-invalid.ng-touched {
-  border-color: #80bdff !important;
+  border-color: var(--theme-color) !important;
 }
 
 .k-textbox-container.k-state-empty > .k-label,
@@ -19733,8 +19762,8 @@ body {
 
 .custom-card {
   border: 1px solid lightgray;
-    background: #fff;
-    border-radius: 7px;
-    padding: 26px;
-    box-shadow: 0px 0px 10px -1px lig
+  background: #fff;
+  border-radius: 7px;
+  padding: 26px;
+  box-shadow: 0px 0px 10px -1px lig;
 }

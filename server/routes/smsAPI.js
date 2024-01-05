@@ -43,7 +43,7 @@ router.post("/sendSMS", function (req, res) {
         // Send scheduled message with MessageBird API
         messagebird.messages.create(
           {
-            originator: "ClinicNode",
+            originator: "OfficeNode",
             recipients: [response.number], // normalized phone number from lookup request
             body: req.body.message,
           },

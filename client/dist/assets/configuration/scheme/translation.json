@@ -464,6 +464,12 @@
             "filterToolbar": {
                 "type": "string"
             },
+            "printCalendar": {
+                "type": "string"
+            },
+            "exportToExcelCalendar": {
+                "type": "string"
+            },
             "filterTooltip": {
                 "type": "string"
             },
@@ -3550,6 +3556,12 @@
                         },
                         {
                             "key": "filterToolbar"
+                        },
+                        {
+                            "key": "printCalendar"
+                        },
+                        {
+                            "key": "exportToExcelCalendar"
                         }
                     ]
                 },

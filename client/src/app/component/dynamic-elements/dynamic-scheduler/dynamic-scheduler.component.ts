@@ -550,7 +550,42 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
         break;
     }
 
-    // localStorage.setItem("currentView", this.currentView);
+    this.setCalendarSettingsToDatabase("currentView", this.currentView);
+    this.scheduleObj.refresh();
+  }
+
+  public changeCurrentView(view: string): void {
+    // this.isTimelineView = args.checked;
+    this.scheduleObj.currentView = view as View;
+    switch (this.scheduleObj.currentView) {
+      case "Day":
+      case "TimelineDay":
+        this.currentView = this.isTimelineView ? "TimelineDay" : "Day";
+        break;
+      case "Week":
+      case "TimelineWeek":
+        this.currentView = this.isTimelineView ? "TimelineWeek" : "Week";
+        break;
+      case "WorkWeek":
+      case "TimelineWorkWeek":
+        this.currentView = this.isTimelineView
+          ? "TimelineWorkWeek"
+          : "WorkWeek";
+        break;
+      case "Month":
+      case "TimelineMonth":
+        this.currentView = this.isTimelineView ? "TimelineMonth" : "Month";
+        break;
+      case "Year":
+      case "TimelineYear":
+        this.currentView = this.isTimelineView ? "TimelineYear" : "Year";
+        break;
+      case "Agenda":
+        this.currentView = "Agenda";
+        break;
+    }
+
+    localStorage.setItem("currentView", this.currentView);
     this.setCalendarSettingsToDatabase("currentView", this.currentView);
     this.scheduleObj.refresh();
   }
@@ -1851,9 +1886,9 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
         this.dynamicSchedulerService.getSchedulerHeightWithoutToolbar();
     }
 
-    /*if (localStorage.getItem("currentView")) {
+    if (localStorage.getItem("currentView")) {
       this.currentView = localStorage.getItem("currentView") as View;
-    }*/
+    }
   }
 
   initializationData() {
@@ -2221,6 +2256,8 @@ export class DynamicSchedulerComponent implements OnInit, OnDestroy {
   setCalendarView(personalStoreSettings) {
     if (personalStoreSettings && personalStoreSettings.currentView) {
       this.currentView = personalStoreSettings.currentView as View;
+    } else if (localStorage.getItem("currentView")) {
+      this.currentView = localStorage.getItem("currentView") as View;
     } else {
       this.currentView = "WorkWeek" as View;
     }

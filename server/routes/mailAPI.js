@@ -68,14 +68,6 @@ var smtpTransport = nodemailer.createTransport({
   },
 });
 
-// var smtpTransport = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "kidsnodeoffice@gmail.com",
-//     pass: "rvciekpadttcvbwt",
-//   },
-// });
-
 //slanje maila pri registraciji
 router.post("/send", function (req, res) {
   var confirmTemplate = fs.readFileSync(
@@ -353,6 +345,8 @@ router.post("/forgotmail", function (req, res) {
           }),
         };
 
+console.log(mailOptions);
+
         smtpTransport.sendMail(mailOptions, function (error, response) {
           if (error) {
             logger.log(
@@ -472,7 +466,7 @@ router.post("/askQuestion", function (req, res) {
 
   console.log(mail);
   var mailOptions = {
-    to: "info@clinicnode.com",
+    to: process.env.admin_email,
     subject: naslov,
     text: mail,
   };

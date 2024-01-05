@@ -17,19 +17,6 @@ var smtpTransport = nodemailer.createTransport({
   },
 });
 
-/*var smtpTransport = nodemailer.createTransport({
-  host: "116.203.109.78",
-  port: 25,
-  secure: false,
-  tls: {
-    rejectUnauthorized: false,
-  },
-  auth: {
-    user: "info@clinicnode.com",
-    pass: "!91y^ODGp7w#",
-  },
-});*/
-
 router.post("/sendMail", function (req, res) {
   var confirmTemplate = fs.readFileSync(
     "./routes/templates/" + req.body.template,
@@ -40,16 +27,18 @@ router.post("/sendMail", function (req, res) {
     from: req.body.sender
       ? '"' + req.body.sender + '"' + process.env.smtp_user
       : process.env.smtp_name + " " + process.env.smtp_user,
-    to: process.env.admin_email,
+    to: process.env.admin_email
+      ? process.env.admin_email
+      : "webaj.info@gmail.com",
     subject: req.body.subject,
     html: compiledTemplate.render(req.body.fields),
   };
 
   smtpTransport.sendMail(mailOptions, function (error, response) {
     if (error) {
-      // res.end(false);
+      res.json(false);
     } else {
-      // res.end(true);
+      res.json(true);
     }
   });
 });

@@ -119,11 +119,7 @@ export class HelpService {
   }
 
   setTitleForBrowserTab(value) {
-    if (this.checkDomain() === "officenode-") {
-      this.titleService.setTitle("OfficeNode - " + value);
-    } else {
-      this.titleService.setTitle("ClinicNode - " + value);
-    }
+    this.titleService.setTitle("OfficeNode - " + value);
   }
 
   setDefaultBrowserTabTitle() {

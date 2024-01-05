@@ -8,7 +8,7 @@
     />
     <title
       style="box-sizing: inherit;border-width: 0;border-style: solid;border-color: #dae1e7;"
-    >Confirm Mail - ClinicNode</title>
+    >Confirm Mail - OfficeNode</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/tailwindcss@0.7.4/dist/tailwind.min.css"
