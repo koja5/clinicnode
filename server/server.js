@@ -207,7 +207,7 @@ io.on("connection", (socket) => {
 
 var eventRule = new schedule.RecurrenceRule();
 eventRule.hour = 9;
-eventRule.minute = 00;
+eventRule.minute = 0;
 var j = schedule.scheduleJob("00 09 * * *", function () {
   eventConfirm();
 });

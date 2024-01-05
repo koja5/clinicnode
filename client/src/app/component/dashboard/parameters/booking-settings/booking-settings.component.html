@@ -3,15 +3,19 @@
   <div *ngIf="loading" style="height: 80vh">
     <div class="spinner loading"></div>
   </div>
-  
+
   <h4>{{language.generalBookingSettings}}</h4>
   <app-dynamic-forms *ngIf="!loading" [path]="path" [file]="file" [data]="data" (submit)="saveConfig($event)">
   </app-dynamic-forms>
+
+  <hr>
 
   <div>
     <h4>{{language.generateBookingOnlineLink}}</h4>
     <button class="btn btn-default" (click)="generateOnlineLink()">{{language.copyBookingLinkToClipboard}}</button>
   </div>
+
+  <hr>
 
   <div class="mt-4">
     <h4>{{language.connectToStripeTitle}}</h4>
@@ -22,7 +26,7 @@
       <button *ngIf="stripeActivated"
         class="btn btn-success font-weight-bold">{{language.stripeIsSuccessfulyConnected}}</button>
 
-      <div class="mt-4">
+      <div class="mt-4" *ngIf="stripeActivated">
         <app-dynamic-forms *ngIf="!loading" [path]="pathPayment" [file]="filePayment" [data]="data"
           (submit)="saveConfig($event)">
         </app-dynamic-forms>

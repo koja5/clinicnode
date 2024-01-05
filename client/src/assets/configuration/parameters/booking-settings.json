@@ -40,6 +40,29 @@
             "field": "free_appointments_available"
         },
         {
+            "type": "dropdown",
+            "name": "categorie",
+            "width": "pl-4 pr-4",
+            "label": "categoryOfCount",
+            "field": {
+                "text": "category",
+                "value": "id"
+            },
+            "request": {
+                "type": "GET",
+                "api": "/api/getEventCategory",
+                "parameters": [
+                    "superadmin"
+                ],
+                "fields": "",
+                "root": ""
+            },
+            "fieldConfig": {
+                "ignoreAccent": false,
+                "filter": true
+            }
+        },
+        {
             "type": "button",
             "width": "col-md-12",
             "class": "e-control e-btn e-lib e-primary e-flat",
