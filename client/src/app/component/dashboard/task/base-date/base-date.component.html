@@ -337,7 +337,7 @@
                         <div class="col-md-4 col-xs-6 b-r" *ngIf="doctorList !== undefined">
                           <br />
                           <p class="text-muted">
-                            <kendo-textbox-container floatingLabel="{{ language.doctor }}">
+                            <!-- <kendo-textbox-container floatingLabel="{{ language.doctor }}">
                               <input kendoTextBox *ngIf="
                                   baseDataOne.doctor === '' ||
                                   baseDataOne.doctor === null ||
@@ -348,6 +348,17 @@
                                 [data]="doctorsListTmp" textField="fullname" [valueField]="'id'"
                                 [(ngModel)]="baseDataOne.doctor" [valuePrimitive]="true" name="doctors" readonly="true">
                               </kendo-combobox>
+                            </kendo-textbox-container> -->
+
+                            <kendo-textbox-container floatingLabel="{{ language.doctor }}">
+                              <input kendoTextBox *ngIf="
+                              baseDataOne.doctor === '' ||
+                              baseDataOne.doctor === null ||
+                              baseDataOne.doctor === undefined
+                                " [(ngModel)]="language['noInformation']" name="size" class="noPadding"
+                                readonly="true" />
+                              <input kendoTextBox *ngIf="baseDataOne.doctor" [(ngModel)]="baseDataOne.doctor"
+                                name="size" class="noPadding" readonly="true" />
                             </kendo-textbox-container>
                           </p>
                         </div>
@@ -1608,7 +1619,7 @@
                     </kendo-textbox-container>
                   </div>
                   <div class="col-md-4 col-xs-12 b-r" *ngIf="doctorList !== undefined">
-                    <kendo-textbox-container floatingLabel="{{ language.doctor }}">
+                    <!-- <kendo-textbox-container floatingLabel="{{ language.doctor }}">
                       <kendo-combobox class="col-md-12 col-xs-12 noPadding" [suggest]="true" [data]="doctorsListTmp"
                         textField="fullname" [valueField]="'id'" [(ngModel)]="baseDataOne.doctor"
                         [valuePrimitive]="true" [filterable]="true" (filterChange)="filterDoctor($event)"
@@ -1624,6 +1635,10 @@
                           </p>
                         </ng-template>
                       </kendo-combobox>
+                    </kendo-textbox-container> -->
+
+                    <kendo-textbox-container floatingLabel="{{ language.doctor }}">
+                      <input kendoTextBox [(ngModel)]="baseDataOne.doctor" name="size" class="noPadding" />
                     </kendo-textbox-container>
                   </div>
                   <div class="col-md-4 col-xs-12 b-r">
@@ -1864,8 +1879,8 @@
                 {{ language.sendReminderViaSMS }}</span>
             </div>
             <div class="col-md-12 col-xs-12">
-              <input type="checkbox" kendoCheckBox [(ngModel)]="data.pay_in_clinic"
-                name="allow_online_without_payment" style="margin: 0px" />
+              <input type="checkbox" kendoCheckBox [(ngModel)]="data.pay_in_clinic" name="allow_online_without_payment"
+                style="margin: 0px" />
               <span style="font-size: 12px">
                 {{ language.allowOnlineReservation }}</span>
             </div>

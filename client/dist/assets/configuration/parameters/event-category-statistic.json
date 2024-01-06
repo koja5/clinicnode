@@ -177,7 +177,6 @@
           "fields": { "text": "text", "value": "id" }
         }
       },
-      "placeholder": "Please enter email of user",
       "fieldConfig": {
         "ignoreAccent": false,
         "filter": true
