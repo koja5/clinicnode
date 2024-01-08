@@ -1,0 +1,133 @@
+{
+    "pageSize": 10,
+    "request": {
+        "type": "GET",
+        "api": "/api/getLicences",
+        "parameters": [],
+        "fields": "",
+        "root": ""
+    },
+    "paging": {
+        "enable": true,
+        "settings": {
+            "pageSize": 10
+        }
+    },
+    "sorting": {
+        "enable": true,
+        "initalSorting": {
+            "columns": [
+                {
+                    "field": "expiration_date",
+                    "direction": "Descending"
+                }
+            ]
+        }
+    },
+    "grouping": {
+        "enable": true,
+        "group": []
+    },
+    "filtering": {
+        "enable": false
+    },
+    "customGrouping": false,
+    "allowResizing": true,
+    "reorderable": true,
+    "selectable": true,
+    "scrollable": false,
+    "hideable": true,
+    "refresh": false,
+    "reset": true,
+    "toolbar": [
+        "Add",
+        "Edit",
+        "Delete",
+        "Print",
+        "Search"
+    ],
+    "editSettings": {
+        "allowEditing": true,
+        "allowAdding": true,
+        "allowDeleting": true,
+        "showDeleteConfirmDialog": false,
+        "mode": "Dialog"
+    },
+    "editSettingsRequest": {
+        "add": {
+            "type": "POST",
+            "api": "/api/addNewLicence",
+            "parameters": [],
+            "fields": "",
+            "root": ""
+        },
+        "edit": {
+            "type": "POST",
+            "api": "/api/updateLicenceInfo",
+            "parameters": [],
+            "fields": "",
+            "root": ""
+        },
+        "delete": {
+            "type": "POST",
+            "api": "/api/deleteLicence",
+            "parameters": [],
+            "fields": "",
+            "root": ""
+        }
+    },
+    "columns": [
+        {
+            "title": "licenceName",
+            "width": 150,
+            "filterable": true,
+            "filter": "text",
+            "type": "textbox",
+            "class": "text-align-right",
+            "field": "name"
+        },
+        {
+            "title": "licencePrice",
+            "width": 150,
+            "filterable": true,
+            "filter": "text",
+            "type": "textbox",
+            "class": "text-align-right",
+            "field": "price"
+        }
+    ],
+    "configField": [
+        {
+            "type": "textbox",
+            "width": "col-md-12 hide",
+            "name": "id",
+            "label": "ID",
+            "field": "id"
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-12",
+            "name": "name",
+            "label": "licenceName",
+            "field": "name",
+            "required": true
+        },
+        {
+            "type": "textbox",
+            "width": "col-md-12",
+            "name": "price",
+            "label": "licencePrice",
+            "field": "price",
+            "required": true
+        },
+        {
+            "type": "button",
+            "width": "col-md-12",
+            "class": "e-control e-btn e-lib e-primary e-flat",
+            "name": "submit",
+            "label": "Save",
+            "field": "submit",
+            "positionClass": "text-align: end"
+        }
+    ]
+}
