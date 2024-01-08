@@ -1,20 +1,17 @@
-<form *ngIf="config"
-  [formGroup]="form"
-  (submit)="handleSubmit($event)"
->
+<form *ngIf="config && config.config" [formGroup]="form" (submit)="handleSubmit($event)">
   <ng-container *ngFor="let field of config.config">
-    <ng-container 
-      dynamicField
-      [config]="field"
-      [group]="form"
+    <ng-container dynamicField [config]="field" [group]="form"
       *ngIf="!field.condition || (field.condition && field.condition.value)">
     </ng-container>
   </ng-container>
 </form>
-<app-dynamic-confirm-dialog
-  [showDialog]="showDialogExit"
-  [title]="language?.changesWontBeSavedTitle"
-  [question]="language?.changesWontBeSaved"
-  (sendEmitter)="receiveConfirmExit($event)"
->
+<form *ngIf="config && !config.config" [formGroup]="form" (submit)="handleSubmit($event)">
+  <ng-container *ngFor="let field of config">
+    <ng-container dynamicField [config]="field" [group]="form"
+      *ngIf="!field.condition || (field.condition && field.condition.value)">
+    </ng-container>
+  </ng-container>
+</form>
+<app-dynamic-confirm-dialog [showDialog]="showDialogExit" [title]="language?.changesWontBeSavedTitle"
+  [question]="language?.changesWontBeSaved" (sendEmitter)="receiveConfirmExit($event)">
 </app-dynamic-confirm-dialog>

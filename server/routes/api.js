@@ -10869,6 +10869,84 @@ router.get("/getLicences", function (req, res, next) {
   });
 });
 
+router.post("/addNewLicence", function (req, res) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query("insert into licence SET ?", [req.body], function (err, rows) {
+      conn.release();
+      if (!err) {
+        if (!err) {
+          res.json(true);
+        } else {
+          res.json(false);
+        }
+      } else {
+        logger.log("error", err.sql + ". " + err.sqlMessage);
+        res.json(err);
+      }
+    });
+  });
+});
+
+router.post("/updateLicenceInfo", function (req, res, next) {
+  connection.getConnection(function (err, conn) {
+    if (err) {
+      logger.log("error", err.sql + ". " + err.sqlMessage);
+      res.json(err);
+    }
+
+    conn.query(
+      "update licence set ? where id = ?",
+      [req.body, req.body.id],
+      function (err, rows, fields) {
+        conn.release();
+        if (err) {
+          logger.log("error", err.sql + ". " + err.sqlMessage);
+          res.json(err);
+        } else {
+          response = true;
+          res.json(response);
+        }
+      }
+    );
+  });
+});
+
+router.post("/deleteLicence", (req, res, next) => {
+  try {
+    connection.getConnection(function (err, conn) {
+      if (err) {
+        console.error("SQL Connection error: ", err);
+        res.json({
+          code: 100,
+          status: err,
+        });
+      } else {
+        conn.query(
+          "delete from licence where id  = ?",
+          [req.body.id],
+          function (err, rows, fields) {
+            conn.release();
+            if (err) {
+              res.json(false);
+              logger.log("error", err.sql + ". " + err.sqlMessage);
+            } else {
+              res.json(true);
+            }
+          }
+        );
+      }
+    });
+  } catch (ex) {
+    logger.log("error", err.sql + ". " + err.sqlMessage);
+    res.json(ex);
+  }
+});
+
 router.get("/getAllLicences", function (req, res, next) {
   connection.getConnection(function (err, conn) {
     if (err) {
@@ -11235,4 +11313,3 @@ router.get("/checkStripeAccount/:superadminId", (req, res, next) => {
 /* END UPDATE STRIPE ACCOUNT */
 
 module.exports = router;
-

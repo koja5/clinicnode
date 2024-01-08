@@ -60,6 +60,7 @@ import { LicenceComponent } from "./licence/licence.component";
 import { MailMultipleRecepientComponent } from "./parameters/mail-parameters/mail-multiple-recepient/mail-multiple-recepient.component";
 import { MailResetPasswordComponent } from "./parameters/mail-reset-password/mail-reset-password.component";
 import { BookingSettingsComponent } from "./parameters/booking-settings/booking-settings.component";
+import { AllLicencesComponent } from "./administrator/all-licences/all-licences.component";
 
 const routes: Routes = [
   {
@@ -338,6 +339,10 @@ const routes: Routes = [
       {
         path: "booking-settings",
         component: BookingSettingsComponent,
+      },
+      {
+        path: "all-licences",
+        component: AllLicencesComponent,
       },
     ],
   },

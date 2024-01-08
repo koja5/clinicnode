@@ -28,6 +28,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
 import { SharedComponentsModule } from "src/app/shared/shared-components.module";
+import { DymanicElementsModule } from "../../dynamic-elements/dymanic-elements.module";
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { SharedComponentsModule } from "src/app/shared/shared-components.module"
     ModalModule,
     LayoutModule,
     SplitterModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    DymanicElementsModule
   ],
   providers: [
     {

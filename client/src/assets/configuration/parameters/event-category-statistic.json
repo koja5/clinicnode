@@ -5,7 +5,9 @@
   "request": {
     "type": "GET",
     "api": "/api/getEventCategoryStatistic",
-    "parameters": ["superadmin"],
+    "parameters": [
+      "superadmin"
+    ],
     "fields": "",
     "root": ""
   },
@@ -41,7 +43,13 @@
   "hideable": true,
   "refresh": false,
   "reset": true,
-  "toolbar": ["Add", "Edit", "Delete", "Print", "Search"],
+  "toolbar": [
+    "Add",
+    "Edit",
+    "Delete",
+    "Print",
+    "Search"
+  ],
   "editSettings": {
     "allowEditing": true,
     "allowAdding": true,
@@ -53,7 +61,9 @@
     "add": {
       "type": "POST",
       "api": "/api/createEventCategoryStatistic",
-      "parameters": ["superadmin"],
+      "parameters": [
+        "superadmin"
+      ],
       "fields": "",
       "root": ""
     },
@@ -153,11 +163,16 @@
       "type": "multiselect",
       "name": "categorie",
       "label": "categoryOfCount",
-      "field": { "text": "category", "value": "id" },
+      "field": {
+        "text": "category",
+        "value": "id"
+      },
       "request": {
         "type": "GET",
         "api": "/api/getEventCategory",
-        "parameters": ["superadmin"],
+        "parameters": [
+          "superadmin"
+        ],
         "fields": "",
         "root": ""
       },
@@ -170,11 +185,17 @@
       "type": "dropdown",
       "name": "eventCategoryPeriod",
       "label": "periodForEvent",
-      "field": { "text": "text", "value": "id" },
+      "field": {
+        "text": "text",
+        "value": "id"
+      },
       "data": {
         "translation": {
           "property": "eventCategoryPeriod",
-          "fields": { "text": "text", "value": "id" }
+          "fields": {
+            "text": "text",
+            "value": "id"
+          }
         }
       },
       "fieldConfig": {

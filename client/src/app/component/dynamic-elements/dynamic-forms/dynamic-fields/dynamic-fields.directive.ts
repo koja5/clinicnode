@@ -35,15 +35,15 @@ const components: {[type: string]: Type<Field>} = {
 })
 export class DynamicFieldsDirective implements Field, OnChanges, OnInit {
   @Input()
-  config: FieldConfig;
+  config!: FieldConfig;
 
   @Input()
-  group: FormGroup;
+  group!: FormGroup;
 
   @Input()
   data: any;
 
-  component: ComponentRef<Field>;
+  component!: ComponentRef<Field>;
 
   constructor(
     private resolver: ComponentFactoryResolver,

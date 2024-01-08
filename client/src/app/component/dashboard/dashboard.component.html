@@ -636,6 +636,14 @@
                                   {{ language?.mailMultipleRecepient }}
                                 </a>
                               </li>
+                              <li class="{{ selectedNodeModel['all-licences'] }}">
+                                <a routerLink="/dashboard/home/all-licences" (click)="returnActiveNode('all-licences')"
+                                  class="nav-link">
+                                  <i class="fa fa-archive"></i>
+                                  <span class="navigation-link"></span>
+                                  {{ language?.allLicences }}
+                                </a>
+                              </li>
                             </ul>
                           </li>
 

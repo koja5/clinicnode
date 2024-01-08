@@ -836,6 +836,9 @@
             "bookingSettings": {
                 "type": "string"
             },
+            "allLicences": {
+                "type": "string"
+            },
             "generateBookingOnlineLink": {
                 "type": "string"
             },
@@ -4054,7 +4057,9 @@
                         {
                             "key": "bookingSettings"
                         },
-                        {}
+                        {
+                            "key": "allLicences"
+                        }
                     ]
                 }
             ]
