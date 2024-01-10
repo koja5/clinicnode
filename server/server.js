@@ -216,7 +216,7 @@ var j = schedule.scheduleJob("00 10 * * *", function () {
   reminderViaEmail();
 });
 
-var j = schedule.scheduleJob("00 12 * * *", function () {
+var j = schedule.scheduleJob("05 16 * * *", function () {
   reminderViaSMS();
 });
 

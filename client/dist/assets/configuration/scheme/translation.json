@@ -2461,6 +2461,9 @@
             "sendPasswordRecoveryError": {
                 "type": "string"
             },
+            "copyLanguage": {
+                "type": "string"
+            },
             "sendPasswordRecovery": {
                 "type": "string"
             },
@@ -2864,6 +2867,9 @@
                         },
                         {
                             "key": "sendPasswordRecoveryError"
+                        },
+                        {
+                            "key": "copyLanguage"
                         }
                     ]
                 },

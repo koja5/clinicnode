@@ -5175,7 +5175,7 @@ router.get("/getReservations/:id", function (req, res, next) {
       res.json(err);
     }
     conn.query(
-      "select t.*, CONCAT(t.amount, '', '€') as 'amount', e.color, c.firstname, c.lastname, c.mobile, c.email, c.birthday, u.shortname from tasks t join event_category e on t.colorTask = e.id join customers c on t.customer_id = c.id join users u on t.creator_id = u.id where t.online = 1 and t.superadmin = ? and c.active = 1",
+      "select t.*, CONCAT(t.amount, '', '€') as 'amount', e.color, c.firstname, c.lastname, c.mobile, c.email, c.birthday, u.shortname from tasks t join event_category e on t.colorTask = e.id join customers c on t.customer_id = c.id join users u on t.creator_id = u.id where t.online = 1 and t.superadmin = ? and c.active = 1 order by t.start desc",
       [id],
       function (err, rows) {
         conn.release();

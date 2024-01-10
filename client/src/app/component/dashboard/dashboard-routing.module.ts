@@ -189,6 +189,7 @@ const routes: Routes = [
         component: TranslationComponent,
       },
       { path: "translation/edit/:id", component: EditTranslationComponent },
+      { path: "translation/edit/:id/:language", component: EditTranslationComponent },
       {
         path: "parameters",
         loadChildren: "./parameters/parameters.module#ParametersModule",

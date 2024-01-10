@@ -2,13 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const mongo = require("mongodb").MongoClient;
-// var assert = require('assert');
 const Schema = mongo.Schema;
-// const url = 'mongodb://localhost:27017/management_mongodb';
-// const url = 'mongodb://appprodu_appproduction_prod:CJr4eUqWg33tT97mxPFx@vps.app-production.eu:42526/management_mongodb'
-// const url = "mongodb://116.203.85.82:27017/management_mongo?gssapiServiceName=mongodb";
-// const url = "mongodb://admin:1234@localhost:27017/business_circle_mongodb?authSource=admin";
-const url = process.env.mongo_url
+const url = process.env.mongo_url;
 const database_name = process.env.mongo_db;
 var ObjectId = require("mongodb").ObjectID;
 const mysql = require("mysql");
@@ -220,6 +215,7 @@ router.post("/createTranslation", function (req, res, next) {
   mongo.connect(url, function (err, db) {
     if (err) throw err;
     var dbo = db.db(database_name);
+    delete req.body._id;
     dbo.collection("translation").insertOne(req.body, function (err, result) {
       console.log("Item inserted!" + result);
       if (err) {
@@ -326,11 +322,14 @@ router.get("/getTranslationByLanguage/:language", function (req, res, next) {
     console.log(dbo);
     dbo
       .collection("translation")
-      .findOne({ language: req.params.language, active: true }, function (err, rows) {
-        if (err) throw err;
-        console.log(rows);
-        res.json(rows);
-      });
+      .findOne(
+        { language: req.params.language, active: true },
+        function (err, rows) {
+          if (err) throw err;
+          console.log(rows);
+          res.json(rows);
+        }
+      );
   });
 });
 
@@ -416,34 +415,39 @@ router.post("/updateTranslation", function (req, res, next) {
     if (err) throw err;
     var dbo = db.db(database_name);
     console.log(req.body);
-    dbo.collection("translation").findOne({_id: ObjectId(req.body._id)}, function (err, rows) {
-      if (err) throw err;
-      const currentTranslation = rows.config;
-      const updatedTranslation = req.body.config;
-      const translationToUpdate = { ...currentTranslation, ...updatedTranslation };
-      dbo.collection("translation").updateOne(
-        { _id: ObjectId(req.body._id) },
-        {
-          $set: {
-            language: req.body.language,
-            countryCode: req.body.countryCode,
-            active: req.body.active,
-            config: translationToUpdate,
-            demoAccount: req.body.demoAccount,
-            demoCode: req.body.demoCode,
-            timestamp: req.body.timestamp
-          },
-      },
-      { upsert: true },
-      function (err, rows) {
+    dbo
+      .collection("translation")
+      .findOne({ _id: ObjectId(req.body._id) }, function (err, rows) {
         if (err) throw err;
+        const currentTranslation = rows.config;
+        const updatedTranslation = req.body.config;
+        const translationToUpdate = {
+          ...currentTranslation,
+          ...updatedTranslation,
+        };
+        dbo.collection("translation").updateOne(
+          { _id: ObjectId(req.body._id) },
+          {
+            $set: {
+              language: req.body.language,
+              countryCode: req.body.countryCode,
+              active: req.body.active,
+              config: translationToUpdate,
+              demoAccount: req.body.demoAccount,
+              demoCode: req.body.demoCode,
+              timestamp: req.body.timestamp,
+            },
+          },
+          { upsert: true },
+          function (err, rows) {
+            if (err) throw err;
 
-        res.json(true);
-      }
-      );
-    });
+            res.json(true);
+          }
+        );
+      });
   });
-    // res.json({ code: 201 });
+  // res.json({ code: 201 });
 });
 
 router.get("/getPermissionPatientMenu/:clinic", function (req, res, next) {

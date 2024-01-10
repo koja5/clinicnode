@@ -1,6 +1,6 @@
 <div style="height: 100%" *ngIf="language !== undefined">
-  <kendo-grid #grid [data]="gridView" [style.height]="height" [resizable]="true" [pageSize]="state.take" [skip]="state.skip"
-    [sort]="state.sort" [filter]="state.filter" [sortable]="true" [pageable]="pageable"
+  <kendo-grid #grid [data]="gridView" [style.height]="height" [resizable]="true" [pageSize]="state.take"
+    [skip]="state.skip" [sort]="state.sort" [filter]="state.filter" [sortable]="true" [pageable]="pageable"
     (pageChange)="pageChange($event)" [kendoGridSelectBy]="mySelectionKey" [groupable]="true" [group]="state.group"
     (groupChange)="groupChange($event)" (sortChange)="sortChange($event)">
     <kendo-grid-messages pagerPage="{{language.pagerPage}}" pagerOf="{{language.pagerOf}}"
@@ -34,20 +34,20 @@
                 style="padding: 12px; cursor: pointer;"><span class='k-icon k-i-file-excel'></span>
                 {{ language.uploadFromExcel }}<input type="file" name="files[]" multiple id="jsonFile" accept=".xlsx"
                   (change)="onFileChange($event)" [(ngModel)]="fileValue" /></label></a>
-            
+
             <a (click)="exportPDF(false)"><span class="k-icon k-i-file-pdf"></span>
-                {{ language.exportPageToPDF }}
+              {{ language.exportPageToPDF }}
             </a>
             <a (click)="exportPDF(true)"><span class="k-icon k-i-file-pdf"></span>
-                {{ language.exportToPDF }}
+              {{ language.exportToPDF }}
             </a>
-      
+
             <a (click)="exportToExcel(grid, false)"><span class="k-icon k-i-file-excel"></span>
               {{ language.exportToExcel }}
             </a>
-  
+
             <a (click)="exportToExcel(grid, true)"><span class="k-icon k-i-file-excel"></span>
-              {{ language.exportAllToExcel }}  
+              {{ language.exportAllToExcel }}
             </a>
           </div>
         </div>
@@ -110,7 +110,7 @@
   <kendo-dialog title="{{language.adminPleaseConfirm}}" *ngIf="dialogDelete" (close)="dialogDelete = false"
     [minWidth]="250" [width]="450">
     <div class="modal-body text-center">
-      <img src="../../../../../assets/img/sent.png" alt="" width="50" height="46">
+      <img src="../../../../assets/images/sent.png" alt="" width="50" height="46">
       <h3>{{language.areYouSure}}</h3>
     </div>
     <kendo-dialog-actions>
@@ -149,8 +149,8 @@
       <div class="form-group">
         <div class="row">
           <div class="text-center vd_info-parent col-md-4 col-xs-12">
-            <img alt="example image" style="width: 190px; height: 190px;" src="../../../../assets/img/profile_image/{{member.image}}"
-              class="rounded-circle">
+            <img alt="example image" style="width: 190px; height: 190px;"
+              src="../../../../assets/img/profile_image/{{member.image}}" class="rounded-circle">
             <h4 class="font-semibold name-member">{{member.firstname}} {{member.lastname}}</h4>
           </div>
           <div class="col-md-8 col-xs-12">
@@ -226,7 +226,8 @@
               </div>
               <div class="birthday-container col-md-6 col-xs-12">
                 <kendo-textbox-container floatingLabel="{{language.fieldBirthday}}">
-                  <kendo-datepicker [format]="'dd.MM.yyyy'" class="email noPadding" name="birthday" [(ngModel)]="member.birthday">
+                  <kendo-datepicker [format]="'dd.MM.yyyy'" class="email noPadding" name="birthday"
+                    [(ngModel)]="member.birthday">
                   </kendo-datepicker>
                 </kendo-textbox-container>
               </div>
@@ -287,13 +288,15 @@
 
         <div class="birthday-container col-md-6 col-xs-12">
           <kendo-textbox-container floatingLabel="{{language.fieldActiveDate}}">
-            <kendo-datepicker [format]="'dd.MM.yyyy'" class="email noPadding" name="activeDate" [(ngModel)]="member.activeDate">
+            <kendo-datepicker [format]="'dd.MM.yyyy'" class="email noPadding" name="activeDate"
+              [(ngModel)]="member.activeDate">
             </kendo-datepicker>
           </kendo-textbox-container>
         </div>
         <div class="birthday-container col-md-6 col-xs-12">
           <kendo-textbox-container floatingLabel="{{language.fieldActivePremiumDate}}">
-            <kendo-datepicker [format]="'dd.MM.yyyy'" class="email noPadding" name="activePremiumDate" [(ngModel)]="member.activePremiumDate">
+            <kendo-datepicker [format]="'dd.MM.yyyy'" class="email noPadding" name="activePremiumDate"
+              [(ngModel)]="member.activePremiumDate">
             </kendo-datepicker>
           </kendo-textbox-container>
         </div>
@@ -329,8 +332,8 @@
       </div>
       <!-- ./remember-row -->
       <div class="form-group" style="text-align: center; margin-top: 15px;">
-        <button kendoButton [primary]="true" [primary]="true" class="form-button"
-          type="submit">{{operationMode === 'add' ? language.createData : language.updateData}}</button>
+        <button kendoButton [primary]="true" [primary]="true" class="form-button" type="submit">{{operationMode ===
+          'add' ? language.createData : language.updateData}}</button>
       </div>
     </form>
 
@@ -374,8 +377,8 @@
 
 
       <div class="form-group" style="text-align: center; margin-top: 15px;">
-        <button kendoButton [primary]="true" [primary]="true" class="form-button"
-          type="submit">{{operationMode === 'add' ? language.createData : language.updateData}}</button>
+        <button kendoButton [primary]="true" [primary]="true" class="form-button" type="submit">{{operationMode ===
+          'add' ? language.createData : language.updateData}}</button>
       </div>
     </form>
 
@@ -424,8 +427,8 @@
           </div>
         </div>
         <div class="form-group" style="text-align: center; margin-top: 15px;">
-          <button kendoButton [primary]="true" [primary]="true" class="form-button"
-            type="submit">{{operationMode === 'add' ? language.createData : language.updateData}}</button>
+          <button kendoButton [primary]="true" [primary]="true" class="form-button" type="submit">{{operationMode ===
+            'add' ? language.createData : language.updateData}}</button>
         </div>
       </div>
     </form>
@@ -455,8 +458,8 @@
         </div>
       </div>
       <div class="form-group" style="text-align: center; margin-top: 15px;">
-        <button kendoButton [primary]="true" [primary]="true" class="form-button"
-          type="submit">{{operationMode === 'add' ? language.createData : language.updateData}}</button>
+        <button kendoButton [primary]="true" [primary]="true" class="form-button" type="submit">{{operationMode ===
+          'add' ? language.createData : language.updateData}}</button>
       </div>
     </form>
   </kendo-window>

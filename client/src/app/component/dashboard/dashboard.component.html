@@ -302,14 +302,6 @@
                                 </a>
                               </li>
 
-                              <li class="{{ selectedNodeModel['doctor'] }}">
-                                <a routerLink="/dashboard/home/doctor" (click)="returnActiveNode('doctor')"
-                                  class="nav-link"><i class="fa fa-user"></i>
-                                  <span class="navigation-link"></span>
-                                  {{ language?.doctorMenu }}
-                                </a>
-                              </li>
-
                               <li class="{{ selectedNodeModel['vat_tax'] }}">
                                 <a routerLink="/dashboard/home/vat_tax" (click)="returnActiveNode('vat_tax')"
                                   class="nav-link"><i class="fa fa-percent"></i>
@@ -455,20 +447,6 @@
                                   " class="nav-link"><i class="fa fa-envelope"></i>
                                   <span class="navigation-link"></span>
                                   {{ language?.mailConfirmArrival }}
-                                </a>
-                              </li>
-                              <li class="{{
-                                  selectedNodeModel[
-                                    'mail_patient_form_registration'
-                                  ]
-                                }}">
-                                <a routerLink="/dashboard/home/mail-patient-form-registration" (click)="
-                                    returnActiveNode(
-                                      'mail_patient_form_registration'
-                                    )
-                                  " class="nav-link"><i class="fa fa-envelope"></i>
-                                  <span class="navigation-link"></span>
-                                  {{ language?.mailPatientFormRegistration }}
                                 </a>
                               </li>
                               <li class="{{

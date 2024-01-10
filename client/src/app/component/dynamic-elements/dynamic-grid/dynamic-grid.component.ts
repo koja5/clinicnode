@@ -463,10 +463,21 @@ export class DynamicGridComponent implements OnInit {
     for (let i = 0; i < fields.length; i++) {
       this.form.setValue(
         fields[i]["name"],
-        values[fields[i]["name"]],
+        fields[i].type !== "multiselect"
+          ? values[fields[i]["name"]]
+          : this.splitStringToArray(values[fields[i]["name"]]),
         fields[i]["type"]
       );
     }
+  }
+
+  splitStringToArray(value: string) {
+    let convertToNumber = [];
+    let array = value.split(",");
+    for (let i = 0; i < array.length; i++) {
+      convertToNumber[i] = Number(array[i]);
+    }
+    return convertToNumber;
   }
 
   /* tooltip */

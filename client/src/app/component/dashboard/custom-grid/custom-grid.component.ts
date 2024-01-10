@@ -293,10 +293,8 @@ export class CustomGridComponent implements OnInit {
   public dialogDeleteAction(answer) {
     if (answer === "yes") {
       this.service[this.method](this.id).subscribe((data) => {
-        console.log(data);
         if (data) {
-          console.log(this.index);
-          this.gridView.data.splice(this.index - this.state.take, 1);
+          this.gridView.data.splice(this.index + this.state.skip, 1);
           this.gridView.total -= 1;
         }
       });
