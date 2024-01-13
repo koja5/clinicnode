@@ -216,7 +216,7 @@ var j = schedule.scheduleJob("00 10 * * *", function () {
   reminderViaEmail();
 });
 
-var j = schedule.scheduleJob("05 16 * * *", function () {
+var j = schedule.scheduleJob("00 12 * * *", function () {
   reminderViaSMS();
 });
 
@@ -224,14 +224,13 @@ var j = schedule.scheduleJob("00 13 * * *", function () {
   sendHappyBirthdayViaSMS();
 });
 
-var j = schedule.scheduleJob("35 10 * * *", function () {
+var j = schedule.scheduleJob("00 14 * * *", function () {
   sendHappyBirthdayViaEmail();
 });
 
 var j = schedule.scheduleJob("00 02 * * *", function () {
   checkLicenceExpired();
 });
-
 
 /**
  * Listen on provided port, on all network interfaces.

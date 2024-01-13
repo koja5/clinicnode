@@ -55,63 +55,82 @@ function sendHappyBirthdayViaSMS() {
                   url: link + "/getAvailableAreaCode",
                 },
                 function (error, response, codes) {
-                  rows.forEach(function (to, i, array) {
-                    if (to.congratulationBirthday === 1) {
-                      console.log(to);
-                      var phoneNumber = null;
-                      if (to.mobile) {
-                        phoneNumber = to.mobile;
-                      }
-                      if (checkAvailableCode(phoneNumber, JSON.parse(codes))) {
-                        var language = JSON.parse(body)["config"];
-                        var message =
-                          (to.smsSubject
-                            ? to.smsSubject
-                            : language.initialGreetingSMSReminder) +
-                          " " +
-                          to.shortname +
-                          ", \n \n" +
-                          to.smsMessage;
-                        var signature = "";
-                        if (to.signatureAvailable) {
-                          if (to.smsSignatureCompanyName) {
-                            signature += to.smsSignatureCompanyName + "\n";
-                          }
-                          if (to.smsSignatureAddress1) {
-                            signature += to.smsSignatureAddress1 + "\n";
-                          }
-                          if (to.smsSignatureAddress2) {
-                            signature += to.smsSignatureAddress2 + "\n";
-                          }
-                          if (to.smsSignatureAddress3) {
-                            signature += to.smsSignatureAddress3 + "\n";
-                          }
-                          if (to.smsSignatureTelephone) {
-                            signature += to.smsSignatureTelephone + " \n";
-                          }
-                          if (to.smsSignatureMobile) {
-                            signature += to.smsSignatureMobile + " \n";
-                          }
-                          if (to.smsSignatureEmail) {
-                            signature += to.smsSignatureEmail + " \n";
-                          }
-                        }
+                  var spliceMails = [];
+                  while (rows.length > 0) {
+                    spliceMails.push(rows.splice(0, 70));
+                  }
 
-                        if (to.smsSignatureWebsite) {
-                          signature += " \n" + to.smsSignatureWebsite + "\n";
-                        }
+                  var time = 0;
+                  spliceMails.forEach(function (mails, i, array) {
+                    setTimeout(() => {
+                      var sendMailTime = 1000;
+                      mails.forEach(function (mail, i, array) {
+                        setTimeout(() => {
+                          if (mail.congratulationBirthday === 1) {
+                            var phoneNumber = null;
+                            if (mail.mobile) {
+                              phoneNumber = mail.mobile;
+                            }
+                            if (
+                              checkAvailableCode(phoneNumber, JSON.parse(codes))
+                            ) {
+                              var language = JSON.parse(body)["config"];
+                              var message =
+                                (mail.smsSubject
+                                  ? mail.smsSubject
+                                  : language.initialGreetingSMSReminder) +
+                                " " +
+                                mail.shortname +
+                                ", \n \n" +
+                                mail.smsMessage;
+                              var signature = "";
+                              if (mail.signatureAvailable) {
+                                if (mail.smsSignatureCompanyName) {
+                                  signature +=
+                                    mail.smsSignatureCompanyName + "\n";
+                                }
+                                if (mail.smsSignatureAddress1) {
+                                  signature += mail.smsSignatureAddress1 + "\n";
+                                }
+                                if (mail.smsSignatureAddress2) {
+                                  signature += mail.smsSignatureAddress2 + "\n";
+                                }
+                                if (mail.smsSignatureAddress3) {
+                                  signature += mail.smsSignatureAddress3 + "\n";
+                                }
+                                if (mail.smsSignatureTelephone) {
+                                  signature +=
+                                    mail.smsSignatureTelephone + " \n";
+                                }
+                                if (mail.smsSignatureMobile) {
+                                  signature += mail.smsSignatureMobile + " \n";
+                                }
+                                if (mail.smsSignatureEmail) {
+                                  signature += mail.smsSignatureEmail + " \n";
+                                }
+                              }
 
-                        if (to.smsSignaturePoweredBy) {
-                          signature += to.smsSignaturePoweredBy + " \n";
-                        }
+                              if (mail.smsSignatureWebsite) {
+                                signature +=
+                                  " \n" + mail.smsSignatureWebsite + "\n";
+                              }
 
-                        const fullMessage = message + "\n\n" + signature;
-                        console.log(fullMessage);
-                        sendSmsFromMail(phoneNumber, fullMessage);
-                      }
-                    } else {
-                      conn.release();
-                    }
+                              if (mail.smsSignaturePoweredBy) {
+                                signature += mail.smsSignaturePoweredBy + " \n";
+                              }
+
+                              const fullMessage = message + "\n\n" + signature;
+                              console.log(fullMessage);
+                              // sendSmsFromMail(phoneNumber, fullMessage);
+                            }
+                          } else {
+                            conn.release();
+                          }
+                        }, sendMailTime);
+                        sendMailTime += 500;
+                      });
+                    }, time);
+                    time += 50000;
                   });
                 }
               );

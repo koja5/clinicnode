@@ -345,7 +345,7 @@ router.post("/forgotmail", function (req, res) {
           }),
         };
 
-console.log(mailOptions);
+        console.log(mailOptions);
 
         smtpTransport.sendMail(mailOptions, function (error, response) {
           if (error) {
@@ -1474,92 +1474,110 @@ router.post("/sendMassiveEMail", function (req, res) {
             res.json(err);
           }
 
-          rows.forEach(function (to, i, array) {
-            var mail = {};
-            var signatureAvailable = false;
-            mail = to;
-            if (mail.signatureAvailable) {
-              signatureAvailable = true;
-            }
-            console.log(to);
-            var mailOptions = {
-              from: process.env.smtp_name + " " + process.env.smtp_user,
-              to: to.email,
-              subject: req.body.subject ? req.body.subject : mail.mailSubject,
-              html: sendMassive.render({
-                firstName: to.shortname,
-                message: req.body.message,
-                initialGreeting: mail.mailInitialGreeting
-                  ? mail.mailInitialGreeting
-                  : req.body.language.initialGreeting,
-                finalGreeting: mail.mailFinalGreeting
-                  ? mail.mailFinalGreeting
-                  : req.body.language.finalGreeting,
-                signature: !signatureAvailable
-                  ? mail.mailSignature
-                  : req.body.language.signature,
-                thanksForUsing: mail.mailThanksForUsing
-                  ? mail.mailThanksForUsing
-                  : req.body.language.thanksForUsing,
-                websiteLink: req.body.language.websiteLink,
-                ifYouHaveQuestion: mail.mailIfYouHaveQuestion
-                  ? mail.mailIfYouHaveQuestion
-                  : req.body.language.ifYouHaveQuestion,
-                notReply: mail.mailNotReply
-                  ? mail.mailNotReply
-                  : req.body.language.notReply,
-                copyRight: mail.mailCopyRight
-                  ? mail.mailCopyRight
-                  : req.body.language.copyRight,
-                introductoryMessageForDenyReservation: mail.mailMessage
-                  ? mail.mailMessage
-                  : req.body.language.introductoryMessageForDenyReservation,
-                signature: mail.mailSignature ? mail.mailSignature : "",
-                signatureCompanyName:
-                  signatureAvailable && mail.signatureCompanyName
-                    ? mail.signatureCompanyName
-                    : "",
-                signatureAddress1:
-                  signatureAvailable && mail.signatureAddress1
-                    ? mail.signatureAddress1
-                    : "",
-                signatureAddress2:
-                  signatureAvailable && mail.signatureAddress2
-                    ? mail.signatureAddress2
-                    : "",
-                signatureAddress3:
-                  signatureAvailable && mail.signatureAddress3
-                    ? mail.signatureAddress3
-                    : "",
-                signatureTelephone:
-                  signatureAvailable && mail.signatureTelephone
-                    ? mail.signatureTelephone
-                    : "",
-                signatureMobile:
-                  signatureAvailable && mail.signatureMobile
-                    ? mail.signatureMobile
-                    : "",
-                signatureEmail:
-                  signatureAvailable && mail.signatureEmail
-                    ? mail.signatureEmail
-                    : "",
+          var spliceMails = [];
+          while (rows.length > 0) {
+            spliceMails.push(rows.splice(0, 70));
+          }
 
-                unsubscribeMessage: req.body.language.unsubscribeMessage,
-                unsubscribeHere: req.body.language.unsubscribeHere,
-                unsubscribeLink: process.env.unsubscribeEmail + "/" + to.email,
-              }),
-            };
-            smtpTransport.sendMail(mailOptions, function (error, response) {
-              if (error) {
-                //logger.log("error sendMail", error);
-                logToConsole.error(error);
-              } else {
-                logger.log(
-                  "info",
-                  `Sent mail for marketing promotion on EMAIL: ${to.email}`
-                );
-              }
-            });
+          var time = 0;
+          spliceMails.forEach(function (mails, i, array) {
+            setTimeout(() => {
+              var sendMailTime = 1000;
+              mails.forEach(function (mail, i, array) {
+                setTimeout(() => {
+                  var signatureAvailable = false;
+                  if (mail.signatureAvailable) {
+                    signatureAvailable = true;
+                  }
+                  var mailOptions = {
+                    from: process.env.smtp_name + " " + process.env.smtp_user,
+                    to: "akojiic@gmail.com",
+                    subject: req.body.subject
+                      ? req.body.subject
+                      : mail.mailSubject,
+                    html: sendMassive.render({
+                      firstName: mail.shortname,
+                      message: req.body.message,
+                      initialGreeting: mail.mailInitialGreeting
+                        ? mail.mailInitialGreeting
+                        : req.body.language.initialGreeting,
+                      finalGreeting: mail.mailFinalGreeting
+                        ? mail.mailFinalGreeting
+                        : req.body.language.finalGreeting,
+                      signature: !signatureAvailable
+                        ? mail.mailSignature
+                        : req.body.language.signature,
+                      thanksForUsing: mail.mailThanksForUsing
+                        ? mail.mailThanksForUsing
+                        : req.body.language.thanksForUsing,
+                      websiteLink: req.body.language.websiteLink,
+                      ifYouHaveQuestion: mail.mailIfYouHaveQuestion
+                        ? mail.mailIfYouHaveQuestion
+                        : req.body.language.ifYouHaveQuestion,
+                      notReply: mail.mailNotReply
+                        ? mail.mailNotReply
+                        : req.body.language.notReply,
+                      copyRight: mail.mailCopyRight
+                        ? mail.mailCopyRight
+                        : req.body.language.copyRight,
+                      introductoryMessageForDenyReservation: mail.mailMessage
+                        ? mail.mailMessage
+                        : req.body.language
+                            .introductoryMessageForDenyReservation,
+                      signature: mail.mailSignature ? mail.mailSignature : "",
+                      signatureCompanyName:
+                        signatureAvailable && mail.signatureCompanyName
+                          ? mail.signatureCompanyName
+                          : "",
+                      signatureAddress1:
+                        signatureAvailable && mail.signatureAddress1
+                          ? mail.signatureAddress1
+                          : "",
+                      signatureAddress2:
+                        signatureAvailable && mail.signatureAddress2
+                          ? mail.signatureAddress2
+                          : "",
+                      signatureAddress3:
+                        signatureAvailable && mail.signatureAddress3
+                          ? mail.signatureAddress3
+                          : "",
+                      signatureTelephone:
+                        signatureAvailable && mail.signatureTelephone
+                          ? mail.signatureTelephone
+                          : "",
+                      signatureMobile:
+                        signatureAvailable && mail.signatureMobile
+                          ? mail.signatureMobile
+                          : "",
+                      signatureEmail:
+                        signatureAvailable && mail.signatureEmail
+                          ? mail.signatureEmail
+                          : "",
+
+                      unsubscribeMessage: req.body.language.unsubscribeMessage,
+                      unsubscribeHere: req.body.language.unsubscribeHere,
+                      unsubscribeLink:
+                        process.env.unsubscribeEmail + "/" + mail.email,
+                    }),
+                  };
+                  smtpTransport.sendMail(
+                    mailOptions,
+                    function (error, response) {
+                      if (error) {
+                        logToConsole.error(error);
+                      } else {
+                        logger.log(
+                          "info",
+                          `Sent mail for marketing promotion on EMAIL: ${to.email}`
+                        );
+                      }
+                    }
+                  );
+                }, sendMailTime);
+                sendMailTime += 500;
+              });
+            }, time);
+            time += 50000;
           });
           res.send(true);
         }

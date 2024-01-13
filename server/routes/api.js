@@ -5520,8 +5520,6 @@ router.post("/sendCustomSMS", function (req, res) {
     function (error, response, codes) {
       if (checkAvailableCode(phoneNumber, JSON.parse(codes))) {
         var message = req.body.message;
-        var content = "To: " + phoneNumber + "\r\n\r\n" + message;
-        var fileName = "server/sms/" + phoneNumber + ".txt";
         sendSmsFromMail(phoneNumber, message);
         updateAvailableSMSCount(1, req.body.superadmin);
         res.send(true);

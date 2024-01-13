@@ -50,91 +50,109 @@ function sendHappyBirthdayViaEmail() {
                 logger.log("error", err);
               }
               var language = JSON.parse(body)["config"];
-              rows.forEach(function (to, i, array) {
-                if (to.congratulationBirthday) {
-                  var mail = {};
-                  var signatureAvailable = false;
-                  mail = to;
-                  if (mail.signatureAvailable) {
-                    signatureAvailable = true;
-                  }
-                  var mailOptions = {
-                    from: process.env.smtp_name + " " + process.env.smtp_user,
-                    to: to.email,
-                    subject: to.mailSubject
-                      ? to.mailSubject
-                      : language.mailSubject,
-                    html: mailRender.render({
-                      firstName: to.shortname,
-                      message: to.message,
-                      initialGreeting: to.mailInitialGreeting
-                        ? to.mailInitialGreeting
-                        : language.initialGreeting,
-                      finalGreeting: to.mailFinalGreeting
-                        ? to.mailFinalGreeting
-                        : language.finalGreeting,
-                      signature: !signatureAvailable
-                        ? signatureAvailable
-                        : language.signature,
-                      thanksForUsing: to.mailThanksForUsing
-                        ? to.mailThanksForUsing
-                        : language.thanksForUsing,
-                      websiteLink: language.websiteLink,
-                      ifYouHaveQuestion: to.mailIfYouHaveQuestion
-                        ? to.mailIfYouHaveQuestion
-                        : language.ifYouHaveQuestion,
-                      notReply: to.mailNotReply
-                        ? to.mailNotReply
-                        : language.notReply,
-                      copyRight: to.mailCopyRight
-                        ? to.mailCopyRight
-                        : language.copyRight,
-                      message: to.mailMessage ? to.mailMessage : "",
-                      signature: to.mailSignature ? to.mailSignature : "",
-                      signatureCompanyName:
-                        signatureAvailable && to.signatureCompanyName
-                          ? to.signatureCompanyName
-                          : "",
-                      signatureAddress1:
-                        signatureAvailable && to.signatureAddress1
-                          ? to.signatureAddress1
-                          : "",
-                      signatureAddress2:
-                        signatureAvailable && to.signatureAddress2
-                          ? to.signatureAddress2
-                          : "",
-                      signatureAddress3:
-                        signatureAvailable && to.signatureAddress3
-                          ? to.signatureAddress3
-                          : "",
-                      signatureTelephone:
-                        signatureAvailable && to.signatureTelephone
-                          ? to.signatureTelephone
-                          : "",
-                      signatureMobile:
-                        signatureAvailable && to.signatureMobile
-                          ? to.signatureMobile
-                          : "",
-                      signatureEmail:
-                        signatureAvailable && to.signatureEmail
-                          ? to.signatureEmail
-                          : "",
-                    }),
-                  };
-                  smtpTransport.sendMail(
-                    mailOptions,
-                    function (error, response) {
-                      if (error) {
-                        logger.log("error", error);
-                      } else {
-                        logger.log(
-                          "info",
-                          `Sent mail for celebrate birthday on EMAIL: ${to.email}`
-                        );
+
+              var spliceMails = [];
+              while (rows.length > 0) {
+                spliceMails.push(rows.splice(0, 70));
+              }
+
+              var time = 0;
+              spliceMails.forEach(function (mails, i, array) {
+                setTimeout(() => {
+                  var sendMailTime = 1000;
+                  mails.forEach(function (mail, i, array) {
+                    setTimeout(() => {
+                      if (mail.congratulationBirthday) {
+                        var signatureAvailable = false;
+                        if (mail.signatureAvailable) {
+                          signatureAvailable = true;
+                        }
+                        var mailOptions = {
+                          from:
+                            process.env.smtp_name + " " + process.env.smtp_user,
+                          to: mail.email,
+                          subject: mail.mailSubject
+                            ? mail.mailSubject
+                            : language.mailSubject,
+                          html: mailRender.render({
+                            firstName: mail.shortname,
+                            message: mail.message,
+                            initialGreeting: mail.mailInitialGreeting
+                              ? mail.mailInitialGreeting
+                              : language.initialGreeting,
+                            finalGreeting: mail.mailFinalGreeting
+                              ? mail.mailFinalGreeting
+                              : language.finalGreeting,
+                            signature: !signatureAvailable
+                              ? signatureAvailable
+                              : language.signature,
+                            thanksForUsing: mail.mailThanksForUsing
+                              ? mail.mailThanksForUsing
+                              : language.thanksForUsing,
+                            websiteLink: language.websiteLink,
+                            ifYouHaveQuestion: mail.mailIfYouHaveQuestion
+                              ? mail.mailIfYouHaveQuestion
+                              : language.ifYouHaveQuestion,
+                            notReply: mail.mailNotReply
+                              ? mail.mailNotReply
+                              : language.notReply,
+                            copyRight: mail.mailCopyRight
+                              ? mail.mailCopyRight
+                              : language.copyRight,
+                            message: mail.mailMessage ? mail.mailMessage : "",
+                            signature: mail.mailSignature
+                              ? mail.mailSignature
+                              : "",
+                            signatureCompanyName:
+                              signatureAvailable && mail.signatureCompanyName
+                                ? mail.signatureCompanyName
+                                : "",
+                            signatureAddress1:
+                              signatureAvailable && mail.signatureAddress1
+                                ? mail.signatureAddress1
+                                : "",
+                            signatureAddress2:
+                              signatureAvailable && mail.signatureAddress2
+                                ? mail.signatureAddress2
+                                : "",
+                            signatureAddress3:
+                              signatureAvailable && mail.signatureAddress3
+                                ? mail.signatureAddress3
+                                : "",
+                            signatureTelephone:
+                              signatureAvailable && mail.signatureTelephone
+                                ? mail.signatureTelephone
+                                : "",
+                            signatureMobile:
+                              signatureAvailable && mail.signatureMobile
+                                ? mail.signatureMobile
+                                : "",
+                            signatureEmail:
+                              signatureAvailable && mail.signatureEmail
+                                ? mail.signatureEmail
+                                : "",
+                          }),
+                        };
+                        console.log(mailOptions);
+                        // smtpTransport.sendMail(
+                        //   mailOptions,
+                        //   function (error, response) {
+                        //     if (error) {
+                        //       logger.log("error", error);
+                        //     } else {
+                        //       logger.log(
+                        //         "info",
+                        //         `Sent mail for celebrate birthday on EMAIL: ${mail.email}`
+                        //       );
+                        //     }
+                        //   }
+                        // );
                       }
-                    }
-                  );
-                }
+                    }, sendMailTime);
+                    sendMailTime += 500;
+                  });
+                }, time);
+                time += 50000;
               });
               conn.release();
             }

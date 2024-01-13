@@ -75,140 +75,163 @@ function reminderViaEmail() {
               if (err) {
                 logger.log("error", err);
               }
-              console.log(rows);
-              rows.forEach(function (to, i, array) {
-                if (to.email !== null) {
-                  var convertToDateStart = new Date(to.start);
-                  var convertToDateEnd = new Date(to.end);
-                  var startHours = convertToDateStart.getHours();
-                  var startMinutes = convertToDateStart.getMinutes();
-                  var endHours = convertToDateEnd.getHours();
-                  var endMinutes = convertToDateEnd.getMinutes();
-                  var date =
-                    convertToDateStart.getDate() +
-                    "." +
-                    (convertToDateStart.getMonth() + 1) +
-                    "." +
-                    convertToDateStart.getFullYear();
-                  var day = convertToDateStart.getDate();
-                  var month = monthNames[convertToDateStart.getMonth()];
-                  var start =
-                    (startHours < 10 ? "0" + startHours : startHours) +
-                    ":" +
-                    (startMinutes < 10 ? "0" + startMinutes : startMinutes);
-                  var end =
-                    (endHours < 10 ? "0" + endHours : endHours) +
-                    ":" +
-                    (endMinutes < 10 ? "0" + endMinutes : endMinutes);
-                  var language = JSON.parse(body)["config"];
-                  var signatureAvailable = false;
-                  if (to.signatureAvailable) {
-                    signatureAvailable = true;
-                  }
-                  var mailOptions = {
-                    from: process.env.smtp_name + " " + process.env.smtp_user,
-                    subject: to.mailSubject
-                      ? to.mailSubject
-                      : language.subjectForReminderReservation,
-                    html: compiledTemplate.render({
-                      initialGreeting: to.initialGreeting
-                        ? to.initialGreeting
-                        : language.initialGreeting,
-                      introductoryMessageForReminderReservation: to.mailMessage
-                        ? to.mailMessage
-                        : language.introductoryMessageForReminderReservation,
-                      dateMessage: to.mailDate
-                        ? to.mailDate
-                        : language.dateMessage,
-                      timeMessage: to.mailTime
-                        ? to.mailTime
-                        : language.timeMessage,
-                      therapyMessage: to.mailTherapy
-                        ? to.mailTherapy
-                        : language.therapyMessage,
-                      doctorMessage: to.mailDoctor
-                        ? to.mailDoctor
-                        : language.doctorMessage,
-                      storeLocation: to.mailClinic
-                        ? to.mailClinic
-                        : language.storeLocation,
-                      finalGreeting: to.mailFinalGreeting
-                        ? to.mailFinalGreeting
-                        : language.finalGreeting,
-                      signature: to.mailSignature
-                        ? to.mailSignature
-                        : language.signature,
-                      thanksForUsing: to.mailThanksForUsing
-                        ? to.mailThanksForUsing
-                        : language.thanksForUsing,
-                      websiteLink: language.websiteLink,
-                      ifYouHaveQuestion: to.mailIfYouHaveQuestion
-                        ? to.mailIfYouHaveQuestion
-                        : language.ifYouHaveQuestion,
-                      notReply: to.mailNotReply
-                        ? to.mailNotReply
-                        : language.notReply,
-                      copyRight: to.mailCopyRight
-                        ? to.mailCopyRight
-                        : language.copyRight,
-                      firstName: to.shortname,
-                      date: date,
-                      start: start,
-                      end: end,
-                      storename: to.storename,
-                      therapy: to.therapies_title,
-                      doctor: to.lastname + " " + to.firstname,
-                      month: month,
-                      day: day,
-                      signatureAddress:
-                        signatureAvailable &&
-                        to.signatureAddress &&
-                        (to.street || to.zipcode || to.store_place)
-                          ? to.signatureAddress +
-                            "\n" +
-                            to.street +
-                            "\n" +
-                            to.zipcode +
-                            " " +
-                            to.store_place
-                          : "",
-                      signatureTelephone:
-                        signatureAvailable &&
-                        to.signatureTelephone &&
-                        to.telephone
-                          ? to.signatureTelephone + " " + to.telephone
-                          : "",
-                      signatureMobile:
-                        signatureAvailable && to.signatureMobile && to.mobile
-                          ? to.signatureMobile + " " + to.mobile
-                          : "",
-                      signatureEmail:
-                        signatureAvailable && to.signatureEmail && to.email
-                          ? to.signatureEmail + " " + to.email
-                          : "",
-                    }),
-                  };
 
-                  mailOptions.to = to.customer_mail;
-                  console.log(mailOptions);
-                  smtpTransport.sendMail(
-                    mailOptions,
-                    function (error, response) {
-                      console.log(response);
-                      if (error) {
-                        logger.log(
-                          "error",
-                          `Error to sent automate EMAIL REMINDER to EMAIL: ${to.email}. Error: ${error}`
-                        );
-                      } else {
-                        logger.log(
-                          "info",
-                          `Success sent automate EMAIL REMINDER to EMAIL: ${to.email}.`
-                        );
+              var spliceMails = [];
+              while (rows.length > 0) {
+                spliceMails.push(rows.splice(0, 70));
+              }
+
+              var time = 0;
+              spliceMails.forEach(function (mails, i, array) {
+                setTimeout(() => {
+                  var sendMailTime = 1000;
+                  mails.forEach(function (mail, i, array) {
+                    setTimeout(() => {
+                      if (mail.email !== null) {
+                        var convertToDateStart = new Date(mail.start);
+                        var convertToDateEnd = new Date(mail.end);
+                        var startHours = convertToDateStart.getHours();
+                        var startMinutes = convertToDateStart.getMinutes();
+                        var endHours = convertToDateEnd.getHours();
+                        var endMinutes = convertToDateEnd.getMinutes();
+                        var date =
+                          convertToDateStart.getDate() +
+                          "." +
+                          (convertToDateStart.getMonth() + 1) +
+                          "." +
+                          convertToDateStart.getFullYear();
+                        var day = convertToDateStart.getDate();
+                        var month = monthNames[convertToDateStart.getMonth()];
+                        var start =
+                          (startHours < 10 ? "0" + startHours : startHours) +
+                          ":" +
+                          (startMinutes < 10
+                            ? "0" + startMinutes
+                            : startMinutes);
+                        var end =
+                          (endHours < 10 ? "0" + endHours : endHours) +
+                          ":" +
+                          (endMinutes < 10 ? "0" + endMinutes : endMinutes);
+                        var language = JSON.parse(body)["config"];
+                        var signatureAvailable = false;
+                        if (mail.signatureAvailable) {
+                          signatureAvailable = true;
+                        }
+                        var mailOptions = {
+                          from:
+                            process.env.smtp_name + " " + process.env.smtp_user,
+                          subject: mail.mailSubject
+                            ? mail.mailSubject
+                            : language.subjectForReminderReservation,
+                          html: compiledTemplate.render({
+                            initialGreeting: mail.initialGreeting
+                              ? mail.initialGreeting
+                              : language.initialGreeting,
+                            introductoryMessageForReminderReservation:
+                              mail.mailMessage
+                                ? mail.mailMessage
+                                : language.introductoryMessageForReminderReservation,
+                            dateMessage: mail.mailDate
+                              ? mail.mailDate
+                              : language.dateMessage,
+                            timeMessage: mail.mailTime
+                              ? mail.mailTime
+                              : language.timeMessage,
+                            therapyMessage: mail.mailTherapy
+                              ? mail.mailTherapy
+                              : language.therapyMessage,
+                            doctorMessage: mail.mailDoctor
+                              ? mail.mailDoctor
+                              : language.doctorMessage,
+                            storeLocation: mail.mailClinic
+                              ? mail.mailClinic
+                              : language.storeLocation,
+                            finalGreeting: mail.mailFinalGreeting
+                              ? mail.mailFinalGreeting
+                              : language.finalGreeting,
+                            signature: mail.mailSignature
+                              ? mail.mailSignature
+                              : language.signature,
+                            thanksForUsing: mail.mailThanksForUsing
+                              ? mail.mailThanksForUsing
+                              : language.thanksForUsing,
+                            websiteLink: language.websiteLink,
+                            ifYouHaveQuestion: mail.mailIfYouHaveQuestion
+                              ? mail.mailIfYouHaveQuestion
+                              : language.ifYouHaveQuestion,
+                            notReply: mail.mailNotReply
+                              ? mail.mailNotReply
+                              : language.notReply,
+                            copyRight: mail.mailCopyRight
+                              ? mail.mailCopyRight
+                              : language.copyRight,
+                            firstName: mail.shortname,
+                            date: date,
+                            start: start,
+                            end: end,
+                            storename: mail.storename,
+                            therapy: mail.therapies_title,
+                            doctor: mail.lastname + " " + mail.firstname,
+                            month: month,
+                            day: day,
+                            signatureAddress:
+                              signatureAvailable &&
+                              mail.signatureAddress &&
+                              (mail.street || mail.zipcode || mail.store_place)
+                                ? mail.signatureAddress +
+                                  "\n" +
+                                  mail.street +
+                                  "\n" +
+                                  mail.zipcode +
+                                  " " +
+                                  mail.store_place
+                                : "",
+                            signatureTelephone:
+                              signatureAvailable &&
+                              mail.signatureTelephone &&
+                              mail.telephone
+                                ? mail.signatureTelephone + " " + mail.telephone
+                                : "",
+                            signatureMobile:
+                              signatureAvailable &&
+                              mail.signatureMobile &&
+                              mail.mobile
+                                ? mail.signatureMobile + " " + mail.mobile
+                                : "",
+                            signatureEmail:
+                              signatureAvailable &&
+                              mail.signatureEmail &&
+                              mail.email
+                                ? mail.signatureEmail + " " + mail.email
+                                : "",
+                          }),
+                        };
+
+                        mailOptions.to = mail.customer_mail;
+                        console.log(mailOptions);
+                        // smtpTransport.sendMail(
+                        //   mailOptions,
+                        //   function (error, response) {
+                        //     console.log(response);
+                        //     if (error) {
+                        //       logger.log(
+                        //         "error",
+                        //         `Error to sent automate EMAIL REMINDER to EMAIL: ${mail.email}. Error: ${error}`
+                        //       );
+                        //     } else {
+                        //       logger.log(
+                        //         "info",
+                        //         `Success sent automate EMAIL REMINDER to EMAIL: ${mail.email}.`
+                        //       );
+                        //     }
+                        //   }
+                        // );
                       }
-                    }
-                  );
-                }
+                    }, sendMailTime);
+                    sendMailTime += 500;
+                  });
+                }, time);
+                time += 70000;
               });
             }
           );
