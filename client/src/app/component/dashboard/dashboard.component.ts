@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit, OnChanges {
   public height: string;
   public templateAccount: any = [];
   public templateAccountFields = {
+    groupBy: "group_language",
     text: "name",
     value: "id",
   };
@@ -474,12 +475,13 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.allTranslationsByCountryCode = translations;
         this.dashboardService.getTemplateAccount().subscribe((data: []) => {
           for (let j = 0; j < data.length; j++) {
-            for (let i = 0; i < translations.length; i++) {
-              if (translations[i]["language"] === data[j]["language"]) {
-                this.templateAccount.push(data[j]);
-                break;
-              }
-            }
+            this.templateAccount.push(data[j]);
+            // for (let i = 0; i < translations.length; i++) {
+            //   if (translations[i]["language"] === data[j]["language"]) {
+            //     this.templateAccount.push(data[j]);
+            //     break;
+            //   }
+            // }
           }
 
           this.firstLogin.open();

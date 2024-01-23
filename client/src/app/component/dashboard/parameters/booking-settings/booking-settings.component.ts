@@ -18,6 +18,7 @@ export class BookingSettingsComponent implements OnInit {
   public loading = true;
   public buttonLoader = false;
   public stripeActivated = false;
+  public licence!: string;
 
   constructor(
     private service: DynamicService,
@@ -26,6 +27,7 @@ export class BookingSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.language = this.helpService.getLanguage();
+    this.licence = this.helpService.getLocalStorage("lic");
     this.getData();
     this.checkStripeAccount();
   }

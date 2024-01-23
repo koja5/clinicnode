@@ -134,19 +134,19 @@ function sendHappyBirthdayViaEmail() {
                           }),
                         };
                         console.log(mailOptions);
-                        // smtpTransport.sendMail(
-                        //   mailOptions,
-                        //   function (error, response) {
-                        //     if (error) {
-                        //       logger.log("error", error);
-                        //     } else {
-                        //       logger.log(
-                        //         "info",
-                        //         `Sent mail for celebrate birthday on EMAIL: ${mail.email}`
-                        //       );
-                        //     }
-                        //   }
-                        // );
+                        smtpTransport.sendMail(
+                          mailOptions,
+                          function (error, response) {
+                            if (error) {
+                              logger.log("error", error);
+                            } else {
+                              logger.log(
+                                "info",
+                                `Sent mail for celebrate birthday on EMAIL: ${mail.email}`
+                              );
+                            }
+                          }
+                        );
                       }
                     }, sendMailTime);
                     sendMailTime += 500;

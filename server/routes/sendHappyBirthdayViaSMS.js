@@ -121,7 +121,7 @@ function sendHappyBirthdayViaSMS() {
 
                               const fullMessage = message + "\n\n" + signature;
                               console.log(fullMessage);
-                              // sendSmsFromMail(phoneNumber, fullMessage);
+                              sendSmsFromMail(phoneNumber, fullMessage);
                             }
                           } else {
                             conn.release();

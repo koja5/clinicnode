@@ -17,7 +17,7 @@
 
   <hr>
 
-  <div class="mt-4">
+  <div class="mt-4" *ngIf="licence === '3' || licence === '4'">
     <h4>{{language.connectToStripeTitle}}</h4>
     <p>{{language.connectToStripeText}}</p>
     <div>

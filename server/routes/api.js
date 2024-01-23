@@ -6926,6 +6926,7 @@ router.post("/updateTemplateAccount", function (req, res, next) {
                 holiday_template: req.body.holiday_template,
                 email: rows[0].email,
                 language: req.body.language,
+                group_language: req.body.group_language,
               };
               conn.query(
                 "update template_account SET ? where id = ?",
@@ -11250,8 +11251,6 @@ router.post("/updateStripeAccountId", function (req, res, next) {
       logger.log("error", err.sql + ". " + err.sqlMessage);
       res.json(err);
     }
-
-    console.log(req.body);
 
     conn.query(
       "update users_superadmin set stripe_id = ? where id = ?",

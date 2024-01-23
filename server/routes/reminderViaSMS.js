@@ -239,7 +239,7 @@ function reminderViaSMS() {
                                   signature;
                                 const fullMessage =
                                   message + "\r\n" + signature;
-                                // sendSmsFromMail(phoneNumber, fullMessage);
+                                sendSmsFromMail(phoneNumber, fullMessage);
                               }
                             }
                           }, sendMailTime);

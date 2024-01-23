@@ -219,29 +219,6 @@
   {
     "type": "multiselect",
     "width": "col-md-6",
-    "name": "doctor",
-    "label": "doctor",
-    "field": {
-      "text": "fullname",
-      "value": "id"
-    },
-    "request": {
-      "type": "GET",
-      "api": "/api/getDoctorsList",
-      "parameters": [
-        "superadmin"
-      ],
-      "fields": "",
-      "root": ""
-    },
-    "fieldConfig": {
-      "ignoreAccent": false,
-      "filter": true
-    }
-  },
-  {
-    "type": "multiselect",
-    "width": "col-md-12",
     "name": "store",
     "label": "store",
     "field": {

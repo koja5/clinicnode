@@ -209,27 +209,27 @@ var eventRule = new schedule.RecurrenceRule();
 eventRule.hour = 9;
 eventRule.minute = 0;
 var j = schedule.scheduleJob("00 09 * * *", function () {
-  eventConfirm();
+  // eventConfirm();
 });
 
 var j = schedule.scheduleJob("00 10 * * *", function () {
-  reminderViaEmail();
+  // reminderViaEmail();
 });
 
 var j = schedule.scheduleJob("00 12 * * *", function () {
-  reminderViaSMS();
+  // reminderViaSMS();
 });
 
 var j = schedule.scheduleJob("00 13 * * *", function () {
-  sendHappyBirthdayViaSMS();
+  // sendHappyBirthdayViaSMS();
 });
 
 var j = schedule.scheduleJob("00 14 * * *", function () {
-  sendHappyBirthdayViaEmail();
+  // sendHappyBirthdayViaEmail();
 });
 
 var j = schedule.scheduleJob("00 02 * * *", function () {
-  checkLicenceExpired();
+  // checkLicenceExpired();
 });
 
 /**

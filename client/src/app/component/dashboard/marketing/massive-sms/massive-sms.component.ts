@@ -170,33 +170,48 @@ export class MassiveSmsComponent implements OnInit, FormGuardData {
   }
 
   sendSms(event) {
-    this.dynamicService
-      .callApiGet(
-        "/api/checkAvailableSmsCount",
-        this.helpService.getSuperadmin()
-      )
-      .subscribe((data) => {
-        if (data && data[0] && data[0]["count"] >= this.allRecipients.length) {
-          this.dynamicService
-            .callApiPost("/api/sendMassiveSMS", this.changeData)
-            .subscribe((data) => {
-              if (data) {
-                this.helpService.successToastr(
-                  this.language.successExecutedActionTitle,
-                  this.language.successExecutedActionText
-                );
-              } else {
-                this.helpService.errorToastr(
-                  this.language.errorExecutedActionTitle,
-                  this.language.errorExecutedActionText
-                );
-              }
-            });
-          this.recipients.close();
-        } else {
-          this.helpService.warningToastr(this.language.needToBuySms, "");
-        }
-      });
+    if (
+      this.helpService.getLocalStorage("lic") === "3" ||
+      this.helpService.getLocalStorage("lic") === "4"
+    ) {
+      this.dynamicService
+        .callApiGet(
+          "/api/checkAvailableSmsCount",
+          this.helpService.getSuperadmin()
+        )
+        .subscribe((data) => {
+          if (
+            data &&
+            data[0] &&
+            data[0]["count"] >= this.allRecipients.length
+          ) {
+            this.dynamicService
+              .callApiPost("/api/sendMassiveSMS", this.changeData)
+              .subscribe((data) => {
+                if (data) {
+                  this.helpService.successToastr(
+                    this.language.successExecutedActionTitle,
+                    this.language.successExecutedActionText
+                  );
+                } else {
+                  this.helpService.errorToastr(
+                    this.language.errorExecutedActionTitle,
+                    this.language.errorExecutedActionText
+                  );
+                }
+              });
+            this.recipients.close();
+          } else {
+            this.helpService.warningToastr(this.language.needToBuySms, "");
+          }
+        });
+    } else {
+      this.helpService.warningToastr(
+        this.language.marketingAvailableJustForPremiumAndAdvancedTitle,
+        this.language.marketingAvailableJustForPremiumAndAdvancedText
+      );
+      this.recipients.close();
+    }
   }
 
   openSaveDraftModal(headerName: string) {

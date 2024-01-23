@@ -170,15 +170,26 @@ export class MassiveEmailComponent implements OnInit, FormGuardData {
   }
 
   sendMails() {
-    this.dynamicService
-      .callApiPost("/api/sendMassiveEmail", this.changeData)
-      .subscribe((data) => {
-        this.helpService.successToastr(
-          this.language.successExecutedActionTitle,
-          this.language.successExecutedActionText
-        );
-        this.recipients.close();
-      });
+    if (
+      this.helpService.getLocalStorage("lic") === "3" ||
+      this.helpService.getLocalStorage("lic") === "4"
+    ) {
+      this.dynamicService
+        .callApiPost("/api/sendMassiveEmail", this.changeData)
+        .subscribe((data) => {
+          this.helpService.successToastr(
+            this.language.successExecutedActionTitle,
+            this.language.successExecutedActionText
+          );
+          this.recipients.close();
+        });
+    } else {
+      this.helpService.warningToastr(
+        this.language.marketingAvailableJustForPremiumAndAdvancedText,
+        this.language.marketingAvailableJustForPremiumAndAdvancedTitle
+      );
+      this.recipients.close();
+    }
   }
 
   openSaveDraftModal(headerName: string) {

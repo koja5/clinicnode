@@ -209,23 +209,23 @@ function reminderViaEmail() {
 
                         mailOptions.to = mail.customer_mail;
                         console.log(mailOptions);
-                        // smtpTransport.sendMail(
-                        //   mailOptions,
-                        //   function (error, response) {
-                        //     console.log(response);
-                        //     if (error) {
-                        //       logger.log(
-                        //         "error",
-                        //         `Error to sent automate EMAIL REMINDER to EMAIL: ${mail.email}. Error: ${error}`
-                        //       );
-                        //     } else {
-                        //       logger.log(
-                        //         "info",
-                        //         `Success sent automate EMAIL REMINDER to EMAIL: ${mail.email}.`
-                        //       );
-                        //     }
-                        //   }
-                        // );
+                        smtpTransport.sendMail(
+                          mailOptions,
+                          function (error, response) {
+                            console.log(response);
+                            if (error) {
+                              logger.log(
+                                "error",
+                                `Error to sent automate EMAIL REMINDER to EMAIL: ${mail.email}. Error: ${error}`
+                              );
+                            } else {
+                              logger.log(
+                                "info",
+                                `Success sent automate EMAIL REMINDER to EMAIL: ${mail.email}.`
+                              );
+                            }
+                          }
+                        );
                       }
                     }, sendMailTime);
                     sendMailTime += 500;

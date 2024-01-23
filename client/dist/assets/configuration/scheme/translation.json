@@ -785,6 +785,12 @@
             "smsDraftDeletedSuccessfully": {
                 "type": "string"
             },
+            "marketingAvailableJustForPremiumAndAdvancedTitle": {
+                "type": "string"
+            },
+            "marketingAvailableJustForPremiumAndAdvancedText": {
+                "type": "string"
+            },
             "saveChanges": {
                 "type": "string"
             },
@@ -7518,6 +7524,20 @@
                         {
                             "key": "smsDraftDeletedSuccessfully"
                         }
+                    ]
+                },
+                {
+                    "type": "div",
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "items": [
+                        {
+                            "key": "marketingAvailableJustForPremiumAndAdvancedTitle"
+                        },
+                        {
+                            "key": "marketingAvailableJustForPremiumAndAdvancedText"
+                        },
+                        {}
                     ]
                 }
             ]
