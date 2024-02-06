@@ -341,7 +341,7 @@ router.get("/getAllTranslationByCountryCode/:code", function (req, res, next) {
     console.log(dbo);
     dbo
       .collection("translation")
-      .find({ countryCode: code, active: true })
+      .find({ $or: [{ countryCode: code }, { demoCode: code }], active: true })
       .toArray(function (err, rows) {
         if (err) throw err;
         console.log(rows);

@@ -512,7 +512,7 @@ export class DashboardComponent implements OnInit, OnChanges {
     const languageForSelectedAccount = this.getLanguageForSelectedAccount(
       selectedDemoAccountName.langauge
     );
-    if (selectedDemoAccountName !== null) {
+    if (selectedDemoAccountName !== null && languageForSelectedAccount) {
       this.language = languageForSelectedAccount["config"];
       this.helpService.setLocalStorage(
         "language",

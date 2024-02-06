@@ -38,7 +38,7 @@ export class LanguageComponent implements OnInit {
     if (accountLanguage) {
       this.value = accountLanguage;
     } else {
-      this.value = "US";
+      this.value = "AT";
     }
   }
 
@@ -68,7 +68,7 @@ export class LanguageComponent implements OnInit {
       this.activeLanguages.forEach(activeLanguage => {
         var languageTranslationObj = 
           languagesTranslationsArr.find(
-            t => t.countryCode == activeLanguage.countryCode
+            t => t.countryCode == activeLanguage.name
           );
         if(languageTranslationObj) {
           activeLanguage.language = languageTranslationObj.language;

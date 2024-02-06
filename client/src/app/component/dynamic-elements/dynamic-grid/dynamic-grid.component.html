@@ -81,8 +81,3 @@
     </ng-template>
   </ejs-grid>
 </div>
-
-
-<app-dynamic-forms *ngIf="config && config.configField && config.configField.length > 0" [config]="config.configField"
-  (submit)="submitEmitter($event)" (isFormDirtyChange)="setDirtyForm($event)" #form="dynamicForm">
-</app-dynamic-forms>

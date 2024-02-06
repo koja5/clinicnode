@@ -330,6 +330,11 @@ a:hover {
   .authfy-panel-left {
     height: 100%;
   }
+
+  .authfy-login {
+    height: 85%;
+  }
+
 }
 
 @media (min-width: 834px) {
@@ -369,9 +374,9 @@ a:hover {
 }
 
 @media (min-width: 320px) and (max-width: 767px) {
-  .authfy-login {
-    height: 540px;
-  }
+  // .authfy-login {
+  //   height: 540px;
+  // }
   .authfy-panel {
     padding: 0 20px;
   }

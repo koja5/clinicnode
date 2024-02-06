@@ -123,8 +123,13 @@ export class LoginComponent implements OnInit {
     this.initializeIpAddress();
 
     if (!this.helpService.getLanguageForLanding()) {
-      const selectedLanguageCode = this.helpService.getSelectionLanguageCode();
+      let selectedLanguageCode = this.helpService.getSelectionLanguageCode()
+        ? this.helpService.getSelectionLanguageCode()
+        : this.helpService.getLocalStorage("countryCode");
       this.helpService.getAllLangs().subscribe((data: any) => {
+        if (!selectedLanguageCode) {
+          selectedLanguageCode = "AT";
+        }
         for (let i = 0; i < data.length; i++) {
           for (let j = 0; j < data[i].similarCode.length; j++) {
             if (data[i].similarCode[j] === selectedLanguageCode) {
@@ -321,6 +326,7 @@ export class LoginComponent implements OnInit {
     this.data.licence_id = this.getPackageId();
     this.loginForm = "";
     this.paymentForm = "";
+    this.recoverForm = "";
     this.signupForm = "active";
   }
 
@@ -328,6 +334,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = "";
     this.recoverForm = "";
     this.signupForm = "";
+    this.recoverForm = "";
     this.paymentForm = "active";
     this.createPaymentForm();
   }
@@ -336,6 +343,7 @@ export class LoginComponent implements OnInit {
     this.signupForm = "";
     this.recoverForm = "";
     this.paymentForm = "";
+    this.recoverForm = "";
     this.loginForm = "active";
   }
 
@@ -444,8 +452,7 @@ export class LoginComponent implements OnInit {
       this.data.shortname &&
       this.data.password !== "" &&
       this.data.licence_id &&
-      this.data.telephone != "" &&
-      this.agreeValue
+      this.data.telephone != ""
     ) {
       if (this.agreeValue) {
         if (this.data.licence_id > 1) {
@@ -480,7 +487,7 @@ export class LoginComponent implements OnInit {
         this.helpService.setLocalStorage("superadmin", val.id);
         if (Number(this.data.licence_id) === 1) {
           setTimeout(() => {
-            this.router.navigate(["/login"]);
+            this.loginActive();
           }, 3000);
         } else {
           this.createdLicenceId = val.licenceId;
